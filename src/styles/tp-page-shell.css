@@ -135,7 +135,7 @@
   background: var(--stake-bg-hover) !important;
 }
 
-/* تظليل صف موحّد — يتجاوز ألوان أعمدة المستحقات/المستقطعات عند المرور */
+/* تظليل صف موحّد — يتجاوز ألوان أعمدة المستحقات/المستقطعات عند المرور s*/
 .tp-page .weekly-salary-main-card,
 .tp-page .attendance-main-card,
 .tp-page .employees-main-card {
