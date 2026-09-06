@@ -2146,22 +2146,16 @@ const PremiumEmployees = () => {
         )}
         
           {viewMode === 'table' ? (
-            <div className="bg-[#151E32] border border-[#1F2A44] rounded-[20px] overflow-hidden" style={{background:'#151E32', border:'1px solid #1F2A44', borderRadius:'20px'}}
-              className="weekly-salary-main-table-scroll"
-              flex="1"
-              minH="0"
-              overflowY="auto"
-              overflowX="auto"
-              w="100%"
-              maxW="100%"
+            <div
+              className="weekly-salary-main-table-scroll bg-[#151E32] border border-[#1F2A44] rounded-[20px] overflow-hidden"
+              style={{flex:1, minHeight:0, overflowY:'auto', overflowX:'auto', width:'100%', maxWidth:'100%', background:'#151E32', border:'1px solid #1F2A44', borderRadius:'20px'}}
             >
               <Table
                 variant="simple"
                 size="xs"
                 w="100%"
                 layout="fixed"
-                className="stake-table main-content compact-data-table w-full" style={{background:"#151E32"}}
-                style={{ fontFamily: 'var(--table-font-family)' }}
+                className="stake-table main-content compact-data-table w-full" style={{ fontFamily: 'var(--table-font-family)', background:"#151E32" }}
                 sx={{
                   'th, td': {
                     fontFamily: 'var(--table-font-family)',
@@ -5155,13 +5149,9 @@ const PremiumEmployees = () => {
                     <Text fontSize="sm" fontWeight="600" color="orange.300" mb={2}>
                       موظفون لم يُعيَّن لهم كود البصمة ({importXmlResult.duplicate_fingerprint_skipped_details.length})
                     </Text>
-                    <div className="bg-[#151E32] border border-[#1F2A44] rounded-[20px] overflow-hidden" style={{background:'#151E32', border:'1px solid #1F2A44', borderRadius:'20px'}}
-                      flex="1"
-                      maxH="200px"
-                      overflowY="auto"
-                      border="1px solid"
-                      borderColor="var(--stake-border-primary)"
-                      borderRadius="lg"
+                    <div
+                      className="bg-[#151E32] border border-[#1F2A44] rounded-[20px] overflow-hidden"
+                      style={{background:'#151E32', border:'1px solid #1F2A44', borderRadius:'20px', flex:1, maxHeight:'200px', overflowY:'auto'}}
                     >
                       <Table size="sm" variant="simple">
                         <Thead position="sticky" top={0} bg="var(--stake-bg-primary)" zIndex={1}>
@@ -5349,5 +5339,3 @@ const PremiumEmployees = () => {
 };
 
 export default PremiumEmployees;
-
-
