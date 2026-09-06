@@ -1,0 +1,563 @@
+/**
+ * تمييز بصري عام: أعمدة مستحقات / مستقطعات / صافي / أساسي + شرائط فلاتر.
+ * يُستورد من App.js — أي صفحة تضيف الفئات `fp-col--*` و `fp-toolbar-zone--*` تستفيد تلقائياً.
+ */
+
+:root {
+  --fp-ent-hdr-from: rgba(16, 185, 129, 0.22);
+  --fp-ent-hdr-to: rgba(16, 185, 129, 0.1);
+  --fp-ent-hdr-text: #047857;
+  --fp-ent-cell: rgba(16, 185, 129, 0.07);
+  --fp-ent-cell-alt: rgba(16, 185, 129, 0.11);
+  --fp-ent-money: #047857;
+  --fp-ded-hdr-from: rgba(239, 68, 68, 0.18);
+  --fp-ded-hdr-to: rgba(239, 68, 68, 0.08);
+  --fp-ded-hdr-text: #b91c1c;
+  --fp-ded-cell: rgba(239, 68, 68, 0.06);
+  --fp-ded-cell-alt: rgba(239, 68, 68, 0.1);
+  --fp-ded-money: #c2410c;
+  --fp-net-hdr-from: rgba(59, 130, 246, 0.22);
+  --fp-net-hdr-to: rgba(59, 130, 246, 0.1);
+  --fp-net-hdr-text: #1d4ed8;
+  --fp-net-cell: rgba(59, 130, 246, 0.07);
+  --fp-net-cell-alt: rgba(59, 130, 246, 0.12);
+  --fp-net-money: #1d4ed8;
+  --fp-base-hdr-from: rgba(99, 102, 241, 0.14);
+  --fp-base-hdr-to: rgba(99, 102, 241, 0.06);
+  --fp-base-hdr-text: var(--stake-table-header-text, #394867);
+  --fp-base-cell: rgba(99, 102, 241, 0.05);
+  --fp-base-cell-alt: rgba(99, 102, 241, 0.08);
+  --fp-base-money: var(--stake-text-primary, #1e293b);
+  --fp-act-hdr-from: rgba(100, 116, 139, 0.12);
+  --fp-act-hdr-to: rgba(100, 116, 139, 0.05);
+  /* عرض ثابت لعمود كود الموظف: رأس عربي كامل + أرقام حتى ~6 خانات */
+  --fp-col-code-width: 8rem;
+}
+
+body:not([data-color-theme="minimal-bright"]) {
+  --fp-ent-hdr-text: #a7f3d0;
+  --fp-ent-money: #6ee7b7;
+  --fp-ded-hdr-text: #fecaca;
+  --fp-ded-money: #fca5a5;
+  --fp-net-hdr-text: #bfdbfe;
+  --fp-net-money: #93c5fd;
+  --fp-base-hdr-text: #e2e8f0;
+  --fp-base-money: #e2e8f0;
+}
+
+/* مناطق شريط الفلاتر */
+.fp-toolbar-zone--filters {
+  background: rgba(59, 130, 246, 0.07);
+  border: 1px solid rgba(59, 130, 246, 0.14);
+  border-radius: 10px;
+  padding: 0.35rem 0.65rem;
+}
+
+.fp-toolbar-zone--dates {
+  background: rgba(124, 58, 237, 0.07);
+  border: 1px solid rgba(124, 58, 237, 0.14);
+  border-radius: 10px;
+  padding: 0.35rem 0.55rem;
+}
+
+.fp-list-toolbar {
+  background: rgba(15, 23, 42, 0.035);
+  border-radius: 10px;
+  border: 1px solid var(--stake-border-primary, rgba(148, 163, 184, 0.25));
+}
+
+body:not([data-color-theme="minimal-bright"]) .fp-list-toolbar {
+  background: rgba(15, 23, 42, 0.25);
+}
+
+/* رؤوس الأعمدة المميّزة */
+table.chakra-table thead th.fp-col--entitlements,
+.stake-table thead th.fp-col--entitlements {
+  background: linear-gradient(180deg, var(--fp-ent-hdr-from), var(--fp-ent-hdr-to)) !important;
+  color: var(--fp-ent-hdr-text) !important;
+  box-shadow: inset 0 -2px 0 rgba(5, 150, 105, 0.35);
+}
+
+table.chakra-table thead th.fp-col--deductions,
+.stake-table thead th.fp-col--deductions {
+  background: linear-gradient(180deg, var(--fp-ded-hdr-from), var(--fp-ded-hdr-to)) !important;
+  color: var(--fp-ded-hdr-text) !important;
+  box-shadow: inset 0 -2px 0 rgba(220, 38, 38, 0.35);
+}
+
+table.chakra-table thead th.fp-col--net,
+.stake-table thead th.fp-col--net {
+  background: linear-gradient(180deg, var(--fp-net-hdr-from), var(--fp-net-hdr-to)) !important;
+  color: var(--fp-net-hdr-text) !important;
+  box-shadow: inset 0 -2px 0 rgba(37, 99, 235, 0.4);
+}
+
+table.chakra-table thead th.fp-col--base,
+.stake-table thead th.fp-col--base {
+  background: linear-gradient(180deg, var(--fp-base-hdr-from), var(--fp-base-hdr-to)) !important;
+  color: var(--fp-base-hdr-text) !important;
+}
+
+table.chakra-table thead th.fp-col--actions,
+.stake-table thead th.fp-col--actions {
+  background: linear-gradient(180deg, var(--fp-act-hdr-from), var(--fp-act-hdr-to)) !important;
+  color: var(--stake-table-header-text, #64748b) !important;
+}
+
+/* خلايا الجسم */
+table.chakra-table tbody td.fp-col--entitlements,
+.stake-table tbody td.fp-col--entitlements {
+  background: var(--fp-ent-cell) !important;
+}
+
+table.chakra-table tbody tr:nth-child(even) td.fp-col--entitlements,
+.stake-table tbody tr:nth-child(even) td.fp-col--entitlements {
+  background: var(--fp-ent-cell-alt) !important;
+}
+
+table.chakra-table tbody td.fp-col--deductions,
+.stake-table tbody td.fp-col--deductions {
+  background: var(--fp-ded-cell) !important;
+}
+
+table.chakra-table tbody tr:nth-child(even) td.fp-col--deductions,
+.stake-table tbody tr:nth-child(even) td.fp-col--deductions {
+  background: var(--fp-ded-cell-alt) !important;
+}
+
+table.chakra-table tbody td.fp-col--net,
+.stake-table tbody td.fp-col--net {
+  background: var(--fp-net-cell) !important;
+}
+
+table.chakra-table tbody tr:nth-child(even) td.fp-col--net,
+.stake-table tbody tr:nth-child(even) td.fp-col--net {
+  background: var(--fp-net-cell-alt) !important;
+}
+
+table.chakra-table tbody td.fp-col--base,
+.stake-table tbody td.fp-col--base {
+  background: var(--fp-base-cell) !important;
+}
+
+table.chakra-table tbody tr:nth-child(even) td.fp-col--base,
+.stake-table tbody tr:nth-child(even) td.fp-col--base {
+  background: var(--fp-base-cell-alt) !important;
+}
+
+/* عمود التأمين — أخضر مؤمن / أحمر غير مؤمن (تجاوز .chakra-icon وbody.light-theme svg) */
+.stake-table tbody td.fp-col--insurance svg.tp-employee-insurance-icon--insured,
+.stake-table tbody td.fp-col--insurance svg.tp-employee-insurance-icon--insured *,
+.stake-table tbody td.fp-col--insurance .tp-employee-insurance-icon--insured svg,
+.stake-table tbody td.fp-col--insurance .tp-employee-insurance-icon--insured svg *,
+table.chakra-table.stake-table tbody td.fp-col--insurance svg.tp-employee-insurance-icon--insured,
+table.chakra-table.stake-table tbody td.fp-col--insurance svg.tp-employee-insurance-icon--insured *,
+table.chakra-table.stake-table tbody td.fp-col--insurance .tp-employee-insurance-icon--insured svg,
+table.chakra-table.stake-table tbody td.fp-col--insurance .tp-employee-insurance-icon--insured svg * {
+  color: #22c55e !important;
+  stroke: #22c55e !important;
+}
+.stake-table tbody td.fp-col--insurance svg.tp-employee-insurance-icon--uninsured,
+.stake-table tbody td.fp-col--insurance svg.tp-employee-insurance-icon--uninsured *,
+.stake-table tbody td.fp-col--insurance .tp-employee-insurance-icon--uninsured svg,
+.stake-table tbody td.fp-col--insurance .tp-employee-insurance-icon--uninsured svg *,
+table.chakra-table.stake-table tbody td.fp-col--insurance svg.tp-employee-insurance-icon--uninsured,
+table.chakra-table.stake-table tbody td.fp-col--insurance svg.tp-employee-insurance-icon--uninsured *,
+table.chakra-table.stake-table tbody td.fp-col--insurance .tp-employee-insurance-icon--uninsured svg,
+table.chakra-table.stake-table tbody td.fp-col--insurance .tp-employee-insurance-icon--uninsured svg * {
+  color: #ef4444 !important;
+  stroke: #ef4444 !important;
+}
+body.light-theme .stake-table tbody td.fp-col--insurance svg.tp-employee-insurance-icon--insured,
+body.light-theme .stake-table tbody td.fp-col--insurance svg.tp-employee-insurance-icon--insured *,
+body.light-theme .stake-table tbody td.fp-col--insurance .tp-employee-insurance-icon--insured svg,
+body.light-theme .stake-table tbody td.fp-col--insurance .tp-employee-insurance-icon--insured svg *,
+body[data-theme="light"] .stake-table tbody td.fp-col--insurance svg.tp-employee-insurance-icon--insured,
+body[data-theme="light"] .stake-table tbody td.fp-col--insurance svg.tp-employee-insurance-icon--insured *,
+body[data-theme="light"] .stake-table tbody td.fp-col--insurance .tp-employee-insurance-icon--insured svg,
+body[data-theme="light"] .stake-table tbody td.fp-col--insurance .tp-employee-insurance-icon--insured svg * {
+  color: #22c55e !important;
+  stroke: #22c55e !important;
+}
+body.light-theme .stake-table tbody td.fp-col--insurance svg.tp-employee-insurance-icon--uninsured,
+body.light-theme .stake-table tbody td.fp-col--insurance svg.tp-employee-insurance-icon--uninsured *,
+body.light-theme .stake-table tbody td.fp-col--insurance .tp-employee-insurance-icon--uninsured svg,
+body.light-theme .stake-table tbody td.fp-col--insurance .tp-employee-insurance-icon--uninsured svg *,
+body[data-theme="light"] .stake-table tbody td.fp-col--insurance svg.tp-employee-insurance-icon--uninsured,
+body[data-theme="light"] .stake-table tbody td.fp-col--insurance svg.tp-employee-insurance-icon--uninsured *,
+body[data-theme="light"] .stake-table tbody td.fp-col--insurance .tp-employee-insurance-icon--uninsured svg,
+body[data-theme="light"] .stake-table tbody td.fp-col--insurance .tp-employee-insurance-icon--uninsured svg * {
+  color: #ef4444 !important;
+  stroke: #ef4444 !important;
+}
+
+table.chakra-table tbody td.fp-col--actions,
+.stake-table tbody td.fp-col--actions {
+  background: rgba(100, 116, 139, 0.04) !important;
+  text-align: center;
+}
+
+body:not([data-color-theme="minimal-bright"]) table.chakra-table tbody td.fp-col--actions,
+body:not([data-color-theme="minimal-bright"]) .stake-table tbody td.fp-col--actions {
+  background: rgba(148, 163, 184, 0.08) !important;
+}
+
+table.chakra-table tbody tr:hover td.fp-col--entitlements,
+.stake-table tbody tr:hover td.fp-col--entitlements {
+  background: rgba(16, 185, 129, 0.16) !important;
+}
+
+table.chakra-table tbody tr:hover td.fp-col--deductions,
+.stake-table tbody tr:hover td.fp-col--deductions {
+  background: rgba(239, 68, 68, 0.14) !important;
+}
+
+table.chakra-table tbody tr:hover td.fp-col--net,
+.stake-table tbody tr:hover td.fp-col--net {
+  background: rgba(59, 130, 246, 0.16) !important;
+}
+
+table.chakra-table tbody tr:hover td.fp-col--base,
+.stake-table tbody tr:hover td.fp-col--base {
+  background: rgba(99, 102, 241, 0.12) !important;
+}
+
+/* نصوص داخل الخلية */
+table.chakra-table td .fp-cell-text:not(.fp-money),
+.stake-table td .fp-cell-text:not(.fp-money) {
+  color: var(--stake-text-primary, inherit) !important;
+}
+
+table.chakra-table td.fp-col--entitlements .fp-money,
+.stake-table td.fp-col--entitlements .fp-money {
+  color: var(--fp-ent-money) !important;
+}
+
+table.chakra-table td.fp-col--deductions .fp-money,
+.stake-table td.fp-col--deductions .fp-money {
+  color: var(--fp-ded-money) !important;
+}
+
+table.chakra-table td.fp-col--net .fp-money,
+.stake-table td.fp-col--net .fp-money {
+  color: var(--fp-net-money) !important;
+  font-weight: 800 !important;
+  font-size: 0.95rem !important;
+}
+
+table.chakra-table td.fp-col--base .fp-money,
+.stake-table td.fp-col--base .fp-money {
+  color: var(--fp-base-money) !important;
+  font-weight: 600 !important;
+}
+
+/* ——— جداول مضغوطة: عرض 100% + أعمدة بيانات متساوية (colgroup) + إجراءات ثابتة ملتصقة بالنهاية ——— */
+table.chakra-table.stake-table.compact-data-table,
+.stake-table.compact-data-table {
+  width: 100% !important;
+  max-width: 100% !important;
+  table-layout: fixed !important;
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+  border: 1px solid var(--stake-border-primary, rgba(148, 163, 184, 0.5)) !important;
+}
+
+/* حدود أفقية وعمودية بين كل الخلايا */
+table.chakra-table.stake-table.compact-data-table thead th,
+table.chakra-table.stake-table.compact-data-table tbody td,
+.stake-table.compact-data-table thead th,
+.stake-table.compact-data-table tbody td {
+  border-bottom: 1px solid var(--stake-border-primary, rgba(148, 163, 184, 0.45)) !important;
+}
+
+table.chakra-table.stake-table.compact-data-table thead tr th + th,
+table.chakra-table.stake-table.compact-data-table tbody tr td + td,
+.stake-table.compact-data-table thead tr th + th,
+.stake-table.compact-data-table tbody tr td + td {
+  border-inline-start: 1px solid var(--stake-border-primary, rgba(148, 163, 184, 0.45)) !important;
+}
+
+/* رؤوس الأعمدة: خط أوضح من صف البيانات + ارتفاع خلية مريح */
+table.chakra-table.stake-table.compact-data-table thead th,
+.stake-table.compact-data-table thead th {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+  padding: 0.625rem 0.45rem !important;
+  vertical-align: middle !important;
+}
+
+/* صف البيانات — الراتب الشهري والأسبوعي وجدول الموظفين (نفس البطاقة weekly-salary-main-card) */
+.monthly-salary-main-card table.chakra-table.stake-table.compact-data-table tbody td,
+.weekly-salary-main-card table.chakra-table.stake-table.compact-data-table tbody td {
+  font-size: 0.9375rem !important;
+  padding: 0.42rem 0.35rem !important;
+  vertical-align: middle !important;
+  line-height: 1.35 !important;
+}
+
+table.chakra-table.stake-table.compact-data-table tbody td.fp-col,
+.stake-table.compact-data-table tbody td.fp-col {
+  vertical-align: middle !important;
+  line-height: 1.35 !important;
+  font-size: 0.9375rem !important;
+  padding: 0.42rem 0.35rem !important;
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+}
+
+table.chakra-table.stake-table.compact-data-table thead th.fp-col,
+.stake-table.compact-data-table thead th.fp-col {
+  vertical-align: middle !important;
+  line-height: 1.4 !important;
+  padding: 0.625rem 0.45rem !important;
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+}
+
+/* الاسم: توسيط مثل باقي الأعمدة + تفاف للأسماء الطويلة */
+table.chakra-table.stake-table.compact-data-table thead th.fp-col--name,
+table.chakra-table.stake-table.compact-data-table tbody td.fp-col--name,
+.stake-table.compact-data-table thead th.fp-col--name,
+.stake-table.compact-data-table tbody td.fp-col--name {
+  text-align: center !important;
+  white-space: normal !important;
+  word-break: break-word;
+  overflow: hidden !important;
+  overflow-wrap: anywhere;
+}
+
+table.chakra-table.stake-table.compact-data-table tbody td.fp-col--name .chakra-stack,
+.stake-table.compact-data-table tbody td.fp-col--name .chakra-stack {
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+/* نص الاسم داخل عمود الاسم/الموظف: توسيط + تفاف داخل الخلية */
+table.chakra-table.stake-table.compact-data-table tbody td.fp-col--name .fp-cell-text,
+.stake-table.compact-data-table tbody td.fp-col--name .fp-cell-text {
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  text-align: center !important;
+  max-width: 100%;
+  width: 100%;
+}
+
+/* كود الموظف: عرض ثابت يضمن ظهور التسمية كاملةً + خلايا رقمية واضحة */
+.stake-table thead th.fp-col--code,
+.stake-table tbody td.fp-col--code,
+table.chakra-table.stake-table thead th.fp-col--code,
+table.chakra-table.stake-table tbody td.fp-col--code {
+  box-sizing: border-box !important;
+  width: var(--fp-col-code-width) !important;
+  min-width: var(--fp-col-code-width) !important;
+  max-width: var(--fp-col-code-width) !important;
+  text-align: center !important;
+}
+
+.stake-table thead th.fp-col--code,
+table.chakra-table.stake-table thead th.fp-col--code {
+  white-space: nowrap !important;
+  overflow: visible !important;
+  font-family: inherit !important;
+  font-variant-numeric: normal !important;
+  padding-inline: 0.35rem !important;
+}
+
+.stake-table tbody td.fp-col--code,
+table.chakra-table.stake-table tbody td.fp-col--code {
+  font-family: ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', monospace !important;
+  font-variant-numeric: tabular-nums !important;
+  padding-inline: 0.25rem !important;
+}
+
+/* مركز تكلفة */
+table.chakra-table.stake-table.compact-data-table thead th.fp-col--cost,
+table.chakra-table.stake-table.compact-data-table tbody td.fp-col--cost,
+.stake-table.compact-data-table thead th.fp-col--cost,
+.stake-table.compact-data-table tbody td.fp-col--cost {
+  text-align: center !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+}
+
+/* أعمدة البيانات: توسيط (بما فيها الاسم) */
+table.chakra-table.stake-table.compact-data-table thead th.fp-col:not(.fp-col--actions),
+table.chakra-table.stake-table.compact-data-table tbody td.fp-col:not(.fp-col--actions),
+.stake-table.compact-data-table thead th.fp-col:not(.fp-col--actions),
+.stake-table.compact-data-table tbody td.fp-col:not(.fp-col--actions) {
+  text-align: center !important;
+}
+
+table.chakra-table.stake-table.compact-data-table thead th.fp-col:not(.fp-col--name):not(.fp-col--code):not(.fp-col--cost):not(.fp-col--actions),
+table.chakra-table.stake-table.compact-data-table tbody td.fp-col:not(.fp-col--name):not(.fp-col--code):not(.fp-col--cost):not(.fp-col--actions),
+.stake-table.compact-data-table thead th.fp-col:not(.fp-col--name):not(.fp-col--code):not(.fp-col--cost):not(.fp-col--actions),
+.stake-table.compact-data-table tbody td.fp-col:not(.fp-col--name):not(.fp-col--code):not(.fp-col--cost):not(.fp-col--actions) {
+  white-space: nowrap !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* الإجراءات: عرض ثابت + تثبيت عند التمرير الأفقي (نهاية السطر في RTL = inline-end) */
+table.chakra-table.stake-table.compact-data-table thead th.fp-col--actions,
+.stake-table.compact-data-table thead th.fp-col--actions {
+  text-align: center !important;
+  white-space: nowrap !important;
+  width: 2.75rem !important;
+  min-width: 2.75rem !important;
+  max-width: 2.75rem !important;
+  padding-block: 0.625rem !important;
+  padding-inline: 0.12rem !important;
+  position: sticky !important;
+  inset-inline-end: 0 !important;
+  z-index: 12 !important;
+  box-shadow: -6px 0 10px -4px rgba(0, 0, 0, 0.12);
+  background: var(--stake-table-header-bg, #e6e9f4) !important;
+}
+
+table.chakra-table.stake-table.compact-data-table tbody td.fp-col--actions,
+.stake-table.compact-data-table tbody td.fp-col--actions {
+  text-align: center !important;
+  white-space: nowrap !important;
+  width: 2.75rem !important;
+  min-width: 2.75rem !important;
+  max-width: 2.75rem !important;
+  padding-block: 0.42rem !important;
+  padding-inline: 0.12rem !important;
+  position: sticky !important;
+  inset-inline-end: 0 !important;
+  z-index: 3 !important;
+  box-shadow: -6px 0 10px -4px rgba(0, 0, 0, 0.1);
+}
+
+.stake-table.compact-data-table tbody tr:nth-child(odd) td.fp-col--actions {
+  background: var(--stake-table-bg, var(--stake-bg-card)) !important;
+}
+
+.stake-table.compact-data-table tbody tr:nth-child(even) td.fp-col--actions {
+  background: var(--stake-bg-secondary, rgba(148, 163, 184, 0.07)) !important;
+}
+
+.stake-table.compact-data-table tbody tr:hover td.fp-col--actions {
+  background: var(--stake-bg-hover) !important;
+}
+
+table.chakra-table.stake-table.compact-data-table td .fp-cell-text.fp-money,
+.stake-table.compact-data-table td .fp-cell-text.fp-money {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+}
+
+table.chakra-table.stake-table.compact-data-table td.fp-col--net .fp-money,
+.stake-table.compact-data-table td.fp-col--net .fp-money {
+  font-size: 0.9375rem !important;
+}
+
+/* حدود جدول البطاقة الرئيسية (.weekly-salary-main-card) حسب عرض/ارتفاع الشاشة */
+@media (max-width: 767.98px) {
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table,
+  .tp-page .weekly-salary-main-card .stake-table.compact-data-table {
+    border-color: rgba(148, 163, 184, 0.3) !important;
+  }
+
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table thead th,
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table tbody td {
+    border-bottom-color: rgba(148, 163, 184, 0.26) !important;
+  }
+
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table thead tr th + th,
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table tbody tr td + td {
+    border-inline-start-color: rgba(148, 163, 184, 0.26) !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199.98px) {
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table,
+  .tp-page .weekly-salary-main-card .stake-table.compact-data-table {
+    border-color: rgba(148, 163, 184, 0.38) !important;
+  }
+
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table thead th,
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table tbody td {
+    border-bottom-color: rgba(148, 163, 184, 0.34) !important;
+  }
+
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table thead tr th + th,
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table tbody tr td + td {
+    border-inline-start-color: rgba(148, 163, 184, 0.34) !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table,
+  .tp-page .weekly-salary-main-card .stake-table.compact-data-table {
+    border-color: rgba(148, 163, 184, 0.48) !important;
+  }
+
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table thead th,
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table tbody td {
+    border-bottom-color: rgba(148, 163, 184, 0.44) !important;
+  }
+
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table thead tr th + th,
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table tbody tr td + td {
+    border-inline-start-color: rgba(148, 163, 184, 0.44) !important;
+  }
+}
+
+@media (min-width: 768px) and (max-height: 760px) {
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table,
+  .tp-page .weekly-salary-main-card .stake-table.compact-data-table {
+    border-color: rgba(148, 163, 184, 0.32) !important;
+  }
+
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table thead th,
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table tbody td {
+    border-bottom-color: rgba(148, 163, 184, 0.28) !important;
+  }
+
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table thead tr th + th,
+  .tp-page .weekly-salary-main-card table.chakra-table.stake-table.compact-data-table tbody tr td + td {
+    border-inline-start-color: rgba(148, 163, 184, 0.28) !important;
+  }
+}
+
+/* مودال قائمة السلف (تفصيلي) — أعمدة بعرض ثابت بدون تداخل */
+.stake-table.compact-data-table.advances-detail-modal-table thead th.fp-col--advance-id,
+.stake-table.compact-data-table.advances-detail-modal-table tbody td.fp-col--advance-id {
+  width: 4.5rem !important;
+  min-width: 4.5rem !important;
+  max-width: 4.5rem !important;
+  white-space: nowrap !important;
+}
+
+.stake-table.compact-data-table.advances-detail-modal-table thead th.fp-col--salary-type,
+.stake-table.compact-data-table.advances-detail-modal-table tbody td.fp-col--salary-type {
+  width: 5.5rem !important;
+  min-width: 5.5rem !important;
+  max-width: 5.5rem !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+}
+
+.stake-table.compact-data-table.advances-detail-modal-table thead th.fp-col--status,
+.stake-table.compact-data-table.advances-detail-modal-table tbody td.fp-col--status {
+  width: 5.5rem !important;
+  min-width: 5.5rem !important;
+  max-width: 5.5rem !important;
+  white-space: nowrap !important;
+}
+
+.stake-table.compact-data-table.advances-detail-modal-table thead th.fp-col--date,
+.stake-table.compact-data-table.advances-detail-modal-table tbody td.fp-col--date {
+  width: 6.5rem !important;
+  min-width: 6.5rem !important;
+  max-width: 6.5rem !important;
+  white-space: nowrap !important;
+}

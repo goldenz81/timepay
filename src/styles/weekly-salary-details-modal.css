@@ -1,0 +1,213 @@
+/* مودال تفاصيل الأجر الأسبوعي — تنظيم بصري دون إخفاء محتوى */
+
+.weekly-salary-details-modal__header {
+  overflow: hidden;
+}
+
+.weekly-salary-details-modal__header-top {
+  overflow: hidden;
+  --ws-header-title: clamp(1rem, 0.88rem + 0.55vw, 1.25rem);
+  --ws-header-text: clamp(0.8125rem, 0.74rem + 0.35vw, 0.9375rem);
+  --ws-header-icon: clamp(0.875rem, 0.78rem + 0.35vw, 1.0625rem);
+  --ws-header-badge: clamp(0.6875rem, 0.64rem + 0.2vw, 0.8125rem);
+  padding-inline: clamp(0.75rem, 0.5rem + 1vw, 1.25rem);
+  padding-block: clamp(0.625rem, 0.5rem + 0.35vw, 0.875rem);
+}
+
+.weekly-salary-details-modal__header-title {
+  justify-self: start;
+  min-width: 0;
+  font-size: var(--ws-header-title) !important;
+  line-height: 1.3;
+}
+
+.weekly-salary-details-modal__meta-text {
+  font-size: var(--ws-header-text);
+  line-height: 1.35;
+}
+
+.weekly-salary-details-modal__meta-icon {
+  width: var(--ws-header-icon);
+  height: var(--ws-header-icon);
+  flex-shrink: 0;
+}
+
+.weekly-salary-details-modal__meta-badge {
+  font-size: var(--ws-header-badge) !important;
+  line-height: 1.2;
+}
+
+.weekly-salary-details-modal__meta-item {
+  align-items: center;
+}
+
+.weekly-salary-details-modal__date-text {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.weekly-salary-details-modal__header-center {
+  justify-self: center;
+  text-align: center;
+  max-width: 100%;
+}
+
+.weekly-salary-details-modal__header-employee {
+  justify-content: center;
+}
+
+.weekly-salary-details-modal__header-actions {
+  justify-self: end;
+  justify-content: flex-end;
+}
+
+.weekly-salary-details-modal__header-actions .chakra-button {
+  color: var(--stake-text-secondary);
+}
+
+.weekly-salary-details-modal__header-actions .chakra-button:hover:not(:disabled) {
+  background: var(--stake-bg-hover) !important;
+  color: var(--stake-primary) !important;
+}
+
+.weekly-salary-details-modal__meta-text--name {
+  transition: color 0.15s ease;
+}
+
+.weekly-salary-details-modal__header-divider {
+  width: 1px;
+  height: clamp(1rem, 0.9rem + 0.35vw, 1.25rem);
+  background: var(--stake-border-primary, #3e5665);
+  flex-shrink: 0;
+  opacity: 0.75;
+}
+
+.weekly-salary-details-modal__header-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: clamp(0.75rem, 0.5rem + 0.8vw, 1.25rem);
+  width: 100%;
+}
+
+.weekly-salary-details-modal__header-employee {
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .weekly-salary-details-modal__header-grid {
+    grid-template-columns: 1fr;
+    row-gap: 0.75rem;
+  }
+
+  .weekly-salary-details-modal__header-title,
+  .weekly-salary-details-modal__header-center,
+  .weekly-salary-details-modal__header-actions {
+    justify-self: stretch;
+    width: 100%;
+  }
+
+  .weekly-salary-details-modal__header-center {
+    order: 2;
+  }
+
+  .weekly-salary-details-modal__header-actions {
+    order: 3;
+    justify-content: flex-end;
+  }
+
+  .weekly-salary-details-modal__header-divider {
+    display: none;
+  }
+}
+
+.weekly-salary-details-modal .chakra-modal__body {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.weekly-salary-details-body-stack {
+  padding-bottom: 0.5rem;
+}
+
+.weekly-salary-details-section {
+  border-radius: 1rem;
+  border: 1px solid var(--stake-border-primary, #3e5665);
+  background: var(--stake-bg-primary, #0f212e);
+  overflow: hidden;
+}
+
+.weekly-salary-details-section--entitlements {
+  border-top: 3px solid var(--stake-success, #22c55e);
+}
+
+.weekly-salary-details-section--deductions {
+  border-top: 3px solid var(--stake-error, #ef4444);
+}
+
+.weekly-salary-details-section--attendance {
+  border-top: 3px solid var(--stake-primary, #3b82f6);
+}
+
+.weekly-salary-details-section__head {
+  padding: 1rem 1.25rem 0.75rem;
+  border-bottom: 1px solid var(--stake-border-primary, #3e5665);
+  background: var(--stake-bg-secondary, #1a2c38);
+}
+
+.weekly-salary-details-section__body {
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.weekly-salary-details-financial-grid {
+  align-items: stretch;
+}
+
+.weekly-salary-details-financial-table thead th {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--stake-text-muted, #94a3b8) !important;
+  border-color: var(--stake-border-primary, #3e5665) !important;
+  background: var(--stake-bg-secondary, #1a2c38) !important;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.weekly-salary-details-financial-table tbody td {
+  font-size: 0.9375rem;
+  border-color: var(--stake-border-primary, #3e5665) !important;
+  vertical-align: middle;
+}
+
+.weekly-salary-details-financial-table tbody tr:nth-of-type(even) {
+  background: rgba(148, 163, 184, 0.04);
+}
+
+.weekly-salary-details-financial-table tbody tr:hover {
+  background: var(--stake-bg-hover, rgba(59, 130, 246, 0.08)) !important;
+}
+
+.weekly-salary-details-attendance-panel {
+  --ws-att-font: 13px;
+  --ws-att-day-font: 11px;
+}
+
+.weekly-salary-details-attendance-panel table {
+  font-size: var(--ws-att-font) !important;
+}
+
+.weekly-salary-details-attendance-panel .ws-att-day-label {
+  font-size: var(--ws-att-day-font) !important;
+}
+
+.weekly-salary-details-modal .chakra-modal__footer {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 768px) {
+  .weekly-salary-details-section__body {
+    padding: 0.75rem;
+  }
+}

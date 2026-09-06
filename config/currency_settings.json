@@ -1,0 +1,13 @@
+{
+    "currency.enabled": "true",
+    "currency.symbol": "ج.م.",
+    "currency.name": "جنيه مصري",
+    "currency.code": "EGP",
+    "currency.position": "after",
+    "currency.decimals": "0",
+    "currency.thousands_separator": ",",
+    "currency.decimal_separator": ".",
+    "currency.format": "{amount} {symbol} {name}",
+    "currency.show_symbol": "true",
+    "currency.show_name": "false"
+}

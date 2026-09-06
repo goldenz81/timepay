@@ -1,0 +1,135 @@
+/* إصلاح اتجاه تعبير المعادلة */
+.formula-textarea {
+    direction: ltr !important;
+    text-align: left !important;
+    unicode-bidi: bidi-override !important;
+    font-family: 'Courier New', monospace !important;
+}
+
+.formula-textarea textarea {
+    direction: ltr !important;
+    text-align: left !important;
+    unicode-bidi: bidi-override !important;
+    font-family: 'Courier New', monospace !important;
+}
+
+/* إصلاح اتجاه معاينة المعادلة */
+.formula-preview {
+    direction: ltr !important;
+    text-align: left !important;
+    unicode-bidi: bidi-override !important;
+    font-family: 'Courier New', monospace !important;
+}
+
+/* إصلاح اتجاه placeholder */
+.formula-textarea textarea::placeholder {
+    direction: ltr !important;
+    text-align: left !important;
+    unicode-bidi: bidi-override !important;
+}
+
+/* إصلاح اتجاه الحقول الإنجليزية */
+.english-field input {
+    direction: ltr !important;
+    text-align: left !important;
+    unicode-bidi: bidi-override !important;
+    font-family: 'Courier New', monospace !important;
+}
+
+.english-field input::placeholder {
+    direction: ltr !important;
+    text-align: left !important;
+    unicode-bidi: bidi-override !important;
+}
+
+/* إصلاح خاص للحقل الإنجليزي - إذا كان النص عربي يبقى RTL */
+.english-field input[value*="ا"],
+.english-field input[value*="ب"],
+.english-field input[value*="ت"],
+.english-field input[value*="ث"],
+.english-field input[value*="ج"],
+.english-field input[value*="ح"],
+.english-field input[value*="خ"],
+.english-field input[value*="د"],
+.english-field input[value*="ذ"],
+.english-field input[value*="ر"],
+.english-field input[value*="ز"],
+.english-field input[value*="س"],
+.english-field input[value*="ش"],
+.english-field input[value*="ص"],
+.english-field input[value*="ض"],
+.english-field input[value*="ط"],
+.english-field input[value*="ظ"],
+.english-field input[value*="ع"],
+.english-field input[value*="غ"],
+.english-field input[value*="ف"],
+.english-field input[value*="ق"],
+.english-field input[value*="ك"],
+.english-field input[value*="ل"],
+.english-field input[value*="م"],
+.english-field input[value*="ن"],
+.english-field input[value*="ه"],
+.english-field input[value*="و"],
+.english-field input[value*="ي"] {
+    direction: rtl !important;
+    text-align: right !important;
+    unicode-bidi: bidi-override !important;
+}
+
+/* إصلاح اتجاه المتغيرات المتاحة */
+.variables-container {
+    direction: ltr !important;
+    text-align: left !important;
+    unicode-bidi: bidi-override !important;
+}
+
+.variables-container input {
+    direction: ltr !important;
+    text-align: left !important;
+    unicode-bidi: bidi-override !important;
+}
+
+.variables-container input::placeholder {
+    direction: ltr !important;
+    text-align: left !important;
+    unicode-bidi: bidi-override !important;
+}
+
+.variable-tag {
+    direction: ltr !important;
+    text-align: left !important;
+    unicode-bidi: bidi-override !important;
+    font-family: 'Courier New', monospace !important;
+}
+
+/* إصلاح شامل لجميع العناصر الإنجليزية */
+.ant-input.english-field,
+.ant-input.formula-textarea,
+.ant-input.variables-container input {
+    direction: ltr !important;
+    text-align: left !important;
+    unicode-bidi: bidi-override !important;
+    font-family: 'Courier New', monospace !important;
+}
+
+.ant-input.english-field::placeholder,
+.ant-input.formula-textarea::placeholder,
+.ant-input.variables-container input::placeholder {
+    direction: ltr !important;
+    text-align: left !important;
+    unicode-bidi: bidi-override !important;
+}
+
+/* إصلاح textarea */
+.ant-input.formula-textarea textarea {
+    direction: ltr !important;
+    text-align: left !important;
+    unicode-bidi: bidi-override !important;
+    font-family: 'Courier New', monospace !important;
+}
+
+.ant-input.formula-textarea textarea::placeholder {
+    direction: ltr !important;
+    text-align: left !important;
+    unicode-bidi: bidi-override !important;
+}

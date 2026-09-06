@@ -1,0 +1,4064 @@
+/**
+ * إطار صفحات النظام الموحّد (.tp-page)
+ * خط، شريط أدوات، بطاقات جداول، أشرطة تمرير — يُطبَّق على منطقة المحتوى في PremiumLayoutWrapper.
+ */
+
+.tp-page {
+  font-family: var(--font-family, 'Cairo', 'Tajawal', 'Segoe UI', sans-serif) !important;
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  /* ألوان شريط تمرير الجدول — تباين أوضح من مسار/إبهام stake الافتراضي */
+  --ws-scroll-track: rgba(148, 163, 184, 0.1);
+  --ws-scroll-thumb: rgba(148, 163, 184, 0.38);
+  --ws-scroll-thumb-hover: rgba(186, 198, 214, 0.55);
+  --ws-scroll-thumb-edge: rgba(15, 23, 42, 0.35);
+}
+
+/* ── Main Content: بطاقات، جداول، أدوات — متناسقة مع الإطار الهادئ ── */
+.tp-page .stake-card,
+.tp-page .chakra-card:not([class*='modal']) {
+  background: var(--stake-content-surface-raised, var(--stake-bg-card)) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  border-radius: var(--stake-content-radius-lg, 1.25rem) !important;
+  box-shadow: var(--stake-content-shadow-soft) !important;
+}
+
+.tp-page .weekly-salary-main-card,
+.tp-page .advances-main-card {
+  background: var(--stake-content-surface-raised, var(--stake-bg-card)) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  border-radius: var(--stake-content-radius-lg, 1.25rem) !important;
+  box-shadow: var(--stake-content-shadow) !important;
+  overflow: hidden;
+}
+
+.tp-page .weekly-salary-toolbar-card {
+  background: var(--stake-content-surface, var(--stake-bg-card)) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  border-radius: var(--stake-content-radius-lg, 1.25rem) !important;
+  box-shadow: var(--stake-content-shadow-soft) !important;
+}
+
+.tp-page .stake-heading-3,
+.tp-page .weekly-salary-page-title,
+.tp-page .weekly-salary-list-heading {
+  color: var(--stake-text-primary) !important;
+  letter-spacing: -0.01em;
+}
+
+.tp-page .stake-text-secondary,
+.tp-page .chakra-text.stake-text-secondary {
+  color: var(--stake-text-secondary) !important;
+}
+
+/* أزرار ثانوية داخل المحتوى — هادئة */
+.tp-page .stake-btn-secondary.chakra-button {
+  background: var(--stake-bg-tertiary, #1a2330) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  color: var(--stake-text-primary) !important;
+  box-shadow: none !important;
+}
+
+.tp-page .stake-btn-secondary.chakra-button:hover,
+.tp-page .stake-btn-secondary.chakra-button[data-hover] {
+  background: var(--stake-bg-hover) !important;
+  border-color: var(--stake-border-secondary) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+/* حقول داخل شريط الأدوات */
+.tp-page .stake-input,
+.tp-page .fp-toolbar-filter-inner .chakra-input,
+.tp-page .fp-toolbar-filter-inner .chakra-select {
+  background: var(--stake-bg-secondary) !important;
+  border-color: var(--stake-border-primary) !important;
+}
+
+.tp-page .stake-input:focus,
+.tp-page .fp-toolbar-filter-inner .chakra-input:focus,
+.tp-page .fp-toolbar-filter-inner .chakra-select:focus {
+  border-color: var(--stake-border-accent) !important;
+  box-shadow: 0 0 0 2px rgba(91, 141, 239, 0.15) !important;
+}
+
+/* تبويبات الصفحات (إعدادات، أقسام، بصمة) */
+.tp-page .tp-settings-tab-bar {
+  background: var(--stake-content-surface, var(--stake-bg-primary)) !important;
+  border-color: var(--stake-border-primary) !important;
+}
+
+.tp-page .tp-settings-tab-panel {
+  background: var(--stake-content-surface-raised, var(--stake-bg-primary)) !important;
+  border-color: var(--stake-border-primary) !important;
+  box-shadow: var(--stake-content-shadow-soft) !important;
+}
+
+.tp-page .stake-page-tabs .chakra-button.stake-tab-active {
+  background: var(--stake-active-button-bg, var(--stake-bg-hover)) !important;
+  color: var(--stake-active-button-text, var(--stake-text-primary)) !important;
+}
+
+/* رؤوس الجداول اللاصقة — خلفية صلبة + drop shadow عند التمرير */
+.tp-page .stake-table.compact-data-table thead,
+.tp-page .weekly-salary-main-card .stake-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 12;
+}
+
+.tp-page .stake-table.compact-data-table thead tr,
+.tp-page .weekly-salary-main-card thead tr {
+  background: var(--stake-table-header-bg, #171f2b) !important;
+  background-image: none !important;
+}
+
+.tp-page .weekly-salary-main-card thead th,
+.tp-page .stake-table.compact-data-table thead th,
+.tp-page .stake-table thead th {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 12 !important;
+  background: var(--stake-table-header-bg, #171f2b) !important;
+  background-color: var(--stake-table-header-bg, #171f2b) !important;
+  background-image: none !important;
+  color: var(--stake-table-header-text, var(--stake-text-primary)) !important;
+  border-bottom: 1px solid var(--stake-border-secondary, rgba(148, 163, 184, 0.28)) !important;
+  box-shadow: var(--stake-table-header-shadow, 0 4px 16px -4px rgba(0, 0, 0, 0.45)) !important;
+  isolation: isolate;
+}
+
+.tp-page .stake-table tbody tr:hover td {
+  background: var(--stake-bg-hover) !important;
+}
+
+/* تظليل صف موحّد — يتجاوز ألوان أعمدة المستحقات/المستقطعات عند المرور */
+.tp-page .weekly-salary-main-card,
+.tp-page .attendance-main-card,
+.tp-page .employees-main-card {
+  --tp-salary-table-row-hover: color-mix(in srgb, var(--stake-bg-hover, #222d3d) 38%, #060a10 62%);
+  --tp-salary-table-row-hover-text: var(--stake-text-primary, #e8edf4);
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-main-card,
+body[data-color-theme='minimal-bright'] .tp-page .attendance-main-card,
+body[data-color-theme='minimal-bright'] .tp-page .employees-main-card {
+  --tp-salary-table-row-hover: color-mix(in srgb, var(--stake-bg-hover, #e6eaf4) 48%, #8a96ab 52%);
+  --tp-salary-table-row-hover-text: var(--stake-text-primary, #1e293b);
+}
+
+.tp-page .weekly-salary-main-card .stake-table.compact-data-table tbody tr:hover > td,
+.tp-page .weekly-salary-main-card table.chakra-table.compact-data-table tbody tr:hover > td,
+.tp-page .attendance-main-card .stake-table.compact-data-table tbody tr:hover > td,
+.tp-page .attendance-main-card table.chakra-table.compact-data-table tbody tr:hover > td,
+.tp-page .employees-main-card .stake-table.compact-data-table tbody tr:hover > td,
+.tp-page .employees-main-card table.chakra-table.compact-data-table tbody tr:hover > td {
+  background: var(--tp-salary-table-row-hover) !important;
+  background-color: var(--tp-salary-table-row-hover) !important;
+  color: var(--tp-salary-table-row-hover-text) !important;
+}
+
+.tp-page .weekly-salary-main-card .stake-table.compact-data-table tbody tr:hover > td :is(.fp-cell-text, .fp-money, .chakra-text),
+.tp-page .weekly-salary-main-card table.chakra-table.compact-data-table tbody tr:hover > td :is(.fp-cell-text, .fp-money, .chakra-text),
+.tp-page .attendance-main-card .stake-table.compact-data-table tbody tr:hover > td :is(.fp-cell-text, .fp-money, .chakra-text),
+.tp-page .attendance-main-card table.chakra-table.compact-data-table tbody tr:hover > td :is(.fp-cell-text, .fp-money, .chakra-text),
+.tp-page .employees-main-card .stake-table.compact-data-table tbody tr:hover > td :is(.fp-cell-text, .fp-money, .chakra-text),
+.tp-page .employees-main-card table.chakra-table.compact-data-table tbody tr:hover > td :is(.fp-cell-text, .fp-money, .chakra-text),
+.tp-page .weekly-salary-main-card .stake-table.compact-data-table tbody tr:hover > td.fp-col--entitlements .fp-money,
+.tp-page .weekly-salary-main-card .stake-table.compact-data-table tbody tr:hover > td.fp-col--deductions .fp-money,
+.tp-page .weekly-salary-main-card .stake-table.compact-data-table tbody tr:hover > td.fp-col--net .fp-money,
+.tp-page .weekly-salary-main-card .stake-table.compact-data-table tbody tr:hover > td.fp-col--base .fp-money,
+.tp-page .weekly-salary-main-card table.chakra-table.compact-data-table tbody tr:hover > td.fp-col--entitlements .fp-money,
+.tp-page .weekly-salary-main-card table.chakra-table.compact-data-table tbody tr:hover > td.fp-col--deductions .fp-money,
+.tp-page .weekly-salary-main-card table.chakra-table.compact-data-table tbody tr:hover > td.fp-col--net .fp-money,
+.tp-page .weekly-salary-main-card table.chakra-table.compact-data-table tbody tr:hover > td.fp-col--base .fp-money,
+.tp-page .attendance-main-card .stake-table.compact-data-table tbody tr:hover > td.fp-col--entitlements .fp-money,
+.tp-page .attendance-main-card .stake-table.compact-data-table tbody tr:hover > td.fp-col--deductions .fp-money,
+.tp-page .attendance-main-card .stake-table.compact-data-table tbody tr:hover > td.fp-col--net .fp-money,
+.tp-page .attendance-main-card .stake-table.compact-data-table tbody tr:hover > td.fp-col--base .fp-money,
+.tp-page .attendance-main-card table.chakra-table.compact-data-table tbody tr:hover > td.fp-col--entitlements .fp-money,
+.tp-page .attendance-main-card table.chakra-table.compact-data-table tbody tr:hover > td.fp-col--deductions .fp-money,
+.tp-page .attendance-main-card table.chakra-table.compact-data-table tbody tr:hover > td.fp-col--net .fp-money,
+.tp-page .attendance-main-card table.chakra-table.compact-data-table tbody tr:hover > td.fp-col--base .fp-money,
+.tp-page .employees-main-card .stake-table.compact-data-table tbody tr:hover > td.fp-col--entitlements .fp-money,
+.tp-page .employees-main-card .stake-table.compact-data-table tbody tr:hover > td.fp-col--deductions .fp-money,
+.tp-page .employees-main-card .stake-table.compact-data-table tbody tr:hover > td.fp-col--net .fp-money,
+.tp-page .employees-main-card .stake-table.compact-data-table tbody tr:hover > td.fp-col--base .fp-money,
+.tp-page .employees-main-card table.chakra-table.compact-data-table tbody tr:hover > td.fp-col--entitlements .fp-money,
+.tp-page .employees-main-card table.chakra-table.compact-data-table tbody tr:hover > td.fp-col--deductions .fp-money,
+.tp-page .employees-main-card table.chakra-table.compact-data-table tbody tr:hover > td.fp-col--net .fp-money,
+.tp-page .employees-main-card table.chakra-table.compact-data-table tbody tr:hover > td.fp-col--base .fp-money {
+  color: var(--tp-salary-table-row-hover-text) !important;
+}
+
+.tp-page .weekly-salary-list-period {
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  color: var(--stake-text-secondary) !important;
+  white-space: nowrap;
+}
+
+/* تنبيه السجلات الناقصة — متوافق مع ألوان stake */
+.tp-incomplete-alert.chakra-alert,
+.tp-incomplete-alert.chakra-alert[data-status='warning'] {
+  background: linear-gradient(
+    135deg,
+    rgba(251, 191, 36, 0.14) 0%,
+    rgba(251, 191, 36, 0.05) 55%,
+    rgba(26, 35, 48, 0.35) 100%
+  ) !important;
+  border: 1px solid rgba(251, 191, 36, 0.28) !important;
+  border-radius: 0.875rem !important;
+  color: var(--stake-text-primary) !important;
+  box-shadow: inset 0 1px 0 rgba(251, 191, 36, 0.1);
+}
+
+.tp-incomplete-alert .chakra-alert__icon {
+  color: #fbbf24 !important;
+  flex-shrink: 0;
+}
+
+.tp-incomplete-alert .chakra-alert__title {
+  color: #fcd34d !important;
+  font-weight: 700 !important;
+  font-size: 0.9375rem !important;
+  line-height: 1.4 !important;
+}
+
+.tp-incomplete-alert .chakra-alert__desc {
+  color: var(--stake-text-secondary) !important;
+  font-size: 0.8125rem !important;
+  line-height: 1.65 !important;
+}
+
+.tp-incomplete-alert__action.chakra-button {
+  border: 1px solid rgba(251, 191, 36, 0.42) !important;
+  color: #fcd34d !important;
+  background: rgba(251, 191, 36, 0.1) !important;
+  border-radius: 0.625rem !important;
+  font-weight: 600 !important;
+  flex-shrink: 0;
+}
+
+.tp-incomplete-alert__action.chakra-button:hover,
+.tp-incomplete-alert__action.chakra-button:focus-visible {
+  background: rgba(251, 191, 36, 0.18) !important;
+  border-color: rgba(251, 191, 36, 0.58) !important;
+  color: #fde68a !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-incomplete-alert.chakra-alert,
+body[data-color-theme='minimal-bright'] .tp-incomplete-alert.chakra-alert[data-status='warning'] {
+  background: linear-gradient(
+    135deg,
+    rgba(251, 191, 36, 0.14) 0%,
+    rgba(245, 158, 11, 0.05) 100%
+  ) !important;
+  border-color: rgba(217, 119, 6, 0.28) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+body[data-color-theme='minimal-bright'] .tp-incomplete-alert .chakra-alert__icon {
+  color: #d97706 !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-incomplete-alert .chakra-alert__title {
+  color: #b45309 !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-incomplete-alert .chakra-alert__desc {
+  color: var(--stake-text-secondary) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-incomplete-alert__action.chakra-button {
+  border-color: rgba(217, 119, 6, 0.35) !important;
+  color: #b45309 !important;
+  background: rgba(251, 191, 36, 0.12) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-incomplete-alert__action.chakra-button:hover,
+body[data-color-theme='minimal-bright'] .tp-incomplete-alert__action.chakra-button:focus-visible {
+  background: rgba(251, 191, 36, 0.22) !important;
+  border-color: rgba(217, 119, 6, 0.48) !important;
+  color: #92400e !important;
+}
+
+/* تنبيه معلومات الحضور — متوافق مع ألوان stake */
+.tp-attendance-card-toolbar,
+.tp-employees-card-toolbar {
+  flex-shrink: 0 !important;
+  width: 100% !important;
+  position: relative !important;
+  z-index: 2 !important;
+  margin-bottom: 0 !important;
+  border-bottom: 1px solid var(--stake-border-primary, rgba(148, 163, 184, 0.16)) !important;
+}
+
+.tp-attendance-info-alert.chakra-alert,
+.tp-attendance-info-alert.chakra-alert[data-status='info'] {
+  background: linear-gradient(
+    135deg,
+    rgba(91, 141, 239, 0.14) 0%,
+    rgba(91, 141, 239, 0.05) 55%,
+    rgba(26, 35, 48, 0.2) 100%
+  ) !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(91, 141, 239, 0.22) !important;
+  border-inline-start: 3px solid var(--stake-primary, #5b8def) !important;
+  border-radius: 0 !important;
+  color: var(--stake-text-primary) !important;
+  flex-shrink: 0 !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: flex-start !important;
+  gap: 0.5rem 0.75rem !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.tp-attendance-info-alert .chakra-alert__icon {
+  color: var(--stake-active-button-icon, #7eb0ff) !important;
+  flex-shrink: 0;
+}
+
+.tp-attendance-info-alert__text,
+.tp-attendance-info-alert .tp-attendance-info-alert__text {
+  color: var(--stake-text-secondary) !important;
+  font-size: 0.8125rem !important;
+  line-height: 1.65 !important;
+  flex: 1 1 12rem !important;
+  min-width: 0 !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-attendance-info-alert.chakra-alert,
+body[data-color-theme='minimal-bright'] .tp-attendance-info-alert.chakra-alert[data-status='info'] {
+  background: linear-gradient(
+    135deg,
+    rgba(91, 141, 239, 0.12) 0%,
+    rgba(91, 141, 239, 0.04) 100%
+  ) !important;
+  border-bottom-color: rgba(91, 141, 239, 0.2) !important;
+  border-inline-start-color: var(--stake-primary, #5b8def) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-attendance-info-alert .chakra-alert__icon {
+  color: var(--stake-primary, #5b8def) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-attendance-info-alert__text,
+body[data-color-theme='minimal-bright'] .tp-attendance-info-alert .tp-attendance-info-alert__text {
+  color: var(--stake-text-secondary) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .stake-btn-secondary.chakra-button {
+  background: #ffffff !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-main-card thead th,
+body[data-color-theme='minimal-bright'] .tp-page .stake-table.compact-data-table thead th,
+body[data-color-theme='minimal-bright'] .tp-page .stake-table thead th {
+  background: var(--stake-table-header-bg, #eef0f7) !important;
+  background-color: var(--stake-table-header-bg, #eef0f7) !important;
+  box-shadow: var(--stake-table-header-shadow) !important;
+  border-bottom-color: var(--stake-border-secondary) !important;
+}
+
+/* غلاف المحتوى — max-width للصفحات غير الجدولية */
+.tp-page-inner {
+  width: 100%;
+  max-width: 1600px;
+  margin-inline: auto;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.tp-page-inner--fluid {
+  max-width: none;
+}
+
+@media (min-width: 1600px) {
+  .tp-page-inner:not(.tp-page-inner--fluid) {
+    max-width: 1680px;
+  }
+}
+
+.tp-main-header__crumbs {
+  min-width: 0;
+}
+
+.tp-main-header__crumbs-text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+}
+
+.tp-main-header__crumbs-text button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.tp-page--settings .stake-page-tabs {
+  margin-top: 0;
+}
+
+/* صفحة إعدادات النظام */
+.tp-settings-page-layout {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  gap: 0.75rem;
+}
+
+.tp-settings-page-layout .tp-settings-page-header {
+  margin-bottom: 0 !important;
+  flex-shrink: 0;
+}
+
+.tp-settings-page-layout .stake-page-tabs {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+}
+
+/* شريط التبويبات — لا يُضغط ويُمرَّر أفقياً عند الضيق */
+.tp-settings-page-layout .tp-settings-tab-bar {
+  flex: 0 0 auto;
+  flex-shrink: 0;
+  min-height: 48px;
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+/* غلاف محتوى التبويب — زوايا سفلية كاملة بدون قص */
+.tp-settings-page-layout .tp-settings-tab-panel {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  isolation: isolate;
+}
+
+.tp-settings-page-layout .tp-settings-tab-panel-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* بطاقات التبويب الطويلة — ارتفاع طبيعي حتى لا يُقصّ المحتوى داخل flex */
+.tp-settings-page-layout .tp-settings-tab-panel-scroll > .stake-card {
+  flex: 0 0 auto;
+  flex-shrink: 0;
+  min-height: auto;
+  overflow: visible;
+}
+
+/* تبويب التحديثات */
+.tp-update-settings {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.tp-update-settings .tp-update-card {
+  border-radius: 1rem !important;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.tp-update-settings .tp-update-card .chakra-card__header {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.tp-update-settings .tp-update-toolbar {
+  border-radius: 1rem;
+  min-width: 0;
+}
+
+@media (max-width: 479px) {
+  .tp-settings-page-layout .tp-settings-tab-panel-scroll {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+}
+
+/* صفحات الجداول وإعدادات النظام — مسافة أوضح تحت مسار التصفح */
+.tp-page.tp-page--table-shell,
+.tp-page.tp-page--settings {
+  padding-top: 1rem !important;
+}
+
+@media (min-width: 768px) {
+  .tp-page.tp-page--table-shell,
+  .tp-page.tp-page--settings {
+    padding-top: 1.25rem !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .tp-page.tp-page--table-shell,
+  .tp-page.tp-page--settings {
+    padding-top: 1.5rem !important;
+  }
+}
+
+/* غلاف صفحات الجداول (موظفين، حضور، سلف، …) */
+.tp-table-page-layout {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  gap: 0.625rem;
+}
+
+@media (min-width: 768px) {
+  .tp-table-page-layout {
+    gap: 0.75rem;
+  }
+}
+
+.tp-table-page-layout .weekly-salary-header-shell {
+  margin-bottom: 0 !important;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 30;
+}
+
+.tp-table-page-layout .weekly-salary-main-card {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── صفحات الراتب الأسبوعي / الشهري — بطاقة الجدول بملء الشاشة ── */
+.tp-page.tp-page--salary-fullscreen {
+  overflow-y: hidden !important;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.tp-page.tp-page--salary-fullscreen .tp-page-inner {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.tp-salary-page-layout {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.tp-salary-page-layout .weekly-salary-header-shell {
+  margin-bottom: 0.5rem !important;
+  flex-shrink: 0;
+}
+
+.tp-salary-page-layout .weekly-salary-toolbar-card {
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+}
+
+.tp-salary-page-layout .weekly-salary-toolbar-card .chakra-stack {
+  gap: 0.625rem !important;
+}
+
+/* بطاقة «قائمة الأجور» — تمتد لملء باقي الشاشة */
+.tp-salary-page-layout .weekly-salary-main-card {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.tp-salary-page-layout .weekly-salary-main-card-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.tp-salary-page-layout .weekly-salary-list-toolbar {
+  margin-bottom: 0.5rem !important;
+  padding-top: 0.625rem !important;
+  padding-bottom: 0.375rem !important;
+  flex-shrink: 0;
+}
+
+/* فارغ / تحميل — في منتصف البطاقة الممتدة */
+.tp-salary-page-layout .weekly-salary-empty-state,
+.tp-salary-page-layout .weekly-salary-loading-state {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+}
+
+.tp-salary-page-layout .weekly-salary-empty-state > *,
+.tp-salary-page-layout .weekly-salary-loading-state > * {
+  width: 100%;
+}
+
+/* الجدول — يملأ البطاقة والتمرير داخله */
+.tp-salary-page-layout .weekly-salary-table-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+/* صفحة الحضور: لا تمرير لمنطقة .tp-page كاملة — التمرير داخل جدول .weekly-salary-main-table-scroll فقط */
+.tp-page.tp-page--attendance-no-outer-scroll {
+  overflow-y: hidden !important;
+}
+
+/* صفحة السلف: نفس سلوك التمرير الداخلي للجدول */
+.tp-page.tp-page--advances-no-outer-scroll {
+  overflow-y: hidden !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page {
+  --ws-scroll-track: rgba(226, 232, 240, 0.92);
+  --ws-scroll-thumb: rgba(100, 116, 139, 0.4);
+  --ws-scroll-thumb-hover: rgba(71, 85, 105, 0.58);
+  --ws-scroll-thumb-edge: rgba(255, 255, 255, 0.55);
+}
+
+/* جدول داخل .weekly-salary-main-card — شريط تمرير أوضح (Firefox + WebKit) */
+.tp-page .weekly-salary-main-card .weekly-salary-main-table-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ws-scroll-thumb) var(--ws-scroll-track);
+}
+
+.tp-page .weekly-salary-main-card .weekly-salary-main-table-scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.tp-page .weekly-salary-main-card .weekly-salary-main-table-scroll::-webkit-scrollbar-track {
+  background: var(--ws-scroll-track);
+  border-radius: 999px;
+}
+
+.tp-page .weekly-salary-main-card .weekly-salary-main-table-scroll::-webkit-scrollbar-thumb {
+  background: var(--ws-scroll-thumb);
+  border-radius: 999px;
+  border: 2px solid var(--ws-scroll-thumb-edge);
+  background-clip: padding-box;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.tp-page .weekly-salary-main-card .weekly-salary-main-table-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--ws-scroll-thumb-hover);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.tp-page .weekly-salary-main-card .weekly-salary-main-table-scroll::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* محاذاة عرض الشريط العلوي مع بطاقة الجدول (نفس عرض المحتوى) */
+.tp-page .weekly-salary-header-shell,
+.tp-page .weekly-salary-toolbar-card,
+.tp-page .weekly-salary-main-card {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* زر طباعة الكل: لون ثيم موحّد (بدون تدرج) مع hover/data-hover */
+.tp-page .weekly-salary-print-all-btn.chakra-button {
+  background: var(--stake-primary, #3b82f6) !important;
+  background-image: none !important;
+  color: #ffffff !important;
+}
+
+.tp-page .weekly-salary-print-all-btn.chakra-button:hover,
+.tp-page .weekly-salary-print-all-btn.chakra-button[data-hover],
+.tp-page .weekly-salary-print-all-btn.chakra-button:active {
+  background: var(--stake-primary, #2563eb) !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  filter: brightness(0.94) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-print-all-btn.chakra-button:hover,
+body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-print-all-btn.chakra-button[data-hover],
+body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-print-all-btn.chakra-button:active {
+  background: var(--stake-primary) !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  filter: brightness(0.92) !important;
+}
+
+/* تمرير سلس إلى شريط التواريخ */
+.tp-page .weekly-salary-date-toolbar-anchor {
+  scroll-margin-top: 6.5rem;
+}
+
+/* أرقام الجدول: محاذاة أعمدة أوضح */
+.tp-page .weekly-salary-main-card .compact-data-table .fp-money,
+.tp-page .weekly-salary-main-card .compact-data-table .fp-cell-text.fp-money {
+  font-variant-numeric: tabular-nums !important;
+  font-feature-settings: 'tnum' 1 !important;
+}
+
+/* minimal-bright: حدود بطاقة الجدول أوضح قليلاً (بدون تعارض مع ظل Chakra على العنصر) */
+body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-main-card {
+  border-color: rgba(71, 85, 105, 0.34) !important;
+}
+
+/* (تفاصيل شريط الأدوات — ألوان المناطق أدناه) */
+
+/* ── هيدر صفحة الموظفين ── */
+.tp-page .tp-employees-page-header .weekly-salary-toolbar-card {
+  position: relative;
+  overflow: visible;
+  /* خط علوي متدرج — ضمن background ليتبع border-radius */
+  background-image: linear-gradient(
+      90deg,
+      var(--stake-primary, #5b8def) 0%,
+      rgba(52, 211, 153, 0.85) 55%,
+      rgba(91, 141, 239, 0.35) 100%
+    ),
+    linear-gradient(
+      var(--stake-content-surface, var(--stake-bg-card)),
+      var(--stake-content-surface, var(--stake-bg-card))
+    ) !important;
+  background-size: 100% 3px, 100% 100% !important;
+  background-position: top center, top center !important;
+  background-repeat: no-repeat !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-employees-page-header .weekly-salary-toolbar-card {
+  background-image: linear-gradient(
+      90deg,
+      var(--stake-primary, #5c62d8) 0%,
+      rgba(16, 185, 129, 0.75) 55%,
+      rgba(92, 98, 216, 0.35) 100%
+    ),
+    linear-gradient(#ffffff, #ffffff) !important;
+}
+
+/* ── هيدر صفحة الحضور والانصراف ── */
+.tp-page .tp-attendance-page-header .weekly-salary-toolbar-card {
+  position: relative;
+  overflow: visible;
+  background-image: linear-gradient(
+      90deg,
+      var(--stake-primary, #5b8def) 0%,
+      rgba(251, 191, 36, 0.85) 50%,
+      rgba(91, 141, 239, 0.35) 100%
+    ),
+    linear-gradient(
+      var(--stake-content-surface, var(--stake-bg-card)),
+      var(--stake-content-surface, var(--stake-bg-card))
+    ) !important;
+  background-size: 100% 3px, 100% 100% !important;
+  background-position: top center, top center !important;
+  background-repeat: no-repeat !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-attendance-page-header .weekly-salary-toolbar-card {
+  background-image: linear-gradient(
+      90deg,
+      var(--stake-primary, #5c62d8) 0%,
+      rgba(217, 119, 6, 0.72) 50%,
+      rgba(92, 98, 216, 0.35) 100%
+    ),
+    linear-gradient(#ffffff, #ffffff) !important;
+}
+
+.tp-page .tp-attendance-page-header .tp-attendance-header-icon-wrap {
+  background: linear-gradient(
+    145deg,
+    rgba(91, 141, 239, 0.2) 0%,
+    rgba(251, 191, 36, 0.12) 100%
+  ) !important;
+  border: 1px solid rgba(91, 141, 239, 0.3) !important;
+  box-shadow: 0 4px 14px -6px rgba(91, 141, 239, 0.35) !important;
+}
+
+.tp-page .tp-attendance-page-header .tp-attendance-header-icon-wrap .chakra-icon {
+  color: #93c5fd !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-attendance-page-header .tp-attendance-header-icon-wrap {
+  background: linear-gradient(
+    145deg,
+    rgba(92, 98, 216, 0.14) 0%,
+    rgba(251, 191, 36, 0.12) 100%
+  ) !important;
+  border-color: rgba(92, 98, 216, 0.28) !important;
+  box-shadow: 0 4px 12px -6px rgba(92, 98, 216, 0.2) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-attendance-page-header .tp-attendance-header-icon-wrap .chakra-icon {
+  color: #4f46e5 !important;
+}
+
+.tp-attendance-page-header .fp-toolbar-zone--filters {
+  background: var(--stake-bg-tertiary, rgba(148, 163, 184, 0.06)) !important;
+  border-color: var(--stake-border-secondary) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-attendance-page-header .fp-toolbar-zone--filters {
+  background: rgba(241, 245, 249, 0.95) !important;
+  border-color: rgba(100, 116, 139, 0.18) !important;
+}
+
+/* ── هيدر صفحة الأقسام ومراكز التكلفة ── */
+.tp-page .tp-departments-page-header .weekly-salary-toolbar-card {
+  position: relative;
+  overflow: visible;
+  background-image: linear-gradient(
+      90deg,
+      var(--stake-primary, #5b8def) 0%,
+      rgba(167, 139, 250, 0.85) 50%,
+      rgba(52, 211, 153, 0.4) 100%
+    ),
+    linear-gradient(
+      var(--stake-content-surface, var(--stake-bg-card)),
+      var(--stake-content-surface, var(--stake-bg-card))
+    ) !important;
+  background-size: 100% 3px, 100% 100% !important;
+  background-position: top center, top center !important;
+  background-repeat: no-repeat !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-departments-page-header .weekly-salary-toolbar-card {
+  background-image: linear-gradient(
+      90deg,
+      var(--stake-primary, #5c62d8) 0%,
+      rgba(124, 58, 237, 0.68) 50%,
+      rgba(16, 185, 129, 0.38) 100%
+    ),
+    linear-gradient(#ffffff, #ffffff) !important;
+}
+
+.tp-page .tp-departments-page-header .tp-departments-header-icon-wrap {
+  background: linear-gradient(
+    145deg,
+    rgba(167, 139, 250, 0.2) 0%,
+    rgba(91, 141, 239, 0.12) 100%
+  ) !important;
+  border: 1px solid rgba(167, 139, 250, 0.32) !important;
+  box-shadow: 0 4px 14px -6px rgba(124, 58, 237, 0.32) !important;
+}
+
+.tp-page .tp-departments-page-header .tp-departments-header-icon-wrap .chakra-icon {
+  color: #c4b5fd !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-departments-page-header .tp-departments-header-icon-wrap {
+  background: linear-gradient(
+    145deg,
+    rgba(124, 58, 237, 0.12) 0%,
+    rgba(92, 98, 216, 0.1) 100%
+  ) !important;
+  border-color: rgba(124, 58, 237, 0.26) !important;
+  box-shadow: 0 4px 12px -6px rgba(124, 58, 237, 0.18) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-departments-page-header .tp-departments-header-icon-wrap .chakra-icon {
+  color: #7c3aed !important;
+}
+
+.tp-page-header-tab-hint {
+  color: var(--stake-text-secondary) !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  margin: 0 !important;
+}
+
+.tp-settings-page-layout .tp-departments-page-header,
+.tp-settings-page-layout .tp-salary-columns-page-header,
+.tp-settings-page-layout .tp-fingerprint-page-header,
+.tp-settings-page-layout .tp-system-settings-page-header {
+  margin-bottom: 0 !important;
+}
+
+/* ── هيدر صفحة إعدادات النظام ── */
+.tp-page .tp-system-settings-page-header .weekly-salary-toolbar-card {
+  position: relative;
+  overflow: visible;
+  background-image: linear-gradient(
+      90deg,
+      rgba(139, 92, 246, 0.95) 0%,
+      rgba(99, 102, 241, 0.82) 48%,
+      rgba(148, 163, 184, 0.35) 100%
+    ),
+    linear-gradient(
+      var(--stake-content-surface, var(--stake-bg-card)),
+      var(--stake-content-surface, var(--stake-bg-card))
+    ) !important;
+  background-size: 100% 3px, 100% 100% !important;
+  background-position: top center, top center !important;
+  background-repeat: no-repeat !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-system-settings-page-header .weekly-salary-toolbar-card {
+  background-image: linear-gradient(
+      90deg,
+      rgba(109, 40, 217, 0.85) 0%,
+      rgba(79, 70, 229, 0.65) 48%,
+      rgba(100, 116, 139, 0.28) 100%
+    ),
+    linear-gradient(#ffffff, #ffffff) !important;
+}
+
+.tp-page .tp-system-settings-page-header .tp-system-settings-header-icon-wrap {
+  background: linear-gradient(
+    145deg,
+    rgba(139, 92, 246, 0.22) 0%,
+    rgba(99, 102, 241, 0.12) 100%
+  ) !important;
+  border: 1px solid rgba(139, 92, 246, 0.32) !important;
+  box-shadow: 0 4px 14px -6px rgba(139, 92, 246, 0.32) !important;
+}
+
+.tp-page .tp-system-settings-page-header .tp-system-settings-header-icon-wrap .chakra-icon {
+  color: #a78bfa !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-system-settings-page-header .tp-system-settings-header-icon-wrap {
+  background: linear-gradient(145deg, rgba(139, 92, 246, 0.14) 0%, rgba(99, 102, 241, 0.08) 100%) !important;
+  border-color: rgba(109, 40, 217, 0.22) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-system-settings-page-header .tp-system-settings-header-icon-wrap .chakra-icon {
+  color: #7c3aed !important;
+}
+
+/* ── هيدر صفحة إدارة البصمة ── */
+.tp-page .tp-fingerprint-page-header .weekly-salary-toolbar-card {
+  position: relative;
+  overflow: visible;
+  background-image: linear-gradient(
+      90deg,
+      var(--stake-primary, #5b8def) 0%,
+      rgba(14, 165, 233, 0.88) 48%,
+      rgba(52, 211, 153, 0.38) 100%
+    ),
+    linear-gradient(
+      var(--stake-content-surface, var(--stake-bg-card)),
+      var(--stake-content-surface, var(--stake-bg-card))
+    ) !important;
+  background-size: 100% 3px, 100% 100% !important;
+  background-position: top center, top center !important;
+  background-repeat: no-repeat !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-fingerprint-page-header .weekly-salary-toolbar-card {
+  background-image: linear-gradient(
+      90deg,
+      var(--stake-primary, #5c62d8) 0%,
+      rgba(2, 132, 199, 0.72) 48%,
+      rgba(16, 185, 129, 0.32) 100%
+    ),
+    linear-gradient(#ffffff, #ffffff) !important;
+}
+
+.tp-page .tp-fingerprint-page-header .tp-fingerprint-header-icon-wrap {
+  background: linear-gradient(
+    145deg,
+    rgba(14, 165, 233, 0.2) 0%,
+    rgba(91, 141, 239, 0.12) 100%
+  ) !important;
+  border: 1px solid rgba(14, 165, 233, 0.32) !important;
+  box-shadow: 0 4px 14px -6px rgba(14, 165, 233, 0.32) !important;
+}
+
+.tp-page .tp-fingerprint-page-header .tp-fingerprint-header-icon-wrap .chakra-icon {
+  color: #38bdf8 !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-fingerprint-page-header .tp-fingerprint-header-icon-wrap {
+  background: linear-gradient(
+    145deg,
+    rgba(2, 132, 199, 0.14) 0%,
+    rgba(92, 98, 216, 0.1) 100%
+  ) !important;
+  border-color: rgba(2, 132, 199, 0.28) !important;
+  box-shadow: 0 4px 12px -6px rgba(2, 132, 199, 0.2) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-fingerprint-page-header .tp-fingerprint-header-icon-wrap .chakra-icon {
+  color: #0284c7 !important;
+}
+
+/* ── تبويب استيراد البصمة ── */
+.tp-fingerprint-import-steps {
+  width: 100%;
+}
+
+.tp-fingerprint-import-step {
+  background: var(--stake-bg-tertiary, rgba(148, 163, 184, 0.06));
+  border: 1px solid var(--stake-border-primary);
+  color: var(--stake-text-secondary);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.tp-fingerprint-import-step--active {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.35);
+  color: var(--stake-text-primary);
+}
+
+.tp-fingerprint-import-step--done {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.28);
+  color: var(--stake-text-primary);
+}
+
+.tp-fingerprint-import-step__num {
+  background: var(--stake-bg-secondary);
+  border: 1px solid var(--stake-border-primary);
+  color: var(--stake-text-secondary);
+}
+
+.tp-fingerprint-import-step--active .tp-fingerprint-import-step__num {
+  background: rgba(59, 130, 246, 0.18);
+  border-color: rgba(59, 130, 246, 0.35);
+  color: #60a5fa;
+}
+
+.tp-fingerprint-import-step--done .tp-fingerprint-import-step__num {
+  background: rgba(34, 197, 94, 0.16);
+  border-color: rgba(34, 197, 94, 0.3);
+  color: #4ade80;
+}
+
+.tp-fingerprint-import-dropzone {
+  border: 2px dashed var(--stake-border-primary);
+  border-radius: 1rem;
+  background: var(--stake-bg-tertiary, rgba(148, 163, 184, 0.04));
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tp-fingerprint-import-dropzone:hover,
+.tp-fingerprint-import-dropzone--active {
+  border-color: rgba(59, 130, 246, 0.5);
+  background: rgba(59, 130, 246, 0.06);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
+}
+
+.tp-fingerprint-import-dropzone__icon {
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  color: #60a5fa;
+}
+
+.tp-fingerprint-import-result {
+  background: rgba(34, 197, 94, 0.08) !important;
+  border: 1px solid rgba(34, 197, 94, 0.28) !important;
+}
+
+.tp-fingerprint-import-result__stat {
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: var(--stake-bg-secondary);
+  border: 1px solid var(--stake-border-primary);
+  text-align: center;
+}
+
+.tp-fingerprint-import-result__value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+body[data-color-theme='minimal-bright'] .tp-fingerprint-import-dropzone {
+  background: rgba(241, 245, 249, 0.85);
+}
+
+body[data-color-theme='minimal-bright'] .tp-fingerprint-import-step {
+  background: rgba(241, 245, 249, 0.95);
+}
+
+.tp-fingerprint-preview-th--sortable {
+  transition: background-color 0.15s ease;
+}
+
+.tp-fingerprint-preview-row--new td {
+  border-top-color: rgba(245, 158, 11, 0.2) !important;
+  border-bottom-color: rgba(245, 158, 11, 0.2) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-fingerprint-preview-row--new {
+  background: rgba(245, 158, 11, 0.14) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-fingerprint-preview-row--new:hover,
+body[data-color-theme='minimal-bright'] .tp-fingerprint-preview-row--new:hover td {
+  background: rgba(245, 158, 11, 0.22) !important;
+}
+
+/* ── تبويب تكامل البصمة ── */
+.tp-fingerprint-integration-quick-bar {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.1) 0%,
+    rgba(251, 191, 36, 0.08) 100%
+  );
+  border: 1px solid rgba(59, 130, 246, 0.28);
+}
+
+.tp-fingerprint-integration-quick-bar--pending {
+  border-color: rgba(251, 146, 60, 0.4);
+  background: linear-gradient(
+    135deg,
+    rgba(251, 146, 60, 0.1) 0%,
+    rgba(59, 130, 246, 0.06) 100%
+  );
+}
+
+.tp-fingerprint-sync-card {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tp-fingerprint-sync-card:hover {
+  border-color: rgba(59, 130, 246, 0.4) !important;
+}
+
+.tp-fingerprint-sync-card--recommended {
+  border-color: rgba(251, 191, 36, 0.35) !important;
+  box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.08);
+}
+
+.tp-fingerprint-sync-card--advanced:hover {
+  border-color: rgba(251, 146, 60, 0.55) !important;
+}
+
+.tp-fingerprint-integration-details {
+  background: var(--stake-content-surface-raised, var(--stake-bg-card));
+}
+
+.tp-fingerprint-integration-detail-row {
+  min-height: 2.25rem;
+}
+
+body[data-color-theme='minimal-bright'] .tp-fingerprint-integration-quick-bar {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.06) 0%, rgba(251, 191, 36, 0.05) 100%);
+}
+
+body[data-color-theme='minimal-bright'] .tp-fingerprint-integration-quick-bar--pending {
+  background: linear-gradient(135deg, rgba(251, 146, 60, 0.08) 0%, rgba(59, 130, 246, 0.04) 100%);
+}
+
+/* ── هيدر صفحة الراتب الأسبوعي ── */
+.tp-page .tp-weekly-salary-page-header .weekly-salary-toolbar-card {
+  position: relative;
+  overflow: visible;
+  background-image: linear-gradient(
+      90deg,
+      var(--stake-primary, #5b8def) 0%,
+      rgba(251, 191, 36, 0.88) 48%,
+      rgba(52, 211, 153, 0.42) 100%
+    ),
+    linear-gradient(
+      var(--stake-content-surface, var(--stake-bg-card)),
+      var(--stake-content-surface, var(--stake-bg-card))
+    ) !important;
+  background-size: 100% 3px, 100% 100% !important;
+  background-position: top center, top center !important;
+  background-repeat: no-repeat !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-weekly-salary-page-header .weekly-salary-toolbar-card {
+  background-image: linear-gradient(
+      90deg,
+      var(--stake-primary, #5c62d8) 0%,
+      rgba(217, 119, 6, 0.75) 48%,
+      rgba(16, 185, 129, 0.38) 100%
+    ),
+    linear-gradient(#ffffff, #ffffff) !important;
+}
+
+.tp-page .tp-weekly-salary-page-header .tp-weekly-salary-header-icon-wrap {
+  background: linear-gradient(
+    145deg,
+    rgba(251, 191, 36, 0.2) 0%,
+    rgba(91, 141, 239, 0.14) 100%
+  ) !important;
+  border: 1px solid rgba(251, 191, 36, 0.32) !important;
+  box-shadow: 0 4px 14px -6px rgba(251, 191, 36, 0.32) !important;
+}
+
+.tp-page .tp-weekly-salary-page-header .tp-weekly-salary-header-icon-wrap .chakra-icon {
+  color: #fcd34d !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-weekly-salary-page-header .tp-weekly-salary-header-icon-wrap {
+  background: linear-gradient(
+    145deg,
+    rgba(251, 191, 36, 0.16) 0%,
+    rgba(92, 98, 216, 0.1) 100%
+  ) !important;
+  border-color: rgba(217, 119, 6, 0.28) !important;
+  box-shadow: 0 4px 12px -6px rgba(217, 119, 6, 0.2) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-weekly-salary-page-header .tp-weekly-salary-header-icon-wrap .chakra-icon {
+  color: #d97706 !important;
+}
+
+.tp-weekly-salary-page-header .fp-toolbar-zone--filters {
+  background: var(--stake-bg-tertiary, rgba(148, 163, 184, 0.06)) !important;
+  border-color: var(--stake-border-secondary) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-weekly-salary-page-header .fp-toolbar-zone--filters {
+  background: rgba(241, 245, 249, 0.95) !important;
+  border-color: rgba(100, 116, 139, 0.18) !important;
+}
+
+/* ── هيدر صفحة الراتب الشهري ── */
+.tp-page .tp-monthly-salary-page-header .weekly-salary-toolbar-card {
+  position: relative;
+  overflow: visible;
+  background-image: linear-gradient(
+      90deg,
+      var(--stake-primary, #5b8def) 0%,
+      rgba(52, 211, 153, 0.85) 48%,
+      rgba(167, 139, 250, 0.42) 100%
+    ),
+    linear-gradient(
+      var(--stake-content-surface, var(--stake-bg-card)),
+      var(--stake-content-surface, var(--stake-bg-card))
+    ) !important;
+  background-size: 100% 3px, 100% 100% !important;
+  background-position: top center, top center !important;
+  background-repeat: no-repeat !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-monthly-salary-page-header .weekly-salary-toolbar-card {
+  background-image: linear-gradient(
+      90deg,
+      var(--stake-primary, #5c62d8) 0%,
+      rgba(16, 185, 129, 0.72) 48%,
+      rgba(124, 58, 237, 0.35) 100%
+    ),
+    linear-gradient(#ffffff, #ffffff) !important;
+}
+
+.tp-page .tp-monthly-salary-page-header .tp-monthly-salary-header-icon-wrap {
+  background: linear-gradient(
+    145deg,
+    rgba(52, 211, 153, 0.2) 0%,
+    rgba(91, 141, 239, 0.14) 100%
+  ) !important;
+  border: 1px solid rgba(52, 211, 153, 0.3) !important;
+  box-shadow: 0 4px 14px -6px rgba(52, 211, 153, 0.32) !important;
+}
+
+.tp-page .tp-monthly-salary-page-header .tp-monthly-salary-header-icon-wrap .chakra-icon {
+  color: #6ee7b7 !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-monthly-salary-page-header .tp-monthly-salary-header-icon-wrap {
+  background: linear-gradient(
+    145deg,
+    rgba(16, 185, 129, 0.14) 0%,
+    rgba(92, 98, 216, 0.1) 100%
+  ) !important;
+  border-color: rgba(16, 185, 129, 0.28) !important;
+  box-shadow: 0 4px 12px -6px rgba(16, 185, 129, 0.2) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-monthly-salary-page-header .tp-monthly-salary-header-icon-wrap .chakra-icon {
+  color: #059669 !important;
+}
+
+.tp-monthly-salary-page-header .fp-toolbar-zone--filters {
+  background: var(--stake-bg-tertiary, rgba(148, 163, 184, 0.06)) !important;
+  border-color: var(--stake-border-secondary) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-monthly-salary-page-header .fp-toolbar-zone--filters {
+  background: rgba(241, 245, 249, 0.95) !important;
+  border-color: rgba(100, 116, 139, 0.18) !important;
+}
+
+/* ── هيدر صفحة السلف ── */
+.tp-page .tp-advances-page-header .weekly-salary-toolbar-card {
+  position: relative;
+  overflow: visible;
+  background-image: linear-gradient(
+      90deg,
+      var(--stake-primary, #5b8def) 0%,
+      rgba(34, 197, 94, 0.85) 45%,
+      rgba(251, 191, 36, 0.42) 100%
+    ),
+    linear-gradient(
+      var(--stake-content-surface, var(--stake-bg-card)),
+      var(--stake-content-surface, var(--stake-bg-card))
+    ) !important;
+  background-size: 100% 3px, 100% 100% !important;
+  background-position: top center, top center !important;
+  background-repeat: no-repeat !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-advances-page-header .weekly-salary-toolbar-card {
+  background-image: linear-gradient(
+      90deg,
+      var(--stake-primary, #5c62d8) 0%,
+      rgba(22, 163, 74, 0.72) 45%,
+      rgba(217, 119, 6, 0.35) 100%
+    ),
+    linear-gradient(#ffffff, #ffffff) !important;
+}
+
+.tp-page .tp-advances-page-header .tp-advances-header-icon-wrap {
+  background: linear-gradient(
+    145deg,
+    rgba(34, 197, 94, 0.2) 0%,
+    rgba(91, 141, 239, 0.12) 100%
+  ) !important;
+  border: 1px solid rgba(34, 197, 94, 0.3) !important;
+  box-shadow: 0 4px 14px -6px rgba(34, 197, 94, 0.32) !important;
+}
+
+.tp-page .tp-advances-page-header .tp-advances-header-icon-wrap .chakra-icon {
+  color: #4ade80 !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-advances-page-header .tp-advances-header-icon-wrap {
+  background: linear-gradient(
+    145deg,
+    rgba(22, 163, 74, 0.14) 0%,
+    rgba(92, 98, 216, 0.1) 100%
+  ) !important;
+  border-color: rgba(22, 163, 74, 0.28) !important;
+  box-shadow: 0 4px 12px -6px rgba(22, 163, 74, 0.2) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-advances-page-header .tp-advances-header-icon-wrap .chakra-icon {
+  color: #16a34a !important;
+}
+
+.tp-advances-page-header .fp-toolbar-zone--filters {
+  background: var(--stake-bg-tertiary, rgba(148, 163, 184, 0.06)) !important;
+  border-color: var(--stake-border-secondary) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-advances-page-header .fp-toolbar-zone--filters {
+  background: rgba(241, 245, 249, 0.95) !important;
+  border-color: rgba(100, 116, 139, 0.18) !important;
+}
+
+/* صفحة السلف — توحيد الأسطح مع إدارة البصمة (بدون stake-bg-primary #0b1324) */
+.tp-advances-page-layout .advances-main-card.chakra-card,
+.tp-page .tp-advances-page-layout .advances-main-card {
+  background: var(--stake-content-surface-raised, var(--stake-bg-card)) !important;
+}
+
+.tp-advances-page-layout .advances-main-card > .chakra-box,
+.tp-advances-page-layout .advances-main-card .chakra-card__body {
+  background: var(--stake-content-surface, var(--stake-bg-card)) !important;
+}
+
+.tp-advances-page-layout .advances-main-card .weekly-salary-main-table-scroll,
+.tp-advances-page-layout .advances-main-card .chakra-table__container {
+  background: var(--stake-content-surface, var(--stake-bg-card)) !important;
+}
+
+.tp-advances-page-layout .advances-main-card .stake-table tbody td,
+.tp-advances-page-layout .advances-main-card .chakra-table tbody td {
+  background: var(--stake-table-bg, var(--stake-content-surface, var(--stake-bg-card))) !important;
+  background-color: var(--stake-table-bg, var(--stake-content-surface, var(--stake-bg-card))) !important;
+}
+
+.tp-attendance-page-layout .attendance-main-card.chakra-card {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.tp-attendance-page-layout .attendance-main-card .chakra-card__body {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.tp-employees-page-layout .employees-main-card.chakra-card {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.tp-employees-page-layout .employees-main-card .chakra-card__body {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* الراتب الأسبوعي والشهري والحضور والموظفين — توحيد الأسطح (بدون stake-bg-primary #0b1324) */
+.tp-weekly-salary-page-layout .weekly-salary-main-card,
+.tp-monthly-salary-page-layout .weekly-salary-main-card,
+.tp-attendance-page-layout .weekly-salary-main-card,
+.tp-attendance-page-layout .attendance-main-card,
+.tp-employees-page-layout .weekly-salary-main-card,
+.tp-employees-page-layout .employees-main-card {
+  background: var(--stake-content-surface-raised, var(--stake-bg-card)) !important;
+}
+
+.tp-weekly-salary-page-layout .weekly-salary-main-card-body,
+.tp-monthly-salary-page-layout .weekly-salary-main-card-body,
+.tp-attendance-page-layout .weekly-salary-main-card-body,
+.tp-employees-page-layout .weekly-salary-main-card-body {
+  background: var(--stake-content-surface, var(--stake-bg-card)) !important;
+}
+
+.tp-weekly-salary-page-layout .weekly-salary-main-card .weekly-salary-main-table-scroll,
+.tp-weekly-salary-page-layout .weekly-salary-main-card .chakra-table__container,
+.tp-monthly-salary-page-layout .weekly-salary-main-card .weekly-salary-main-table-scroll,
+.tp-monthly-salary-page-layout .weekly-salary-main-card .chakra-table__container,
+.tp-attendance-page-layout .attendance-main-card .weekly-salary-main-table-scroll,
+.tp-attendance-page-layout .attendance-main-card .chakra-table__container,
+.tp-employees-page-layout .employees-main-card .weekly-salary-main-table-scroll,
+.tp-employees-page-layout .employees-main-card .chakra-table__container {
+  background: var(--stake-content-surface, var(--stake-bg-card)) !important;
+}
+
+.tp-weekly-salary-page-layout .weekly-salary-main-card .stake-table tbody td,
+.tp-weekly-salary-page-layout .weekly-salary-main-card .chakra-table tbody td,
+.tp-monthly-salary-page-layout .weekly-salary-main-card .stake-table tbody td,
+.tp-monthly-salary-page-layout .weekly-salary-main-card .chakra-table tbody td,
+.tp-attendance-page-layout .attendance-main-card .stake-table tbody td,
+.tp-attendance-page-layout .attendance-main-card .chakra-table tbody td,
+.tp-employees-page-layout .employees-main-card .stake-table tbody td,
+.tp-employees-page-layout .employees-main-card .chakra-table tbody td {
+  background: var(--stake-table-bg, var(--stake-content-surface, var(--stake-bg-card))) !important;
+  background-color: var(--stake-table-bg, var(--stake-content-surface, var(--stake-bg-card))) !important;
+}
+
+/* ── هيدر نظام أعمدة الرواتب (dynamic-system-manager) ── */
+.tp-page .tp-salary-columns-page-header .weekly-salary-toolbar-card {
+  position: relative;
+  overflow: visible;
+  background-image: linear-gradient(
+      90deg,
+      var(--stake-primary, #5b8def) 0%,
+      rgba(167, 139, 250, 0.88) 48%,
+      rgba(251, 191, 36, 0.38) 100%
+    ),
+    linear-gradient(
+      var(--stake-content-surface, var(--stake-bg-card)),
+      var(--stake-content-surface, var(--stake-bg-card))
+    ) !important;
+  background-size: 100% 3px, 100% 100% !important;
+  background-position: top center, top center !important;
+  background-repeat: no-repeat !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-salary-columns-page-header .weekly-salary-toolbar-card {
+  background-image: linear-gradient(
+      90deg,
+      var(--stake-primary, #5c62d8) 0%,
+      rgba(124, 58, 237, 0.72) 48%,
+      rgba(217, 119, 6, 0.32) 100%
+    ),
+    linear-gradient(#ffffff, #ffffff) !important;
+}
+
+.tp-page .tp-salary-columns-page-header .tp-salary-columns-header-icon-wrap {
+  background: linear-gradient(
+    145deg,
+    rgba(167, 139, 250, 0.22) 0%,
+    rgba(91, 141, 239, 0.14) 100%
+  ) !important;
+  border: 1px solid rgba(167, 139, 250, 0.32) !important;
+  box-shadow: 0 4px 14px -6px rgba(167, 139, 250, 0.32) !important;
+}
+
+.tp-page .tp-salary-columns-page-header .tp-salary-columns-header-icon-wrap .chakra-icon {
+  color: #c4b5fd !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-salary-columns-page-header .tp-salary-columns-header-icon-wrap {
+  background: linear-gradient(
+    145deg,
+    rgba(124, 58, 237, 0.14) 0%,
+    rgba(92, 98, 216, 0.1) 100%
+  ) !important;
+  border-color: rgba(124, 58, 237, 0.28) !important;
+  box-shadow: 0 4px 12px -6px rgba(124, 58, 237, 0.2) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-salary-columns-page-header .tp-salary-columns-header-icon-wrap .chakra-icon {
+  color: #7c3aed !important;
+}
+
+.tp-salary-columns-page-header .salary-columns-type-filter {
+  background: var(--stake-bg-tertiary, rgba(148, 163, 184, 0.06)) !important;
+  border: 1px solid var(--stake-border-secondary) !important;
+  border-radius: 0.75rem !important;
+  padding: 0.5rem 0.75rem !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-salary-columns-page-header .salary-columns-type-filter {
+  background: rgba(241, 245, 249, 0.95) !important;
+  border-color: rgba(100, 116, 139, 0.18) !important;
+}
+
+/* ── جداول وبطاقات نظام أعمدة الرواتب ── */
+.tp-settings-page-layout .salary-columns-table-wrap {
+  box-shadow: var(--stake-content-shadow-soft) !important;
+}
+
+.tp-settings-page-layout .salary-columns-table tbody tr:nth-child(even):not(:hover) {
+  background: var(--stake-bg-tertiary, rgba(148, 163, 184, 0.04)) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-settings-page-layout .salary-columns-table tbody tr:nth-child(even):not(:hover) {
+  background: rgba(241, 245, 249, 0.65) !important;
+}
+
+.tp-settings-page-layout .salary-columns-table tbody tr.salary-columns-row--hidden {
+  background: rgba(148, 163, 184, 0.03) !important;
+}
+
+.tp-settings-page-layout .salary-col-order-badge {
+  background: var(--stake-bg-secondary) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.tp-settings-page-layout .salary-col-type-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.55rem;
+  border-radius: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.3;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.tp-settings-page-layout .salary-col-type-chip--text {
+  background: rgba(148, 163, 184, 0.14) !important;
+  color: var(--stake-text-secondary) !important;
+  border-color: rgba(148, 163, 184, 0.22) !important;
+}
+
+.tp-settings-page-layout .salary-col-type-chip--number {
+  background: rgba(59, 130, 246, 0.14) !important;
+  color: #60a5fa !important;
+  border-color: rgba(59, 130, 246, 0.28) !important;
+}
+
+.tp-settings-page-layout .salary-col-type-chip--currency {
+  background: rgba(34, 197, 94, 0.14) !important;
+  color: #4ade80 !important;
+  border-color: rgba(34, 197, 94, 0.28) !important;
+}
+
+.tp-settings-page-layout .salary-col-type-chip--date {
+  background: rgba(167, 139, 250, 0.14) !important;
+  color: #c4b5fd !important;
+  border-color: rgba(167, 139, 250, 0.28) !important;
+}
+
+.tp-settings-page-layout .salary-col-type-chip--boolean {
+  background: rgba(251, 191, 36, 0.14) !important;
+  color: #fcd34d !important;
+  border-color: rgba(251, 191, 36, 0.28) !important;
+}
+
+.tp-settings-page-layout .salary-col-type-chip--reference {
+  background: rgba(14, 165, 233, 0.14) !important;
+  color: #38bdf8 !important;
+  border-color: rgba(14, 165, 233, 0.28) !important;
+}
+
+.tp-settings-page-layout .salary-col-type-chip--formula {
+  background: rgba(99, 102, 241, 0.14) !important;
+  color: #818cf8 !important;
+  border-color: rgba(99, 102, 241, 0.28) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-settings-page-layout .salary-col-type-chip--number {
+  color: #2563eb !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-settings-page-layout .salary-col-type-chip--currency {
+  color: #059669 !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-settings-page-layout .salary-col-type-chip--date {
+  color: #7c3aed !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-settings-page-layout .salary-col-type-chip--boolean {
+  color: #d97706 !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-settings-page-layout .salary-col-type-chip--reference {
+  color: #0284c7 !important;
+}
+
+.tp-settings-page-layout .salary-col-formula-chip {
+  align-items: center;
+  padding: 0.22rem 0.55rem;
+  border-radius: 0.5rem;
+  background: rgba(99, 102, 241, 0.12) !important;
+  border: 1px solid rgba(99, 102, 241, 0.28) !important;
+  color: #a5b4fc !important;
+  cursor: help;
+}
+
+body[data-color-theme='minimal-bright'] .tp-settings-page-layout .salary-col-formula-chip {
+  color: #4f46e5 !important;
+  background: rgba(79, 70, 229, 0.08) !important;
+}
+
+.tp-settings-page-layout .salary-columns-empty-state {
+  border: 1px dashed var(--stake-border-primary) !important;
+  background: var(--stake-bg-tertiary, rgba(148, 163, 184, 0.05)) !important;
+}
+
+.tp-settings-page-layout .salary-columns-var-card {
+  background: var(--stake-content-surface-raised, var(--stake-bg-card)) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+}
+
+.tp-settings-page-layout .salary-var-value-readonly {
+  background: var(--stake-bg-secondary) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.tp-settings-page-layout .salary-var-badge--editable {
+  background: rgba(34, 197, 94, 0.14) !important;
+  color: #4ade80 !important;
+  border: 1px solid rgba(34, 197, 94, 0.28) !important;
+}
+
+.tp-settings-page-layout .salary-var-badge--locked {
+  background: rgba(148, 163, 184, 0.12) !important;
+  color: var(--stake-text-secondary) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+}
+
+.tp-settings-page-layout .salary-var-badge--required {
+  background: rgba(239, 68, 68, 0.12) !important;
+  color: #f87171 !important;
+  border: 1px solid rgba(239, 68, 68, 0.28) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-settings-page-layout .salary-var-badge--editable {
+  color: #059669 !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-settings-page-layout .salary-var-badge--required {
+  color: #dc2626 !important;
+}
+
+/* جداول داخل تبويبات الأقسام — sticky header + ظل */
+.tp-settings-page-layout .stake-table.compact-data-table thead th {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 12 !important;
+  background: var(--stake-table-header-bg, #171f2b) !important;
+  background-color: var(--stake-table-header-bg, #171f2b) !important;
+  background-image: none !important;
+  box-shadow: var(--stake-table-header-shadow) !important;
+}
+
+/* قوائم الفلاتر المنسدلة — لا تُقصّ داخل بطاقة الهيدر أو بطاقة الجدول */
+.tp-page .weekly-salary-header-shell,
+.tp-page .weekly-salary-toolbar-card,
+.tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--filters,
+.tp-page .weekly-salary-header-tools {
+  overflow: visible !important;
+}
+
+.tp-page .tp-employees-page-header .tp-employees-header-icon-wrap {
+  background: linear-gradient(
+    145deg,
+    rgba(52, 211, 153, 0.18) 0%,
+    rgba(91, 141, 239, 0.1) 100%
+  ) !important;
+  border: 1px solid rgba(52, 211, 153, 0.28) !important;
+  box-shadow: 0 4px 14px -6px rgba(52, 211, 153, 0.35) !important;
+}
+
+.tp-page .tp-employees-page-header .tp-employees-header-icon-wrap .chakra-icon {
+  color: #6ee7b7 !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-employees-page-header .tp-employees-header-icon-wrap {
+  background: linear-gradient(
+    145deg,
+    rgba(16, 185, 129, 0.14) 0%,
+    rgba(92, 98, 216, 0.1) 100%
+  ) !important;
+  border-color: rgba(16, 185, 129, 0.28) !important;
+  box-shadow: 0 4px 12px -6px rgba(16, 185, 129, 0.2) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .tp-employees-page-header .tp-employees-header-icon-wrap .chakra-icon {
+  color: #059669 !important;
+}
+
+.tp-page-header-subtitle {
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  line-height: 1.45 !important;
+  color: var(--stake-text-secondary) !important;
+  margin: 0 !important;
+}
+
+@media (min-width: 768px) {
+  .tp-page-header-subtitle {
+    font-size: 0.875rem !important;
+  }
+}
+
+.tp-page-header-divider {
+  margin: 0 !important;
+  border-color: var(--stake-border-primary) !important;
+  opacity: 0.55 !important;
+}
+
+.tp-page-header-stat-chip {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+  min-width: 4.25rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 0.75rem;
+  background: var(--stake-bg-secondary, rgba(148, 163, 184, 0.08));
+  border: 1px solid var(--stake-border-primary);
+  box-sizing: border-box;
+}
+
+.tp-page-header-stat-chip__value {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  color: var(--stake-text-primary) !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.tp-page-header-stat-chip__label {
+  font-size: 0.6875rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  color: var(--stake-text-secondary) !important;
+  white-space: nowrap;
+  max-width: 6.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.tp-page-header-stat-chip--weekly {
+  border-color: rgba(251, 191, 36, 0.28) !important;
+  background: rgba(251, 191, 36, 0.08) !important;
+}
+
+.tp-page-header-stat-chip--weekly .tp-page-header-stat-chip__value {
+  color: #fcd34d !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page-header-stat-chip--weekly {
+  border-color: rgba(217, 119, 6, 0.24) !important;
+  background: rgba(251, 191, 36, 0.1) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page-header-stat-chip--weekly .tp-page-header-stat-chip__value {
+  color: #d97706 !important;
+}
+
+.tp-page-header-stat-chip--active {
+  border-color: rgba(52, 211, 153, 0.28) !important;
+  background: rgba(52, 211, 153, 0.08) !important;
+}
+
+.tp-page-header-stat-chip--active .tp-page-header-stat-chip__value {
+  color: #6ee7b7 !important;
+}
+
+.tp-page-header-stat-chip--inactive {
+  border-color: rgba(248, 113, 113, 0.22) !important;
+  background: rgba(248, 113, 113, 0.06) !important;
+}
+
+.tp-page-header-stat-chip--inactive .tp-page-header-stat-chip__value {
+  color: #fca5a5 !important;
+}
+
+.tp-page-header-stat-chip--filtered {
+  border-color: rgba(91, 141, 239, 0.3) !important;
+  background: rgba(91, 141, 239, 0.1) !important;
+}
+
+.tp-page-header-stat-chip--filtered .tp-page-header-stat-chip__value {
+  color: var(--stake-active-button-icon, #7eb0ff) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page-header-stat-chip--active {
+  border-color: rgba(16, 185, 129, 0.28) !important;
+  background: rgba(16, 185, 129, 0.08) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page-header-stat-chip--active .tp-page-header-stat-chip__value {
+  color: #059669 !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page-header-stat-chip--inactive {
+  border-color: rgba(220, 38, 38, 0.2) !important;
+  background: rgba(220, 38, 38, 0.05) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page-header-stat-chip--inactive .tp-page-header-stat-chip__value {
+  color: #dc2626 !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page-header-stat-chip--filtered .tp-page-header-stat-chip__value {
+  color: var(--stake-active-button-icon, #3f45b8) !important;
+}
+
+.tp-employees-page-header .fp-toolbar-zone--filters {
+  background: var(--stake-bg-tertiary, rgba(148, 163, 184, 0.06)) !important;
+  border-color: var(--stake-border-secondary) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-employees-page-header .fp-toolbar-zone--filters {
+  background: rgba(241, 245, 249, 0.95) !important;
+  border-color: rgba(100, 116, 139, 0.18) !important;
+}
+
+/* أيقونة التقويم بجانب العنوان */
+.tp-page .weekly-salary-header-icon-wrap {
+  background: rgba(91, 141, 239, 0.1) !important;
+  border: 1px solid rgba(91, 141, 239, 0.18) !important;
+  box-shadow: none !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-header-icon-wrap {
+  background: rgba(92, 98, 216, 0.1) !important;
+  border-color: rgba(92, 98, 216, 0.2) !important;
+  box-shadow: none !important;
+}
+
+/* عنوان الشريط — بلا خط سفلي */
+.tp-page .weekly-salary-page-title {
+  font-size: 1.125rem !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  letter-spacing: -0.01em;
+  border-bottom: none !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+@media (min-width: 768px) {
+  .tp-page .weekly-salary-page-title {
+    font-size: 1.25rem !important;
+  }
+}
+
+/* صف الأدوات: stretch حتى يتساوى ارتفاع صندوق الفلاتر وصندوق التاريخ في نفس الصف */
+.tp-page .weekly-salary-header-tools {
+  align-items: stretch !important;
+}
+
+/* تسميات يدوي/تلقائي */
+.tp-page .fp-toolbar-zone--dates .stake-text-secondary,
+.tp-page .fp-toolbar-zone--dates .chakra-text {
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+}
+
+/* حقول البحث والقائمة — ارتفاع ثابت يطابق منتقي التاريخ */
+.tp-page .fp-toolbar-filter-inner .chakra-input__group {
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+}
+
+.tp-page .fp-toolbar-filter-inner .chakra-input__right-element {
+  height: 36px !important;
+  pointer-events: none;
+}
+
+.tp-page .fp-toolbar-filter-inner .chakra-input__right-element .chakra-icon {
+  pointer-events: none;
+}
+
+.tp-page .fp-toolbar-filter-inner .chakra-input,
+.tp-page .fp-toolbar-filter-inner .chakra-select,
+.tp-page .fp-toolbar-filter-inner select {
+  font-size: 0.875rem !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  line-height: 1.25 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.tp-page .fp-toolbar-filter-inner .chakra-input::placeholder {
+  font-size: 0.875rem !important;
+}
+
+/* منتقي التواريخ Ant — نفس ارتفاع حقول Chakra */
+.tp-page .weekly-salary-range-picker.ant-picker-range {
+  font-size: 0.875rem !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  padding: 0 10px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}
+
+.tp-page .weekly-salary-range-picker.ant-picker-range .ant-picker-input {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.tp-page .weekly-salary-range-picker .ant-picker-input > input {
+  font-size: 0.875rem !important;
+  font-family: inherit !important;
+  height: 22px !important;
+  line-height: 22px !important;
+  padding: 0 4px !important;
+}
+
+.tp-page .weekly-salary-range-picker.ant-picker-range .ant-picker-separator,
+.tp-page .weekly-salary-range-picker.ant-picker-range .ant-picker-suffix {
+  line-height: 1 !important;
+  margin-top: 0 !important;
+}
+
+/* شريط «قائمة الأجور الاسبوعية»: بدون خلفية ولا إطار (يلغي أنماط fp-list-toolbar العامة) */
+.tp-page .weekly-salary-main-card .fp-list-toolbar {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* عنوان جدول البطاقة + صف الإجراءات */
+.tp-page .fp-list-toolbar .stake-heading-3,
+.tp-page .weekly-salary-list-toolbar .weekly-salary-list-heading {
+  font-size: 1.125rem !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+}
+
+@media (min-width: 992px) {
+  .tp-page .weekly-salary-main-card .weekly-salary-list-toolbar {
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+  }
+
+  .tp-page .weekly-salary-main-card .weekly-salary-list-heading {
+    margin-bottom: 0 !important;
+  }
+}
+
+/* زر العين داخل شريط عنوان الجدول */
+.tp-list-toolbar__title-group {
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.tp-table-panel-toggle.chakra-button {
+  width: 32px !important;
+  min-width: 32px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  padding: 0 !important;
+  border: 1px solid transparent !important;
+  color: var(--stake-text-secondary) !important;
+  background: transparent !important;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease !important;
+}
+
+.tp-table-panel-toggle.chakra-button:hover {
+  background: var(--stake-bg-hover) !important;
+  color: var(--stake-text-primary) !important;
+  border-color: var(--stake-border-primary) !important;
+}
+
+.tp-table-panel-toggle.chakra-button:active {
+  transform: scale(0.96);
+}
+
+.tp-table-panel-toggle .tp-header-panel-toggle__icons {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.tp-table-panel-toggle .tp-header-panel-toggle__icons svg {
+  width: 1.125rem !important;
+  height: 1.125rem !important;
+}
+
+/* زر العين في شريط التبويبات (إعدادات، بصمة، أقسام…) */
+.tp-tab-bar-panel-toggle-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  align-self: stretch;
+  padding-inline: 0.5rem;
+  border-inline-end: 1px solid var(--stake-border-primary, #3e5665);
+}
+
+/* جدول البيانات */
+.tp-page .weekly-salary-main-card table.chakra-table,
+.tp-page .weekly-salary-main-card .chakra-table {
+  font-size: 1rem !important;
+}
+
+.tp-page .weekly-salary-main-card thead th {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+  white-space: normal !important;
+  padding: 0.625rem 0.45rem !important;
+}
+
+.tp-page .weekly-salary-main-card tbody td {
+  font-size: 0.9375rem !important;
+  line-height: 1.35 !important;
+  padding: 0.42rem 0.35rem !important;
+  vertical-align: middle !important;
+}
+
+.tp-page .weekly-salary-main-card .chakra-badge,
+.tp-page .weekly-salary-main-card .chakra-tag {
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+}
+
+/*
+ * مجموعتان بصريتان: بحث/أقسام — تاريخ/وضع
+ * نفس padding + min-height + flex لمحاذاة عمودية متطابقة بين الصندوقين
+ */
+.tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--filters,
+.tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--dates {
+  box-sizing: border-box !important;
+  padding: 8px 12px !important;
+  border-radius: 10px !important;
+  min-height: 52px !important;
+}
+
+.tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--filters {
+  background: rgba(91, 141, 239, 0.06) !important;
+  border: 1px solid rgba(91, 141, 239, 0.12) !important;
+}
+
+.tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--dates {
+  background: rgba(100, 116, 139, 0.08) !important;
+  border: 1px solid rgba(100, 116, 139, 0.14) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--filters {
+  background: rgba(92, 98, 216, 0.07) !important;
+  border-color: rgba(92, 98, 216, 0.16) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--dates {
+  background: rgba(100, 116, 139, 0.07) !important;
+  border-color: rgba(100, 116, 139, 0.18) !important;
+}
+
+@media (min-width: 768px) {
+  .tp-page .weekly-salary-main-card .weekly-salary-main-table-scroll::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/* ——— حدود وزوايا تتكيّف مع حجم الشاشة (هاتف / لابتوب صغير / عريض) ——— */
+
+/* صفحات جداول مستقرة: منع اهتزاز/تحريك الجدول عند التمرير (حضور، موظفين، سلف…) */
+.tp-page .attendance-main-card.chakra-card,
+.tp-page .employees-main-card.chakra-card,
+.tp-page .advances-main-card.chakra-card,
+.tp-page .attendance-main-card.chakra-card:hover,
+.tp-page .employees-main-card.chakra-card:hover,
+.tp-page .advances-main-card.chakra-card:hover {
+  transform: none !important;
+  box-shadow: var(--stake-shadow-sm, none) !important;
+}
+
+.tp-page .attendance-main-card .weekly-salary-list-toolbar,
+.tp-page .employees-main-card .weekly-salary-list-toolbar,
+.tp-page .advances-main-card .weekly-salary-list-toolbar {
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  min-height: 52px;
+}
+
+.tp-page .attendance-main-card .weekly-salary-main-table-scroll,
+.tp-page .employees-main-card .weekly-salary-main-table-scroll,
+.tp-page .advances-main-card .weekly-salary-main-table-scroll {
+  scrollbar-gutter: stable;
+}
+
+.tp-page .attendance-main-card .weekly-salary-main-table-scroll,
+.tp-page .attendance-main-card .chakra-table__container,
+.tp-page .employees-main-card .weekly-salary-main-table-scroll,
+.tp-page .employees-main-card .chakra-table__container,
+.tp-page .advances-main-card .weekly-salary-main-table-scroll,
+.tp-page .advances-main-card .chakra-table__container {
+  transform: none !important;
+}
+
+.tp-page .attendance-main-card .weekly-salary-main-table-scroll:hover,
+.tp-page .attendance-main-card .chakra-table__container:hover,
+.tp-page .employees-main-card .weekly-salary-main-table-scroll:hover,
+.tp-page .employees-main-card .chakra-table__container:hover,
+.tp-page .advances-main-card .weekly-salary-main-table-scroll:hover,
+.tp-page .advances-main-card .chakra-table__container:hover {
+  transform: none !important;
+}
+
+.tp-page .attendance-main-card tbody tr,
+.tp-page .attendance-main-card tbody tr:hover,
+.tp-page .employees-main-card tbody tr,
+.tp-page .employees-main-card tbody tr:hover,
+.tp-page .advances-main-card tbody tr,
+.tp-page .advances-main-card tbody tr:hover {
+  transform: none !important;
+}
+
+@media (max-width: 991.98px) {
+  .tp-page .attendance-main-card .weekly-salary-list-toolbar,
+  .tp-page .employees-main-card .weekly-salary-list-toolbar,
+  .tp-page .advances-main-card .weekly-salary-list-toolbar {
+    flex-wrap: wrap !important;
+    min-height: 0;
+  }
+}
+
+/* ——— شريط أدوات الصفحات: توزيع مرن (فلاتر / تاريخ) ——— */
+
+/* sm+ : الفلاتر لا تتمدد، التاريخ يأخذ باقي الصف */
+@media (min-width: 480px) {
+  .weekly-salary-toolbar-split.weekly-salary-header-tools {
+    flex-wrap: nowrap !important;
+    gap: 10px !important;
+    row-gap: 10px !important;
+  }
+
+  .weekly-salary-toolbar-split > .fp-toolbar-zone--filters {
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+
+  .weekly-salary-toolbar-split > .fp-toolbar-zone--dates {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+  }
+
+  .weekly-salary-toolbar-split .fp-toolbar-filter-inner {
+    flex-wrap: nowrap !important;
+    width: auto !important;
+  }
+}
+
+/* لابتوب صغير / متوسط: حد أقصى للفلاتر + ضغط عناصر التاريخ */
+@media (min-width: 480px) and (max-width: 1199.98px) {
+  .weekly-salary-toolbar-split > .fp-toolbar-zone--filters {
+    max-width: 36% !important;
+  }
+
+  .weekly-salary-toolbar-split > .fp-toolbar-zone--dates {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+  }
+
+  .weekly-salary-toolbar-split .fp-toolbar-filter-inner .chakra-input__group {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    max-width: 150px !important;
+  }
+
+  .weekly-salary-toolbar-split .fp-toolbar-filter-inner .chakra-select {
+    flex: 0 1 auto !important;
+    min-width: 68px !important;
+    max-width: 120px !important;
+  }
+
+  .weekly-salary-toolbar-split .weekly-salary-dates-inner {
+    flex-wrap: nowrap !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+  }
+
+  .weekly-salary-toolbar-split .weekly-salary-mode-toggle .chakra-text {
+    font-size: 0.75rem !important;
+  }
+
+  .weekly-salary-toolbar-split .weekly-salary-range-picker.ant-picker-range {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    width: auto !important;
+    height: 32px !important;
+    font-size: 0.75rem !important;
+  }
+
+  .weekly-salary-toolbar-split .weekly-salary-range-picker .ant-picker-input > input {
+    font-size: 0.75rem !important;
+  }
+
+  .weekly-salary-toolbar-split .weekly-salary-week-btns .chakra-button {
+    font-size: 0.6875rem !important;
+    height: 28px !important;
+    min-height: 28px !important;
+    padding-inline: 7px !important;
+    white-space: nowrap;
+  }
+
+  /* صفحات بفلاتر أكثر: السلف + الحضور */
+  .weekly-salary-toolbar-split--dense > .fp-toolbar-zone--filters {
+    max-width: 46% !important;
+  }
+
+  .weekly-salary-toolbar-split--dense .fp-toolbar-filter-inner {
+    flex-wrap: wrap !important;
+    row-gap: 4px !important;
+  }
+
+  .weekly-salary-toolbar-split--dense .fp-toolbar-filter-inner .chakra-input__group {
+    max-width: 130px !important;
+  }
+
+  .weekly-salary-toolbar-split--dense .fp-toolbar-filter-inner .chakra-radio-group .chakra-text {
+    font-size: 0.75rem !important;
+  }
+
+  .weekly-salary-toolbar-split--dense .fp-toolbar-zone--dates .advances-period-input,
+  .weekly-salary-toolbar-split--dense .fp-toolbar-zone--dates .weekly-salary-dates-inner > .chakra-input__group {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+  }
+}
+
+/* شاشات عريضة: مساحة مريحة للفلاتر بدون حد أقصى */
+@media (min-width: 1200px) {
+  .weekly-salary-toolbar-split > .fp-toolbar-zone--filters {
+    flex: 0 1 auto !important;
+    max-width: none !important;
+  }
+
+  .weekly-salary-toolbar-split > .fp-toolbar-zone--dates {
+    flex: 1 1 0 !important;
+  }
+
+  .weekly-salary-toolbar-split .weekly-salary-dates-inner {
+    flex-wrap: nowrap !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .tp-page .weekly-salary-toolbar-card {
+    border-radius: 1rem !important;
+    border-color: rgba(148, 163, 184, 0.1) !important;
+  }
+
+  .tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--filters,
+  .tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--dates {
+    padding: 6px 10px !important;
+    border-radius: 8px !important;
+    min-height: 48px !important;
+  }
+
+  .tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--filters {
+    border-color: rgba(59, 130, 246, 0.11) !important;
+  }
+
+  .tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--dates {
+    border-color: rgba(124, 58, 237, 0.11) !important;
+  }
+
+  .tp-page .weekly-salary-header-icon-wrap {
+    border-radius: 0.75rem !important;
+    border-color: rgba(148, 163, 184, 0.14) !important;
+  }
+
+  .tp-page .weekly-salary-main-card .weekly-salary-main-table-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-toolbar-card {
+    border-color: rgba(100, 116, 139, 0.16) !important;
+  }
+
+  body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--filters {
+    border-color: rgba(59, 130, 246, 0.16) !important;
+  }
+
+  body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--dates {
+    border-color: rgba(124, 58, 237, 0.16) !important;
+  }
+
+  body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-header-icon-wrap {
+    border-color: rgba(100, 116, 139, 0.22) !important;
+  }
+}
+
+/* لابتوب صغير / متوسط العرض: حدود متوسطة */
+@media (min-width: 768px) and (max-width: 1199.98px) {
+  .tp-page .weekly-salary-toolbar-card {
+    border-color: rgba(148, 163, 184, 0.12) !important;
+  }
+
+  .tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--filters {
+    border-color: rgba(59, 130, 246, 0.14) !important;
+  }
+
+  .tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--dates {
+    border-color: rgba(124, 58, 237, 0.14) !important;
+  }
+
+  .tp-page .weekly-salary-header-icon-wrap {
+    border-color: rgba(148, 163, 184, 0.17) !important;
+  }
+
+  body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-toolbar-card {
+    border-color: rgba(100, 116, 139, 0.19) !important;
+  }
+
+  body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--filters {
+    border-color: rgba(59, 130, 246, 0.2) !important;
+  }
+
+  body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--dates {
+    border-color: rgba(124, 58, 237, 0.2) !important;
+  }
+}
+
+/* شاشات عريضة: حدود أوضح */
+@media (min-width: 1200px) {
+  .tp-page .weekly-salary-toolbar-card {
+    border-color: rgba(148, 163, 184, 0.17) !important;
+  }
+
+  .tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--filters {
+    border-color: rgba(59, 130, 246, 0.18) !important;
+  }
+
+  .tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--dates {
+    border-color: rgba(124, 58, 237, 0.18) !important;
+  }
+
+  .tp-page .weekly-salary-header-icon-wrap {
+    border-color: rgba(148, 163, 184, 0.22) !important;
+  }
+
+  body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-toolbar-card {
+    border-color: rgba(100, 116, 139, 0.26) !important;
+  }
+
+  body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--filters {
+    border-color: rgba(59, 130, 246, 0.24) !important;
+  }
+
+  body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--dates {
+    border-color: rgba(124, 58, 237, 0.24) !important;
+  }
+}
+
+/* لابتوب بارتفاع منخفض (مثل 768px): تخفيف الحدود حتى لا تبدو ثقيلة */
+@media (min-width: 768px) and (max-height: 760px) {
+  .tp-page .weekly-salary-toolbar-card {
+    border-color: rgba(148, 163, 184, 0.11) !important;
+  }
+
+  .tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--filters {
+    border-color: rgba(59, 130, 246, 0.12) !important;
+  }
+
+  .tp-page .weekly-salary-toolbar-card .fp-toolbar-zone--dates {
+    border-color: rgba(124, 58, 237, 0.12) !important;
+  }
+
+  body[data-color-theme='minimal-bright'] .tp-page .weekly-salary-toolbar-card {
+    border-color: rgba(100, 116, 139, 0.17) !important;
+  }
+}
+
+/* ── تبويبات الإعدادات (عامة، مظهر، نسخ، تحديثات) ── */
+.tp-settings-tab,
+.tp-general-settings {
+  --tp-settings-accent: var(--stake-primary, #5b8def);
+  --tp-settings-accent-soft: color-mix(in srgb, var(--stake-primary, #5b8def) 10%, transparent);
+  --tp-settings-accent-border: color-mix(in srgb, var(--stake-primary, #5b8def) 25%, transparent);
+  --tp-settings-surface: var(--stake-content-surface, var(--stake-bg-card));
+  --tp-settings-surface-raised: var(--stake-content-surface-raised, var(--stake-bg-card));
+  --tp-settings-inset: var(--stake-content-surface-raised, var(--stake-bg-card));
+}
+
+.tp-settings-actions,
+.tp-general-settings-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--stake-border-primary);
+  background: var(--tp-settings-surface);
+  box-shadow: none;
+}
+
+.tp-settings-actions__hint,
+.tp-general-settings-actions__hint {
+  margin: 0 !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+  color: var(--stake-text-secondary) !important;
+  flex: 1 1 200px;
+}
+
+.tp-settings-actions__hint strong,
+.tp-general-settings-actions__hint strong {
+  color: var(--stake-text-primary);
+  font-weight: 600;
+}
+
+.tp-settings-actions__hint .chakra-text,
+.tp-settings-actions__hint span {
+  font-size: inherit !important;
+  line-height: inherit !important;
+  color: inherit !important;
+}
+
+.tp-settings-save-btn.chakra-button,
+.tp-general-save-btn.chakra-button {
+  border-radius: 0.5rem !important;
+  font-weight: 600 !important;
+  box-shadow: none !important;
+}
+
+.tp-settings-section-card.chakra-card,
+.tp-general-section-card.chakra-card {
+  height: 100%;
+  overflow: hidden;
+  border-radius: 0.75rem !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  background: var(--tp-settings-surface) !important;
+  box-shadow: none !important;
+}
+
+.tp-settings-section-card--identity,
+.tp-general-section-card--identity,
+.tp-settings-section-card--login,
+.tp-general-section-card--login,
+.tp-settings-section-card--currency,
+.tp-general-section-card--currency,
+.tp-settings-section-card--appearance,
+.tp-settings-section-card--fonts,
+.tp-settings-section-card--tables,
+.tp-settings-section-card--backup-history,
+.tp-settings-section-card--backup-config,
+.tp-settings-section-card--update-status,
+.tp-settings-section-card--update-upload,
+.tp-settings-section-card--update-progress {
+  --tp-settings-accent: var(--stake-primary, #5b8def);
+  --tp-settings-accent-soft: color-mix(in srgb, var(--stake-primary, #5b8def) 10%, transparent);
+  --tp-settings-accent-border: color-mix(in srgb, var(--stake-primary, #5b8def) 25%, transparent);
+}
+
+.tp-settings-section-card .chakra-card__header,
+.tp-general-section-card .chakra-card__header {
+  padding: 1rem 1.25rem !important;
+  border-bottom: 1px solid var(--stake-border-primary) !important;
+  background: var(--tp-settings-surface-raised) !important;
+}
+
+.tp-settings-section-card .chakra-card__body,
+.tp-general-section-card .chakra-card__body {
+  padding: 1.125rem 1.25rem 1.25rem !important;
+  background: var(--tp-settings-surface) !important;
+}
+
+.tp-settings-section-card__icon,
+.tp-general-section-card__icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--stake-bg-hover);
+  border: 1px solid var(--stake-border-primary);
+  box-shadow: none;
+  color: var(--stake-primary, #5b8def);
+  font-size: 1rem;
+}
+
+.tp-settings-section-card__title,
+.tp-general-section-card__title {
+  margin: 0 !important;
+  font-size: 0.9375rem !important;
+  font-weight: 600 !important;
+  color: var(--stake-text-primary) !important;
+  letter-spacing: -0.01em;
+}
+
+.tp-settings-section-card__subtitle,
+.tp-general-section-card__subtitle {
+  margin: 0 !important;
+  font-size: 0.75rem !important;
+  line-height: 1.55 !important;
+  color: var(--stake-text-secondary) !important;
+}
+
+.tp-settings-field-group .chakra-form__label,
+.tp-general-field-group .chakra-form__label {
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  color: var(--stake-text-secondary) !important;
+  margin-bottom: 0.375rem !important;
+}
+
+.tp-settings-field.stake-input,
+.tp-settings-field.chakra-input,
+.tp-settings-field.chakra-select,
+.tp-general-field.stake-input,
+.tp-general-field.chakra-input,
+.tp-general-field.chakra-select {
+  border-radius: 0.75rem !important;
+  min-height: 42px;
+  background: var(--stake-bg-secondary) !important;
+  border-color: var(--stake-border-primary) !important;
+  color: var(--stake-text-primary) !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tp-settings-field.stake-input:focus,
+.tp-settings-field.chakra-input:focus,
+.tp-settings-field.chakra-select:focus,
+.tp-general-field.stake-input:focus,
+.tp-general-field.chakra-input:focus,
+.tp-general-field.chakra-select:focus {
+  border-color: var(--tp-settings-accent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tp-settings-accent) 22%, transparent) !important;
+}
+
+.tp-settings-divider,
+.tp-general-divider {
+  border-color: var(--stake-border-primary) !important;
+  opacity: 0.55 !important;
+}
+
+.tp-settings-toggle-row,
+.tp-general-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.875rem;
+  padding: 0.875rem 1rem;
+  border-radius: 0.875rem;
+  border: 1px solid var(--stake-border-primary);
+  background: var(--tp-settings-surface);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.tp-settings-toggle-row:hover,
+.tp-general-toggle-row:hover {
+  border-color: var(--tp-settings-accent-border);
+  background: color-mix(in srgb, var(--tp-settings-accent-soft) 35%, var(--tp-settings-surface));
+}
+
+.tp-settings-toggle-row__label,
+.tp-general-toggle-row__label {
+  margin: 0 !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.tp-settings-toggle-row__desc,
+.tp-general-toggle-row__desc {
+  margin: 0 !important;
+  font-size: 0.75rem !important;
+  line-height: 1.6 !important;
+  color: var(--stake-text-secondary) !important;
+}
+
+.tp-settings-inset-panel {
+  padding: 1rem;
+  border-radius: 0.875rem;
+  border: 1px solid var(--stake-border-primary);
+  background: var(--tp-settings-surface);
+}
+
+.tp-settings-logo-zone,
+.tp-general-logo-zone {
+  padding: 1rem;
+  border-radius: 0.875rem;
+  border: 1px solid var(--stake-border-primary);
+  background: var(--tp-settings-surface);
+  height: 100%;
+  transition: border-color 0.15s ease;
+}
+
+.tp-settings-logo-zone:hover,
+.tp-general-logo-zone:hover {
+  border-color: var(--tp-settings-accent-border);
+}
+
+.tp-settings-logo-zone__title,
+.tp-general-logo-zone__title {
+  margin: 0 0 0.25rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.tp-settings-logo-zone__hint,
+.tp-general-logo-zone__hint {
+  margin: 0 0 0.75rem !important;
+  font-size: 0.75rem !important;
+  line-height: 1.5 !important;
+  color: var(--stake-text-secondary) !important;
+}
+
+.tp-settings-logo-zone__preview,
+.tp-general-logo-zone__preview {
+  width: 88px;
+  height: 88px;
+  border-radius: 0.875rem;
+  border: 2px dashed var(--stake-border-primary);
+  background: var(--stake-bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: border-color 0.15s ease;
+}
+
+.tp-settings-logo-zone__preview--filled,
+.tp-general-logo-zone__preview--filled {
+  border-color: var(--tp-settings-accent);
+  border-style: solid;
+}
+
+.tp-settings-logo-zone__preview-icon,
+.tp-general-logo-zone__preview-icon {
+  color: var(--stake-text-secondary);
+  font-size: 1.35rem;
+}
+
+.tp-settings-warning,
+.tp-general-warning {
+  padding: 0.875rem 1rem;
+  border-radius: 0.875rem;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(245, 158, 11, 0.04) 100%);
+}
+
+.tp-settings-warning__text,
+.tp-general-warning__text {
+  margin: 0 !important;
+  font-size: 0.8125rem !important;
+  line-height: 1.65 !important;
+  color: #fcd34d !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-settings-warning__text,
+body[data-color-theme='minimal-bright'] .tp-general-warning__text {
+  color: #b45309 !important;
+}
+
+.tp-settings-login-preview,
+.tp-general-login-preview {
+  border-radius: 0.875rem;
+  overflow: hidden;
+  border: 1px solid var(--stake-border-primary);
+  max-height: 140px;
+  background: var(--stake-bg-secondary);
+}
+
+.tp-settings-currency-preview,
+.tp-general-currency-preview {
+  padding: 1.25rem;
+  border-radius: 1rem;
+  border: 1px solid var(--tp-settings-accent-border);
+  background: linear-gradient(
+    155deg,
+    color-mix(in srgb, var(--tp-settings-accent-soft) 80%, transparent) 0%,
+    var(--tp-settings-surface) 48%,
+    var(--tp-settings-inset) 100%
+  );
+}
+
+.tp-settings-currency-preview__label,
+.tp-general-currency-preview__label {
+  margin: 0 0 0.25rem !important;
+  font-size: 0.6875rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--stake-text-secondary) !important;
+}
+
+.tp-settings-currency-preview__value,
+.tp-general-currency-preview__value {
+  margin: 0 0 0.75rem !important;
+  font-size: 1.625rem !important;
+  font-weight: 700 !important;
+  text-align: center;
+  color: color-mix(in srgb, var(--tp-settings-accent) 70%, #fff) !important;
+  letter-spacing: -0.02em;
+}
+
+.tp-settings-currency-preview__meta,
+.tp-general-currency-preview__meta {
+  font-size: 0.75rem !important;
+  color: var(--stake-text-secondary) !important;
+}
+
+.tp-settings-loading,
+.tp-general-loading {
+  min-height: 320px;
+  border-radius: 1rem;
+  border: 1px dashed var(--stake-border-primary);
+  background: var(--tp-settings-inset);
+}
+
+.tp-settings-table-wrap {
+  border: 1px solid var(--stake-border-primary);
+  border-radius: 0.875rem;
+  overflow: hidden;
+}
+
+.tp-settings-table-wrap .chakra-table thead {
+  background: var(--stake-table-header-bg, var(--stake-bg-secondary)) !important;
+}
+
+.tp-settings-table-wrap .chakra-table th {
+  color: var(--stake-text-primary) !important;
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  border-color: var(--stake-border-primary) !important;
+}
+
+.tp-settings-table-wrap .chakra-table td {
+  color: var(--stake-text-primary) !important;
+  border-color: var(--stake-border-primary) !important;
+  font-size: 0.8125rem !important;
+}
+
+.tp-settings-table-wrap .chakra-table tbody tr:hover {
+  background: var(--stake-bg-hover, rgba(255, 255, 255, 0.03)) !important;
+}
+
+.tp-settings-status-pill {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border-radius: 0.875rem;
+  border: 1px solid var(--stake-border-primary);
+  background: var(--tp-settings-surface);
+}
+
+.tp-settings-status-pill--success {
+  border-color: rgba(72, 187, 120, 0.45);
+  background: rgba(72, 187, 120, 0.1);
+}
+
+.tp-settings-status-pill--info {
+  border-color: rgba(66, 153, 225, 0.45);
+  background: rgba(66, 153, 225, 0.1);
+}
+
+.tp-settings-status-pill--warning {
+  border-color: rgba(237, 137, 54, 0.45);
+  background: rgba(237, 137, 54, 0.1);
+}
+
+.tp-settings-stat-chip {
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--stake-border-primary);
+  background: var(--tp-settings-surface);
+}
+
+.tp-settings-stat-chip__label {
+  margin: 0 0 0.25rem !important;
+  font-size: 0.6875rem !important;
+  color: var(--stake-text-secondary) !important;
+}
+
+.tp-settings-stat-chip__value {
+  margin: 0 !important;
+  font-size: 0.875rem !important;
+  font-weight: 700 !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.tp-settings-upload-drop {
+  padding: 1rem 1.25rem;
+  border-radius: 0.875rem;
+  border: 2px dashed var(--tp-settings-accent-border);
+  background: color-mix(in srgb, var(--tp-settings-accent-soft) 40%, var(--tp-settings-surface));
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.tp-settings-upload-drop:hover:not(.tp-settings-upload-drop--disabled) {
+  border-color: var(--tp-settings-accent);
+  background: color-mix(in srgb, var(--tp-settings-accent-soft) 65%, var(--tp-settings-surface));
+}
+
+.tp-settings-upload-drop--disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.tp-settings-section-card__header-actions {
+  margin-right: auto;
+  flex-shrink: 0;
+}
+
+body[data-color-theme='minimal-bright'] .tp-settings-section-card.chakra-card,
+body[data-color-theme='minimal-bright'] .tp-general-section-card.chakra-card {
+  background-image: linear-gradient(
+      90deg,
+      var(--tp-settings-accent) 0%,
+      color-mix(in srgb, var(--tp-settings-accent) 45%, transparent) 55%,
+      transparent 100%
+    ),
+    linear-gradient(#ffffff, #ffffff) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-settings-section-card .chakra-card__body,
+body[data-color-theme='minimal-bright'] .tp-general-section-card .chakra-card__body {
+  background: #f8fafc !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-settings-actions,
+body[data-color-theme='minimal-bright'] .tp-general-settings-actions {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+}
+
+body[data-color-theme='minimal-bright'] .tp-settings-toggle-row,
+body[data-color-theme='minimal-bright'] .tp-general-toggle-row,
+body[data-color-theme='minimal-bright'] .tp-settings-logo-zone,
+body[data-color-theme='minimal-bright'] .tp-general-logo-zone,
+body[data-color-theme='minimal-bright'] .tp-settings-inset-panel,
+body[data-color-theme='minimal-bright'] .tp-settings-stat-chip {
+  background: #ffffff;
+}
+
+body[data-color-theme='minimal-bright'] .tp-settings-currency-preview,
+body[data-color-theme='minimal-bright'] .tp-general-currency-preview {
+  background: linear-gradient(
+    155deg,
+    color-mix(in srgb, var(--tp-settings-accent-soft) 55%, #fff) 0%,
+    #ffffff 55%,
+    #f8fafc 100%
+  );
+}
+
+@media (max-width: 767px) {
+  .tp-settings-toggle-row,
+  .tp-general-toggle-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* ── لوحة التحكم ── */
+.tp-dashboard-page {
+  --tp-dashboard-accent: var(--stake-primary, #5b8def);
+  --tp-dashboard-accent-soft: color-mix(in srgb, var(--stake-primary, #5b8def) 12%, transparent);
+  --tp-dashboard-accent-border: color-mix(in srgb, var(--stake-primary, #5b8def) 28%, transparent);
+  --tp-dashboard-surface: var(--stake-content-surface, var(--stake-bg-card));
+  --tp-dashboard-surface-raised: var(--stake-content-surface-raised, var(--stake-bg-secondary));
+  --tp-dashboard-inset: var(--stake-bg-primary, #0a1620);
+  width: 100%;
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.tp-page--has-dashboard-bg {
+  background: transparent !important;
+}
+
+/* خلفية صفحات النظام — طبقة كاملة خلف التطبيق (على body) */
+.tp-layout-page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.tp-layout-page-bg--portal {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+}
+
+/* خلفية المحتوى فقط — احتياطي داخل منطقة التمرير */
+.tp-layout-page-bg--content {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  min-height: 100%;
+  background-attachment: scroll !important;
+}
+
+html[data-header-has-bg='true'] .tp-layout-page-bg--content {
+  background-attachment: scroll !important;
+}
+
+html[data-layout-bg='dashboard'] #root {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+}
+
+html[data-layout-bg='dashboard'] .tp-main-header-shell--blocks-layout-bg .stake-header.tp-main-header:not(.tp-zone-has-custom-bg) {
+  background: var(--stake-header-bg) !important;
+  background-image: var(--stake-header-bg) !important;
+  background-color: transparent !important;
+}
+
+html[data-layout-bg='dashboard'] .tp-main-header-shell--blocks-layout-bg {
+  background: var(--stake-header-bg) !important;
+}
+
+html[data-layout-bg='dashboard'] body[data-color-theme='minimal-bright'] .tp-main-header-shell--blocks-layout-bg .stake-header.tp-main-header:not(.tp-zone-has-custom-bg) {
+  background: var(--stake-header-bg) !important;
+  background-image: var(--stake-header-bg) !important;
+}
+
+html[data-layout-bg='dashboard'] body,
+html[data-layout-bg='dashboard'] #root {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* عند إزالة خلفية الصورة — إعادة الخلفية الافتراضية للمحتوى */
+html:not([data-layout-bg='dashboard']) .stake-main-content.tp-page:not(.tp-page--has-dashboard-bg) {
+  background:
+    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(91, 141, 239, 0.035) 0%, transparent 55%),
+    var(--stake-main-bg, var(--stake-bg-primary)) !important;
+}
+
+.stake-main-content--has-layout-bg {
+  background: transparent !important;
+}
+
+.stake-main-content--has-layout-bg > div {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.stake-main-content--has-layout-bg .tp-page,
+.stake-main-content--has-layout-bg .tp-page--has-dashboard-bg,
+.stake-main-content--has-layout-bg .tp-main-column--has-layout-bg {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Sidebar زجاجي — يظهر من خلاله جزء من صورة الخلفية */
+html[data-layout-bg='dashboard'] .stake-sidebar:not(.tp-sidebar-shell) {
+  background: transparent !important;
+  background-image: none !important;
+}
+
+html[data-sidebar-has-bg='true'] .stake-sidebar:not(.tp-sidebar-shell) {
+  background: transparent !important;
+  background-image: none !important;
+}
+
+html[data-layout-bg='dashboard'] .tp-sidebar-shell:not(.tp-zone-has-custom-bg) {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--stake-sidebar-bg-start, #131a24) 90%, transparent) 0%,
+    color-mix(in srgb, var(--stake-sidebar-bg-end, #111820) 94%, transparent) 100%
+  ) !important;
+  backdrop-filter: blur(10px) saturate(1.06);
+  -webkit-backdrop-filter: blur(10px) saturate(1.06);
+}
+
+html[data-layout-bg='dashboard'] .tp-sidebar-brand {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--stake-primary, #5b8def) 7%, var(--stake-sidebar-bg-start, #131a24) 90%) 0%,
+    transparent 100%
+  );
+}
+
+html[data-layout-bg='dashboard'] .tp-sidebar-nav-scroll {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--stake-sidebar-bg-end, #111820) 82%, transparent) 100%
+  );
+}
+
+html[data-layout-bg='dashboard'] body.light-theme .stake-sidebar.tp-sidebar-shell:not(.tp-zone-has-custom-bg),
+html[data-layout-bg='dashboard'] body[data-theme="light"] .stake-sidebar.tp-sidebar-shell:not(.tp-zone-has-custom-bg) {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--stake-sidebar-bg-start, #ffffff) 88%, transparent) 0%,
+    color-mix(in srgb, var(--stake-sidebar-bg-end, #eceef6) 92%, transparent) 100%
+  ) !important;
+  backdrop-filter: blur(10px) saturate(1.06);
+  -webkit-backdrop-filter: blur(10px) saturate(1.06);
+}
+
+html[data-layout-bg='dashboard'] body[data-color-theme='minimal-bright'] .tp-sidebar-shell:not(.tp-zone-has-custom-bg) {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--stake-sidebar-bg-start, #ffffff) 88%, transparent) 0%,
+    color-mix(in srgb, var(--stake-sidebar-bg-end, #eceef6) 92%, transparent) 100%
+  ) !important;
+}
+
+/* طبقة صورة مخصصة للهيدر والـ Sidebar */
+.tp-zone-bg-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.tp-header-bg-layer {
+  z-index: 0;
+  background-attachment: scroll !important;
+}
+
+.tp-sidebar-bg-layer {
+  background-attachment: scroll !important;
+}
+
+.stake-header.tp-main-header.tp-zone-has-custom-bg {
+  background: var(--stake-bg-primary, #0f212e) !important;
+  background-image: none !important;
+  isolation: isolate;
+}
+
+.stake-header.tp-main-header.tp-zone-has-custom-bg .tp-main-header__row {
+  position: relative;
+  z-index: 1;
+}
+
+.tp-main-header-shell--scrolled .stake-header.tp-main-header.tp-zone-has-custom-bg {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.tp-sidebar-shell.tp-zone-has-custom-bg {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--stake-sidebar-bg-start, #131a24) 72%, transparent) 0%,
+    color-mix(in srgb, var(--stake-sidebar-bg-end, #111820) 78%, transparent) 100%
+  ) !important;
+  backdrop-filter: blur(8px) saturate(1.04);
+  -webkit-backdrop-filter: blur(8px) saturate(1.04);
+}
+
+body[data-color-theme='minimal-bright'] .tp-sidebar-shell.tp-zone-has-custom-bg {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--stake-sidebar-bg-start, #ffffff) 78%, transparent) 0%,
+    color-mix(in srgb, var(--stake-sidebar-bg-end, #eceef6) 82%, transparent) 100%
+  ) !important;
+}
+
+body[data-color-theme='minimal-bright'] .stake-header.tp-main-header.tp-zone-has-custom-bg {
+  background: var(--stake-bg-primary, #ffffff) !important;
+}
+
+.tp-page__dashboard-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.tp-dashboard-hero {
+  margin-bottom: 1.5rem;
+  border-radius: 0.875rem;
+  border: 1px solid var(--stake-border-primary);
+  border-top: 2px solid var(--stake-primary, #5b8def);
+  overflow: hidden;
+  background: var(--tp-dashboard-surface);
+  box-shadow: none;
+}
+
+.tp-dashboard-hero__inner {
+  padding: 1.125rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.tp-dashboard-hero__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 0.625rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--stake-bg-hover);
+  border: 1px solid var(--stake-border-primary);
+  color: var(--stake-primary, #5b8def);
+}
+
+.tp-dashboard-hero__title {
+  margin: 0 !important;
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  color: var(--stake-text-primary) !important;
+  letter-spacing: -0.01em;
+}
+
+.tp-dashboard-hero__subtitle {
+  margin: 0.2rem 0 0 !important;
+  font-size: 0.8125rem !important;
+  color: var(--stake-text-secondary) !important;
+  line-height: 1.5 !important;
+}
+
+.tp-dashboard-hero__date {
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--stake-border-primary);
+  background: var(--tp-dashboard-inset);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--stake-text-secondary);
+  white-space: nowrap;
+}
+
+.tp-dashboard-section {
+  margin-bottom: 1.75rem;
+}
+
+.tp-dashboard-section__head {
+  margin-bottom: 0.875rem;
+}
+
+.tp-dashboard-section__title {
+  margin: 0 !important;
+  font-size: 0.9375rem !important;
+  font-weight: 600 !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.tp-dashboard-section__hint {
+  margin: 0.2rem 0 0 !important;
+  font-size: 0.8125rem !important;
+  color: var(--stake-text-secondary) !important;
+}
+
+.tp-dashboard-stat-card {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--stake-border-primary);
+  background: var(--tp-dashboard-surface);
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  min-height: 110px;
+  transition: border-color 0.15s ease;
+}
+
+.tp-dashboard-stat-card:hover {
+  border-color: color-mix(in srgb, var(--stake-primary, #5b8def) 35%, var(--stake-border-primary));
+}
+
+.tp-dashboard-stat-card--wide {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: start;
+  gap: 0.875rem;
+  min-height: auto;
+}
+
+.tp-dashboard-stat-card--present { --tp-dashboard-accent: #22c55e; --tp-dashboard-accent-soft: rgba(34, 197, 94, 0.1); }
+.tp-dashboard-stat-card--absent { --tp-dashboard-accent: #ef4444; --tp-dashboard-accent-soft: rgba(239, 68, 68, 0.1); }
+.tp-dashboard-stat-card--late { --tp-dashboard-accent: #f59e0b; --tp-dashboard-accent-soft: rgba(245, 158, 11, 0.1); }
+.tp-dashboard-stat-card--rate { --tp-dashboard-accent: var(--stake-primary, #5b8def); --tp-dashboard-accent-soft: color-mix(in srgb, var(--stake-primary, #5b8def) 10%, transparent); }
+.tp-dashboard-stat-card--hours { --tp-dashboard-accent: var(--stake-primary, #5b8def); --tp-dashboard-accent-soft: color-mix(in srgb, var(--stake-primary, #5b8def) 10%, transparent); }
+.tp-dashboard-stat-card--checkout { --tp-dashboard-accent: #f97316; --tp-dashboard-accent-soft: rgba(249, 115, 22, 0.1); }
+.tp-dashboard-stat-card--overtime { --tp-dashboard-accent: #a855f7; --tp-dashboard-accent-soft: rgba(168, 85, 247, 0.1); }
+.tp-dashboard-stat-card--employees { --tp-dashboard-accent: #14b8a6; --tp-dashboard-accent-soft: rgba(20, 184, 166, 0.1); }
+
+.tp-dashboard-stat-card__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--tp-dashboard-accent-soft);
+  border: none;
+  color: var(--tp-dashboard-accent);
+  font-size: 1rem;
+}
+
+.tp-dashboard-stat-card__value {
+  margin: 0 !important;
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  color: var(--stake-text-primary) !important;
+  line-height: 1.2 !important;
+}
+
+.tp-dashboard-stat-card__value--sm {
+  font-size: 0.875rem !important;
+}
+
+.tp-dashboard-stat-card__label {
+  margin: 0 !important;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  color: var(--stake-text-secondary) !important;
+}
+
+.tp-dashboard-stat-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.tp-dashboard-system-card {
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--stake-border-primary);
+  background: var(--tp-dashboard-surface);
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  transition: border-color 0.15s ease;
+}
+
+.tp-dashboard-system-card--online {
+  border-color: rgba(34, 197, 94, 0.22);
+}
+
+.tp-dashboard-system-card--warning {
+  border-color: rgba(245, 158, 11, 0.22);
+}
+
+.tp-dashboard-system-card--danger,
+.tp-dashboard-system-card--offline,
+.tp-dashboard-system-card--loading {
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.tp-dashboard-system-card__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1rem;
+  background: var(--stake-bg-hover);
+  color: var(--stake-text-secondary);
+}
+
+.tp-dashboard-system-card--online .tp-dashboard-system-card__icon {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.tp-dashboard-system-card--warning .tp-dashboard-system-card__icon {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.tp-dashboard-system-card--danger .tp-dashboard-system-card__icon,
+.tp-dashboard-system-card--offline .tp-dashboard-system-card__icon,
+.tp-dashboard-system-card--loading .tp-dashboard-system-card__icon {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.tp-dashboard-system-card__title {
+  margin: 0 !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.tp-dashboard-system-card__detail {
+  margin: 0.125rem 0 0 !important;
+  font-size: 0.75rem !important;
+  color: var(--stake-text-secondary) !important;
+  line-height: 1.45 !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-dashboard-hero {
+  border-top-color: var(--stake-primary, #5c62d8);
+}
+
+body[data-color-theme='minimal-bright'] .tp-dashboard-hero__icon {
+  color: var(--stake-primary, #5c62d8);
+  background: rgba(92, 98, 216, 0.08);
+}
+
+body[data-color-theme='minimal-bright'] .tp-dashboard-stat-card,
+body[data-color-theme='minimal-bright'] .tp-dashboard-system-card {
+  background: #ffffff;
+}
+
+body[data-color-theme='minimal-bright'] .tp-dashboard-hero__date {
+  background: #f8fafc;
+}
+
+/* ── الشريط الجانبي ── */
+.tp-sidebar-shell {
+  isolation: isolate;
+  transition: width 0.28s ease, box-shadow 0.28s ease;
+  background: linear-gradient(
+    180deg,
+    var(--stake-sidebar-bg-start, var(--stake-header-bg, #131a24)) 0%,
+    var(--stake-sidebar-bg-end, var(--stake-bg-secondary, #111820)) 100%
+  ) !important;
+  border-color: var(--stake-border-primary) !important;
+  box-shadow: var(--stake-shadow-sidebar, -8px 0 32px rgba(0, 0, 0, 0.24)) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-sidebar-shell {
+  background: linear-gradient(
+    180deg,
+    var(--stake-sidebar-bg-start, var(--stake-content-surface-raised, #ffffff)) 0%,
+    var(--stake-sidebar-bg-end, var(--stake-bg-secondary, #eceef6)) 100%
+  ) !important;
+  box-shadow: var(--stake-shadow-sidebar, 4px 0 20px rgba(15, 23, 42, 0.06)) !important;
+}
+
+.tp-sidebar-shell--collapsed .tp-sidebar-nav-scroll {
+  padding-inline: 0.75rem !important;
+  padding-block: 0.75rem !important;
+}
+
+.tp-sidebar-brand--collapsed {
+  padding-block: 1rem !important;
+  padding-inline: 0.875rem !important;
+}
+
+.tp-sidebar-brand {
+  border-bottom: 1px solid var(--stake-border-primary);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--stake-primary, #5b8def) 7%, var(--stake-sidebar-bg-start, var(--stake-header-bg, #131a24))) 0%,
+    transparent 100%
+  );
+  transition: padding 0.28s ease, background 0.28s ease;
+}
+
+.tp-brand-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 0.625rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: color-mix(in srgb, var(--stake-primary, #5b8def) 16%, var(--stake-bg-hover));
+  border: 1px solid color-mix(in srgb, var(--stake-primary, #5b8def) 28%, var(--stake-border-primary));
+  color: var(--stake-primary, #5b8def);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.tp-brand-mark__letter {
+  margin: 0 !important;
+  font-size: 1rem !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  color: inherit !important;
+}
+
+.tp-brand-mark--logo {
+  padding: 0.35rem !important;
+  overflow: hidden;
+  background: color-mix(
+    in srgb,
+    var(--stake-content-surface-raised, var(--stake-bg-card)) 72%,
+    transparent
+  ) !important;
+  border-color: var(--stake-border-primary) !important;
+}
+
+.tp-brand-mark--logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+@media (max-width: 480px) {
+  .tp-brand-mark {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+.tp-main-header-shell--scrolled .tp-main-header__brand-center .tp-brand-mark {
+  transform: scale(0.92);
+  opacity: 0.92;
+}
+
+.tp-sidebar-brand__title {
+  margin: 0 !important;
+  font-size: 1.0625rem !important;
+  font-weight: 700 !important;
+  color: var(--stake-text-primary) !important;
+  letter-spacing: -0.015em;
+  line-height: 1.35 !important;
+  white-space: normal;
+  word-break: break-word;
+  overflow: visible;
+  width: 100%;
+}
+
+.tp-sidebar-brand__version {
+  margin: 0 !important;
+  font-size: 0.8125rem !important;
+  font-weight: 800 !important;
+  padding: 0 !important;
+  letter-spacing: 0.06em !important;
+  line-height: 1.15 !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+  color: #ffffff !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.tp-sidebar-brand__version--collapsed {
+  font-size: 0.6875rem !important;
+  letter-spacing: 0.04em !important;
+  text-align: center;
+}
+
+.tp-sidebar-toggle.chakra-iconbutton {
+  border-radius: 0.5rem !important;
+  color: var(--stake-text-secondary) !important;
+  flex-shrink: 0;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease !important;
+}
+
+.tp-sidebar-toggle.chakra-iconbutton:hover {
+  background: var(--stake-bg-hover) !important;
+  color: var(--stake-primary, #5b8def) !important;
+  transform: scale(1.05);
+}
+
+.tp-sidebar-nav-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.35) transparent;
+  flex: 1 1 auto;
+  min-height: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--stake-sidebar-bg-end, var(--stake-bg-secondary, #111820)) 92%, #000 8%) 100%
+  );
+}
+
+.tp-sidebar-nav-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.tp-sidebar-nav-scroll::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.28);
+  border-radius: 999px;
+}
+
+.tp-sidebar-group {
+  margin-bottom: 0.5rem;
+}
+
+.tp-sidebar-group-label {
+  margin: 0 0 0.5rem !important;
+  padding: 0.75rem 0.875rem 0.375rem !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: var(--stake-text-muted) !important;
+  line-height: 1.35 !important;
+}
+
+.tp-sidebar-group + .tp-sidebar-group .tp-sidebar-group-label {
+  padding-top: 1rem !important;
+  border-top: 1px solid var(--stake-border-primary);
+  margin-top: 0.375rem !important;
+}
+
+.stake-sidebar .tp-sidebar-nav-item.chakra-button,
+.stake-sidebar .tp-sidebar-nav-item.chakra-iconbutton {
+  position: relative !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  margin-bottom: 0.25rem !important;
+  padding-inline: 0.875rem !important;
+  border-radius: 0.625rem !important;
+  font-size: 0.9375rem !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  color: var(--stake-text-secondary) !important;
+  background: transparent !important;
+  background-image: none !important;
+  border: 1px solid transparent !important;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.18s ease,
+    box-shadow 0.2s ease !important;
+}
+
+.stake-sidebar .tp-sidebar-nav-item.chakra-button .chakra-button__icon,
+.stake-sidebar .tp-sidebar-nav-item.chakra-iconbutton svg {
+  color: inherit !important;
+  opacity: 0.92;
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  min-width: 1.25rem !important;
+  min-height: 1.25rem !important;
+  transition: transform 0.18s ease, color 0.2s ease !important;
+}
+
+.stake-sidebar .tp-sidebar-nav-item.chakra-button:hover,
+.stake-sidebar .tp-sidebar-nav-item.chakra-iconbutton:hover {
+  background: var(--stake-sidebar-hover, var(--stake-bg-hover)) !important;
+  color: var(--stake-text-primary) !important;
+  border-color: var(--stake-border-primary) !important;
+  transform: translateX(-3px);
+}
+
+.stake-sidebar .tp-sidebar-nav-item.chakra-button:hover .chakra-button__icon,
+.stake-sidebar .tp-sidebar-nav-item.chakra-iconbutton:hover svg {
+  transform: scale(1.06);
+}
+
+.stake-sidebar .tp-sidebar-nav-item--active.chakra-button,
+.stake-sidebar .tp-sidebar-nav-item--active.chakra-iconbutton,
+.stake-sidebar .tp-sidebar-nav-item--active.chakra-button[aria-current='page'],
+.stake-sidebar .tp-sidebar-nav-item--active.chakra-iconbutton[aria-current='page'] {
+  background: var(--stake-active-button-bg, color-mix(in srgb, var(--stake-primary, #5b8def) 14%, var(--stake-bg-hover))) !important;
+  color: var(--stake-active-button-text, var(--stake-text-primary)) !important;
+  border-color: color-mix(in srgb, var(--stake-primary, #5b8def) 24%, transparent) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+  font-weight: 600 !important;
+  font-size: 0.9375rem !important;
+  transform: none !important;
+}
+
+.stake-sidebar .tp-sidebar-nav-item--active.chakra-button .chakra-button__icon,
+.stake-sidebar .tp-sidebar-nav-item--active.chakra-iconbutton svg {
+  color: var(--stake-active-button-icon, var(--stake-primary, #5b8def)) !important;
+  opacity: 1;
+  transform: none;
+}
+
+.stake-sidebar .tp-sidebar-nav-item--collapsed.chakra-iconbutton {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  padding: 0 !important;
+  margin-inline: auto !important;
+}
+
+.stake-sidebar .tp-sidebar-nav-item--collapsed.chakra-iconbutton svg {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  min-width: 1.5rem !important;
+  min-height: 1.5rem !important;
+}
+
+.stake-sidebar .tp-sidebar-nav-item--active::after {
+  content: '';
+  position: absolute;
+  right: 6px;
+  top: 22%;
+  bottom: 22%;
+  width: 3px;
+  border-radius: 999px;
+  background: var(--stake-primary, #5b8def);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--stake-primary, #5b8def) 55%, transparent);
+  transition: box-shadow 0.2s ease, width 0.2s ease;
+}
+
+.stake-sidebar .tp-sidebar-nav-item--collapsed.tp-sidebar-nav-item--active::after {
+  right: 4px;
+  top: 20%;
+  bottom: 20%;
+}
+
+.stake-sidebar .tp-sidebar-nav-item--collapsed.tp-sidebar-nav-item--active {
+  border-radius: 0.625rem !important;
+}
+
+.stake-sidebar .tp-sidebar-nav-item--collapsed.chakra-iconbutton:hover {
+  transform: scale(1.05);
+}
+
+body[data-color-theme='minimal-bright'] .tp-sidebar-brand {
+  background: linear-gradient(
+    180deg,
+    rgba(92, 98, 216, 0.06) 0%,
+    transparent 100%
+  );
+}
+
+body[data-color-theme='minimal-bright'] .tp-brand-mark {
+  background: rgba(92, 98, 216, 0.12);
+  border-color: rgba(92, 98, 216, 0.24);
+  color: var(--stake-primary, #5c62d8);
+}
+
+body[data-color-theme='minimal-bright'] .tp-sidebar-brand__version {
+  color: var(--stake-primary, #5c62d8) !important;
+}
+
+body[data-color-theme='minimal-bright'] .stake-sidebar .tp-sidebar-nav-item--active.chakra-button,
+body[data-color-theme='minimal-bright'] .stake-sidebar .tp-sidebar-nav-item--active.chakra-iconbutton {
+  background: var(--stake-active-button-bg, rgba(92, 98, 216, 0.12)) !important;
+  color: var(--stake-active-button-text, #3f45b8) !important;
+  border-color: color-mix(in srgb, var(--stake-primary, #5c62d8) 22%, transparent) !important;
+}
+
+body[data-color-theme='minimal-bright'] .stake-sidebar .tp-sidebar-nav-item--active.chakra-button .chakra-button__icon,
+body[data-color-theme='minimal-bright'] .stake-sidebar .tp-sidebar-nav-item--active.chakra-iconbutton svg {
+  color: var(--stake-active-button-icon, #3f45b8) !important;
+}
+
+body[data-color-theme='minimal-bright'] .stake-sidebar .tp-sidebar-nav-item--active::after {
+  background: var(--stake-primary, #5c62d8);
+}
+
+/* ── الهيدر الرئيسي ── */
+.tp-main-header-shell {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  isolation: isolate;
+  border-bottom: 1px solid var(--stake-header-border, var(--stake-border-primary));
+  box-shadow: var(--stake-header-shadow, 0 4px 18px -6px rgba(0, 0, 0, 0.38));
+  transition:
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.tp-main-header-shell--scrolled {
+  border-bottom-color: color-mix(in srgb, var(--stake-header-border, var(--stake-border-primary)) 72%, transparent);
+  box-shadow: var(--stake-header-shadow-scrolled, 0 10px 32px -10px rgba(0, 0, 0, 0.52));
+}
+
+.tp-main-header-shell--scrolled .stake-header.tp-main-header:not(.tp-zone-has-custom-bg) {
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  background: var(--stake-header-bg-glass, rgba(19, 26, 36, 0.82)) !important;
+}
+
+.tp-main-header__progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2px;
+  min-width: 0;
+  max-width: 100%;
+  background: var(--stake-primary, #5b8def);
+  opacity: 0;
+  z-index: 102;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  border-radius: 0 1px 1px 0;
+}
+
+.tp-main-header-shell--scrolled .tp-main-header__progress {
+  opacity: 0.9;
+}
+
+.tp-main-header {
+  isolation: isolate;
+}
+
+.tp-main-header__row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+}
+
+.tp-main-header__zone {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.tp-main-header__zone--start {
+  justify-content: flex-start;
+  position: relative;
+  z-index: 2;
+  padding-inline-start: 0.375rem;
+}
+
+.tp-main-header__tools {
+  padding-inline: 0.25rem;
+}
+
+.tp-header-sidebar-toggle.chakra-iconbutton svg {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+}
+
+.tp-main-header__zone--end {
+  justify-content: flex-end;
+  position: relative;
+  z-index: 2;
+}
+
+.tp-main-header__tools .tp-header-tool-btn.chakra-iconbutton {
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+  border-radius: 0.5rem !important;
+  border: 1px solid transparent !important;
+  color: var(--stake-text-secondary) !important;
+  background: transparent !important;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease !important;
+}
+
+.tp-main-header__tools .tp-header-tool-btn.chakra-iconbutton svg {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+}
+
+.tp-main-header__tools .tp-header-tool-btn.chakra-iconbutton:hover {
+  background: var(--stake-bg-hover) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+/* زر طي/إظهار عنوان الصفحة — أيقونة عين */
+.tp-main-header__tools .tp-header-panel-toggle.chakra-button {
+  width: 42px !important;
+  min-width: 42px !important;
+  height: 42px !important;
+  padding: 0 !important;
+  border: 1px solid transparent !important;
+  color: var(--stake-text-secondary) !important;
+  background: transparent !important;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    transform 0.15s ease,
+    box-shadow 0.18s ease !important;
+}
+
+.tp-main-header__tools .tp-header-panel-toggle.chakra-button:hover {
+  background: var(--stake-bg-hover) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.tp-main-header__tools .tp-header-panel-toggle.chakra-button:active {
+  transform: scale(0.97) !important;
+}
+
+.tp-header-panel-toggle__icons {
+  display: grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.tp-header-panel-toggle__icon {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.22s ease;
+}
+
+.tp-header-panel-toggle__icon.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tp-header-panel-toggle__icon.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* تلميح خفيف — نبض شفافية فقط (بدون بادج أو حلقة ملونة) */
+.tp-header-panel-toggle--hint .tp-header-panel-toggle__icons {
+  animation: tp-panel-toggle-soft-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes tp-panel-toggle-soft-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.58;
+  }
+}
+
+/* العلامة التجارية — وسط حقيقي (متوازن مع الجانبين) */
+.tp-main-header__brand-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  user-select: none;
+  width: max-content;
+  max-width: calc(100% - 5.5rem);
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .tp-main-header__brand-center {
+    max-width: calc(100% - 15rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .tp-main-header__brand-center {
+    max-width: calc(100% - 18rem);
+  }
+}
+
+.tp-main-header__company-name {
+  margin: 0 !important;
+  font-size: clamp(1rem, 2.2vw, 1.3125rem) !important;
+  font-weight: 700 !important;
+  color: var(--stake-text-primary) !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
+  flex-shrink: 0;
+}
+
+.tp-main-header-shell--scrolled .tp-main-header__company-name {
+  font-size: clamp(0.9375rem, 2vw, 1.125rem) !important;
+}
+
+/* يمين الهيدر */
+.tp-main-header__actions {
+  position: relative;
+  z-index: 10;
+}
+
+.tp-main-header__datetime-wrap {
+  align-items: stretch;
+  flex-shrink: 0;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(91, 141, 239, 0.38);
+  background: rgba(91, 141, 239, 0.06);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.14);
+}
+
+.tp-main-header__datetime-time,
+.tp-main-header__datetime-date {
+  margin: 0 !important;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  line-height: 1.25 !important;
+}
+
+.tp-main-header__datetime-time {
+  color: #dbeafe !important;
+  background: rgba(91, 141, 239, 0.32);
+  border-inline-end: 1px solid rgba(91, 141, 239, 0.35);
+}
+
+.tp-main-header__datetime-date {
+  color: #e9d5ff !important;
+  background: rgba(139, 92, 246, 0.22);
+}
+
+.tp-main-header__menu-btn.chakra-iconbutton {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  border-radius: 0.5rem !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  color: var(--stake-text-secondary) !important;
+  background: transparent !important;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease !important;
+}
+
+.tp-main-header__menu-btn.chakra-iconbutton:hover {
+  background: var(--stake-bg-hover) !important;
+  color: var(--stake-primary, #5b8def) !important;
+  border-color: color-mix(in srgb, var(--stake-primary, #5b8def) 30%, var(--stake-border-primary)) !important;
+}
+
+@keyframes tp-header-title-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tp-breadcrumb-panel-toggle.chakra-button {
+  width: 34px !important;
+  min-width: 34px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 !important;
+  border: 1px solid transparent !important;
+  background: transparent !important;
+  color: var(--stake-text-secondary) !important;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease !important;
+}
+
+.tp-breadcrumb-panel-toggle.chakra-button:hover {
+  background: var(--stake-bg-hover) !important;
+  color: var(--stake-text-primary) !important;
+  border-color: var(--stake-border-primary) !important;
+}
+
+.tp-breadcrumb-panel-toggle .tp-header-panel-toggle__icons svg {
+  width: 1.125rem !important;
+  height: 1.125rem !important;
+}
+
+/* خلفية المحتوى — عمق خفيف بدون تدرجات زاهية */
+.stake-main-content.tp-page:not(.tp-page--has-dashboard-bg) {
+  background:
+    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(91, 141, 239, 0.035) 0%, transparent 55%),
+    var(--stake-main-bg, var(--stake-bg-primary)) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-main-header-shell--scrolled .stake-header.tp-main-header:not(.tp-zone-has-custom-bg) {
+  background: var(--stake-header-bg-glass, rgba(255, 255, 255, 0.88)) !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-main-header__datetime-wrap {
+  border-color: rgba(92, 98, 216, 0.35);
+  background: rgba(92, 98, 216, 0.05);
+}
+
+body[data-color-theme='minimal-bright'] .tp-main-header__datetime-time {
+  color: #1e3a8a !important;
+  background: rgba(92, 98, 216, 0.18);
+  border-inline-end-color: rgba(92, 98, 216, 0.28);
+}
+
+body[data-color-theme='minimal-bright'] .tp-main-header__datetime-date {
+  color: #5b21b6 !important;
+  background: rgba(124, 58, 237, 0.12);
+}
+
+body[data-color-theme='minimal-bright'] .tp-main-header__menu-btn.chakra-iconbutton {
+  background: #ffffff !important;
+}
+
+body[data-color-theme='minimal-bright'] .tp-main-header__menu-btn.chakra-iconbutton:hover {
+  background: rgba(92, 98, 216, 0.06) !important;
+  color: var(--stake-primary, #5c62d8) !important;
+}
+
+body[data-color-theme='minimal-bright'] .stake-main-content.tp-page:not(.tp-page--has-dashboard-bg) {
+  background: var(--stake-main-bg, #f3f4f9) !important;
+}

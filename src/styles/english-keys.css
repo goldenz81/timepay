@@ -1,0 +1,32 @@
+/* English Keys Tooltip Styles - Simple */
+.ant-tooltip-inner {
+  background-color: #000 !important;
+  color: #fff !important;
+  font-family: 'Courier New', monospace !important;
+  font-size: 12px !important;
+  padding: 4px 6px !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.ant-tooltip-arrow::before {
+  background-color: #000 !important;
+  border: none !important;
+}
+
+/* Chakra UI Tooltip Styles - Simple */
+.chakra-tooltip__content {
+  font-family: 'Courier New', monospace !important;
+  font-size: 12px !important;
+  background-color: #000 !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 4px 6px !important;
+  box-shadow: none !important;
+}
+
+.chakra-tooltip__arrow {
+  border-color: #000 transparent transparent transparent !important;
+}

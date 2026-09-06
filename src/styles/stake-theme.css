@@ -1,0 +1,2859 @@
+/* قالب المحيط الداكن - ألوان احترافية متناسقة (Dark Ocean) */
+
+:root {
+  /* ألوان التفاعل */
+  --stake-primary: #5b8def;
+  --stake-secondary: #f59e0b;
+  --stake-accent: #8b5cf6;
+  --stake-success: #22c55e;
+  --stake-warning: #f59e0b;
+  --stake-error: #ef4444;
+  
+  /* خلفيات متناسقة — طبقات Slate واضحة */
+  --stake-bg-primary: #151c27;
+  --stake-bg-secondary: #111820;
+  --color-grey-600: #111820;
+  --stake-bg-tertiary: #1a2330;
+  --stake-bg-card: #1c2533;
+  --stake-bg-hover: #222d3d;
+  --stake-active-button-bg: rgba(91, 141, 239, 0.14);
+  --stake-active-button-text: #e8edf4;
+  --stake-active-button-icon: #7eb0ff;
+  --stake-table-bg: #1c2533;
+  --stake-table-header-bg: #171f2b;
+  --stake-table-header-text: #e2e8f0;
+  --stake-table-header-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 0 rgba(148, 163, 184, 0.12),
+    0 4px 16px -4px rgba(0, 0, 0, 0.5),
+    0 2px 6px -2px rgba(0, 0, 0, 0.35);
+
+  /* طبقات الإطار: Sidebar / Header / المحتوى — نفس عائلة slate للمكونات */
+  --stake-sidebar-bg-start: #131a24;
+  --stake-sidebar-bg-end: #111820;
+  --stake-sidebar-hover: #222d3d;
+  --stake-header-bg: #131a24;
+  --stake-header-bg-glass: rgba(19, 26, 36, 0.82);
+  --stake-header-border: rgba(148, 163, 184, 0.16);
+  --stake-header-shadow: 0 1px 0 rgba(148, 163, 184, 0.05), 0 4px 18px -6px rgba(0, 0, 0, 0.38);
+  --stake-header-shadow-scrolled: 0 10px 32px -10px rgba(0, 0, 0, 0.52);
+  --stake-main-bg: #171f2b;
+  --stake-breadcrumb-bg: #111827;
+  --stake-breadcrumb-bg-gradient: linear-gradient(
+    180deg,
+    #1a2234 0%,
+    #111827 50%,
+    #1a2234 100%
+  );
+  --stake-breadcrumb-bg-gradient-scrolled: linear-gradient(
+    180deg,
+    rgba(26, 34, 52, 0.94) 0%,
+    rgba(17, 24, 39, 0.92) 50%,
+    rgba(11, 19, 36, 0.9) 100%
+  );
+
+  /* أسطح المحتوى الرئيسي */
+  --stake-content-surface: #1a2330;
+  --stake-content-surface-raised: #1c2533;
+  --stake-content-radius: 1rem;
+  --stake-content-radius-lg: 1.25rem;
+  --stake-content-shadow: 0 4px 24px -10px rgba(0, 0, 0, 0.38);
+  --stake-content-shadow-soft: 0 2px 12px -6px rgba(0, 0, 0, 0.28);
+  
+  /* نصوص واضحة ومريحة */
+  --stake-text-primary: #e8edf4;
+  --stake-text-secondary: #9aa8bc;
+  --stake-text-muted: #6b7a90;
+  --stake-text-disabled: #4f5d6f;
+  
+  /* حدود ناعمة */
+  --stake-border-primary: rgba(148, 163, 184, 0.16);
+  --stake-border-secondary: rgba(148, 163, 184, 0.24);
+  --stake-border-accent: #5b8def;
+  
+  /* ظلال خفيفة */
+  --stake-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.18);
+  --stake-shadow-md: 0 4px 14px rgba(0, 0, 0, 0.2);
+  --stake-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.22);
+  --stake-shadow-xl: 0 16px 36px rgba(0, 0, 0, 0.26);
+  --stake-shadow-sidebar: -8px 0 32px rgba(0, 0, 0, 0.24);
+  
+  /* تدرجات احترافية */
+  --stake-gradient-primary: linear-gradient(135deg, #5b8def 0%, #7eb0ff 100%);
+  --stake-gradient-secondary: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  --stake-gradient-accent: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+  --stake-gradient-bg: linear-gradient(180deg, #10161f 0%, #141b26 100%);
+  
+  /* صفوف العطلات */
+  --stake-holiday-bg: rgba(0, 0, 0, 0.2);
+  --stake-holiday-bg-hover: rgba(0, 0, 0, 0.15);
+  
+  /* خطوط */
+  --ds-font-family-default: "proxima-nova", ui-sans-serif, -apple-system, system-ui, sans-serif;
+  --ds-font-feature-settings: "salt" on;
+  --ds-font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* تطبيق الخلفية الرئيسية */
+body {
+  background: var(--stake-bg-primary) !important;
+  color: var(--stake-text-primary) !important;
+  font-family: var(--font-family, var(--ds-font-family-default)) !important;
+  font-feature-settings: var(--ds-font-feature-settings) !important;
+  font-variant-numeric: var(--ds-font-variant-numeric) !important;
+}
+
+/* حقول الوقت (input type="time") - لون أبيض/فاتح مع الثيم الداكن Dark Ocean */
+input[type="time"] {
+  color: var(--stake-text-primary) !important;
+  background-color: var(--stake-bg-primary) !important;
+  border-color: var(--stake-border-primary) !important;
+}
+input[type="time"]::-webkit-datetime-edit {
+  color: var(--stake-text-primary) !important;
+}
+input[type="time"]::-webkit-datetime-edit-fields-wrapper {
+  background-color: transparent !important;
+  color: var(--stake-text-primary) !important;
+}
+input[type="time"]::-webkit-datetime-edit-text {
+  color: var(--stake-text-secondary) !important;
+}
+input[type="time"]::-webkit-datetime-edit-hour-field,
+input[type="time"]::-webkit-datetime-edit-minute-field,
+input[type="time"]::-webkit-datetime-edit-second-field {
+  color: var(--stake-text-primary) !important;
+  background-color: transparent !important;
+}
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+/* إخفاء فروقات التقريب عند الطباعة (مودال تفاصيل الراتب) */
+@media print {
+  .rounding-diff-no-print,
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* الجداول */
+.stake-table {
+  background: var(--stake-table-bg, var(--stake-bg-card)) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+/* إلغاء أي انتقال/تحريك على الجداول لضمان ثبات الصفوف */
+.stake-table,
+.stake-table * {
+  transition: none !important;
+}
+.stake-table tr,
+.stake-table tr:hover,
+.stake-table td {
+  transform: none !important;
+}
+.stake-table th {
+  transform: none !important;
+}
+
+/* دعم جداول Ant Design أيضاً */
+.ant-table,
+.ant-table * {
+  transition: none !important;
+}
+.ant-table-tbody > tr:hover > td,
+.ant-table-tbody > tr > td,
+.ant-table-thead > tr > th {
+  transform: none !important;
+}
+
+/* منع أي انتقال/تحريك في حاويات الجداول (Divs) داخل صفحات الحضور والموظفين */
+.attendance-page .ant-table-wrapper,
+.attendance-page .ant-table-wrapper *,
+.attendance-page .chakra-table__container,
+.attendance-page .chakra-table__container *,
+.employees-page .ant-table-wrapper,
+.employees-page .ant-table-wrapper *,
+.employees-page .chakra-table__container,
+.employees-page .chakra-table__container * {
+  transition: none !important;
+  transform: none !important;
+}
+
+/* تعطيل أي انتقال داخل بطاقات الصفحات التي تحتوي الجداول */
+.attendance-page .chakra-card,
+.attendance-page .chakra-card *,
+.employees-page .chakra-card,
+.employees-page .chakra-card * {
+  transition: none !important;
+  transform: none !important;
+}
+
+/* تثبيت ترويسات البطاقات وأزرارها لمنع أي اهتزاز عند الهوفر */
+.attendance-page .chakra-card__header,
+.employees-page .chakra-card__header {
+  border-width: 1px !important; /* تثبيت سماكة الحدود */
+}
+.attendance-page .chakra-card__header .chakra-button,
+.employees-page .chakra-card__header .chakra-button,
+.attendance-page .chakra-card__header .chakra-iconbutton,
+.employees-page .chakra-card__header .chakra-iconbutton {
+  transition: none !important;
+}
+.attendance-page .chakra-card__header .chakra-button:hover,
+.employees-page .chakra-card__header .chakra-button:hover,
+.attendance-page .chakra-card__header .chakra-iconbutton:hover,
+.employees-page .chakra-card__header .chakra-iconbutton:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* إزالة أي تأثير ظل/تحريك عند الهوفر على بطاقات الجداول في الصفحتين */
+.attendance-page .chakra-card,
+.employees-page .chakra-card {
+  box-shadow: none !important;
+}
+.attendance-page .chakra-card:hover,
+.employees-page .chakra-card:hover {
+  box-shadow: none !important;
+  transform: none !important;
+  border-color: var(--stake-border-primary) !important;
+}
+
+/* منع أي تحريك على حاويات الجدول مباشرة */
+.attendance-page .chakra-table__container,
+.employees-page .chakra-table__container {
+  box-shadow: none !important;
+  transform: none !important;
+}
+.attendance-page .chakra-table__container:hover,
+.employees-page .chakra-table__container:hover {
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* (reverted) لا نلمس padding/margin حتى لا تتأثر تخطيطات الجدول */
+
+/* تعطيل أي Hover محتمل من كلاس ديناميكي يسبب اهتزاز (Emotion/Chakra) */
+.css-bxkhsx:hover,
+.css-bxkhsx[data-hover] {
+  transition: none !important;
+  transform: none !important;
+  box-shadow: none !important;
+  padding: inherit !important;
+  margin: inherit !important;
+  border-color: inherit !important;
+}
+
+/* إيقاف الحركة تحديداً في صفحة الموظفين لمغلفات الديناميكية */
+.employees-page .css-bi09ui:hover,
+.employees-page .css-bi09ui[data-hover] {
+  transition: none !important;
+  transform: none !important;
+  box-shadow: none !important;
+  padding: inherit !important;
+  margin: inherit !important;
+  border-color: inherit !important;
+}
+
+/* التزام كامل بعدم تغيير أبعاد أي عنصر داخل بطاقة الموظفين عند الهوفر */
+.employees-page .chakra-card *:hover,
+.employees-page .chakra-card *[data-hover] {
+  transition: none !important;
+  transform: none !important;
+  box-shadow: none !important;
+  padding: inherit !important;
+  margin: inherit !important;
+}
+
+/* (reverted) نكتفي بتعطيل الحركة بدون تعديل الحواف والمسافات */
+
+/* البورتال: قوائم Chakra (Menu/Popover) تُصيّر هنا — z-index عالي لظهورها فوق الهيدر والـ sidebar */
+#chakra-portal {
+  z-index: 10000 !important;
+}
+
+/* تحسين القوائم المنبثقة (Menus/Dropdowns/Popovers/Pickers) */
+.chakra-menu__menu-list,
+.chakra-popover__content,
+.ant-select-dropdown,
+.ant-dropdown-menu,
+.ant-picker-dropdown {
+  background: var(--stake-bg-primary) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  box-shadow: var(--stake-shadow-lg) !important;
+  border-radius: 12px !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.chakra-menu__menuitem,
+.ant-dropdown-menu-item,
+.ant-select-item {
+  color: var(--stake-text-primary) !important;
+}
+
+.chakra-menu__menuitem[aria-disabled="true"] {
+  opacity: 0.6 !important;
+}
+
+.chakra-menu__menuitem:hover,
+.ant-dropdown-menu-item:hover,
+.ant-select-item-option-active,
+.ant-select-item-option:hover {
+  background: var(--stake-bg-hover) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.chakra-menu__divider,
+.ant-dropdown-menu-item-divider {
+  border-color: var(--stake-border-primary) !important;
+}
+
+.stake-table th,
+.stake-table thead th,
+.stake-table thead tr th,
+.chakra-table.stake-table thead th,
+.chakra-table.stake-table.main-content thead th,
+table.stake-table thead th {
+  background: var(--stake-table-header-bg, var(--stake-bg-secondary)) !important;
+  color: var(--stake-table-header-text, var(--stake-text-primary)) !important;
+  font-weight: 600 !important;
+  padding: 12px 16px !important;
+  border-bottom: 1px solid var(--stake-border-primary) !important;
+}
+
+/* خلايا الجدول — تناوب خفيف و hover واضح */
+.stake-table,
+.stake-table td {
+  background: var(--stake-table-bg, var(--stake-bg-card)) !important;
+  color: var(--stake-text-primary) !important;
+  border-bottom: 1px solid var(--stake-border-primary) !important;
+  padding: 10px 16px !important;
+}
+
+.stake-table tr:hover td {
+  background: var(--stake-bg-hover) !important;
+  transition: background 0.15s ease !important;
+}
+
+.stake-table tbody tr:nth-child(even) td {
+  background: var(--stake-bg-tertiary) !important;
+}
+
+.stake-table tbody tr:nth-child(even):hover td {
+  background: var(--stake-bg-hover) !important;
+}
+
+/* الأزرار */
+.stake-btn,
+button.stake-btn,
+.chakra-button.stake-btn {
+  background-color: var(--stake-primary) !important;
+  background-image: none !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  padding: 12px 24px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: none !important;
+  font-size: 14px !important;
+  letter-spacing: 0.025em !important;
+}
+
+.stake-btn:hover,
+button.stake-btn:hover,
+.chakra-button.stake-btn:hover {
+  filter: brightness(1.15) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: none !important;
+}
+
+/* ========================================
+   أزرار الـ Sidebar - شفافة بدون ألوان (أولوية عالية جداً)
+   ======================================== */
+.stake-sidebar button,
+.stake-sidebar .chakra-button,
+.stake-sidebar button.chakra-button,
+.stake-sidebar [class*="chakra-button"],
+[class*="stake-sidebar"] button,
+[class*="stake-sidebar"] .chakra-button,
+.stake-sidebar button[class*="css-"],
+.stake-sidebar .chakra-button[class*="css-"] {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  color: var(--stake-text-secondary) !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.stake-sidebar button:hover,
+.stake-sidebar .chakra-button:hover,
+.stake-sidebar button.chakra-button:hover,
+[class*="stake-sidebar"] button:hover,
+[class*="stake-sidebar"] .chakra-button:hover {
+  background: var(--stake-bg-hover) !important;
+  background-color: var(--stake-bg-hover) !important;
+  color: var(--stake-text-primary) !important;
+  border-radius: 8px !important;
+  transition: background 0.2s ease, color 0.2s ease !important;
+}
+
+.stake-sidebar button[aria-current="page"]:not(.tp-sidebar-nav-item),
+.stake-sidebar .chakra-button[aria-current="page"]:not(.tp-sidebar-nav-item),
+[class*="stake-sidebar"] button[aria-current="page"]:not(.tp-sidebar-nav-item) {
+  background: var(--stake-bg-hover) !important;
+  background-color: var(--stake-bg-hover) !important;
+  color: var(--stake-text-primary) !important;
+  font-weight: 600 !important;
+}
+
+/* ========================================
+   الأزرار الرئيسية داخل الصفحات فقط (ليس الـ Sidebar)
+   ======================================== */
+.stake-main-content .stake-btn,
+.stake-main-content button.stake-btn,
+.chakra-modal__body .stake-btn {
+  background-color: var(--stake-primary) !important;
+  background: var(--stake-primary) !important;
+  color: white !important;
+}
+
+.stake-main-content .stake-btn:hover,
+.chakra-modal__body .stake-btn:hover {
+  filter: brightness(1.15) !important;
+}
+
+.stake-btn:active {
+  transform: translateY(0) !important;
+  box-shadow: none !important;
+}
+
+.stake-btn-secondary {
+  background: transparent !important;
+  color: var(--stake-text-primary) !important;
+  border: 2px solid var(--stake-border-primary) !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  padding: 10px 22px !important;
+  transition: all 0.3s ease !important;
+  font-size: 14px !important;
+  letter-spacing: 0.025em !important;
+}
+
+.stake-btn-secondary:hover {
+  background: var(--stake-bg-secondary) !important;
+  color: var(--stake-primary) !important;
+  border-color: var(--stake-primary) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: none !important;
+}
+
+.stake-btn-success {
+  background: var(--stake-success) !important;
+  color: white !important;
+  border: 1px solid var(--stake-success) !important;
+}
+
+.stake-btn-warning {
+  background: var(--stake-warning) !important;
+  color: white !important;
+  border: 1px solid var(--stake-warning) !important;
+}
+
+.stake-btn-error {
+  background: var(--stake-error) !important;
+  color: white !important;
+  border: 1px solid var(--stake-error) !important;
+}
+
+/* العناوين */
+.stake-heading-1 {
+  color: var(--stake-text-primary) !important;
+  font-size: 2.5rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 1rem !important;
+  font-family: var(--font-family, var(--ds-font-family-default)) !important;
+  font-feature-settings: var(--ds-font-feature-settings) !important;
+  font-variant-numeric: var(--ds-font-variant-numeric) !important;
+}
+
+.stake-heading-2 {
+  color: var(--stake-text-primary) !important;
+  font-size: 2rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.875rem !important;
+  font-family: var(--font-family, var(--ds-font-family-default)) !important;
+  font-feature-settings: var(--ds-font-feature-settings) !important;
+  font-variant-numeric: var(--ds-font-variant-numeric) !important;
+}
+
+.stake-heading-3 {
+  color: var(--stake-text-primary) !important;
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  font-family: var(--font-family, var(--ds-font-family-default)) !important;
+  font-feature-settings: var(--ds-font-feature-settings) !important;
+  font-variant-numeric: var(--ds-font-variant-numeric) !important;
+}
+
+.stake-heading-4 {
+  color: var(--stake-text-primary) !important;
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.5rem !important;
+  font-family: var(--font-family, var(--ds-font-family-default)) !important;
+  font-feature-settings: var(--ds-font-feature-settings) !important;
+  font-variant-numeric: var(--ds-font-variant-numeric) !important;
+}
+
+.stake-heading-5 {
+  color: var(--stake-text-primary) !important;
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.5rem !important;
+  font-family: var(--font-family, var(--ds-font-family-default)) !important;
+  font-feature-settings: var(--ds-font-feature-settings) !important;
+  font-variant-numeric: var(--ds-font-variant-numeric) !important;
+}
+
+.stake-heading-6 {
+  color: var(--stake-text-primary) !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.5rem !important;
+  font-family: var(--font-family, var(--ds-font-family-default)) !important;
+  font-feature-settings: var(--ds-font-feature-settings) !important;
+  font-variant-numeric: var(--ds-font-variant-numeric) !important;
+}
+
+/* النصوص */
+.stake-text-primary,
+.stake-text-primary *,
+[class*="stake-text-primary"] {
+  color: var(--stake-text-primary, #ffffff) !important;
+  font-family: var(--font-family, var(--ds-font-family-default)) !important;
+  font-feature-settings: var(--ds-font-feature-settings) !important;
+  font-variant-numeric: var(--ds-font-variant-numeric) !important;
+}
+
+.stake-text-secondary {
+  color: var(--stake-text-secondary) !important;
+  font-family: var(--font-family, var(--ds-font-family-default)) !important;
+  font-feature-settings: var(--ds-font-feature-settings) !important;
+  font-variant-numeric: var(--ds-font-variant-numeric) !important;
+}
+
+.stake-text-muted {
+  color: var(--stake-text-muted) !important;
+  font-family: var(--font-family, var(--ds-font-family-default)) !important;
+  font-feature-settings: var(--ds-font-feature-settings) !important;
+  font-variant-numeric: var(--ds-font-variant-numeric) !important;
+}
+
+.stake-text-success {
+  color: var(--stake-success) !important;
+  font-family: var(--font-family, var(--ds-font-family-default)) !important;
+  font-feature-settings: var(--ds-font-feature-settings) !important;
+  font-variant-numeric: var(--ds-font-variant-numeric) !important;
+}
+
+.stake-text-warning {
+  color: var(--stake-warning) !important;
+  font-family: var(--font-family, var(--ds-font-family-default)) !important;
+  font-feature-settings: var(--ds-font-feature-settings) !important;
+  font-variant-numeric: var(--ds-font-variant-numeric) !important;
+}
+
+.stake-text-error {
+  color: var(--stake-error) !important;
+  font-family: var(--font-family, var(--ds-font-family-default)) !important;
+  font-feature-settings: var(--ds-font-feature-settings) !important;
+  font-variant-numeric: var(--ds-font-variant-numeric) !important;
+}
+
+/* البطاقات */
+.stake-card {
+  background: var(--stake-content-surface-raised, var(--stake-bg-card)) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  border-radius: var(--stake-content-radius-lg, 1rem) !important;
+  box-shadow: var(--stake-content-shadow-soft, var(--stake-shadow-sm)) !important;
+}
+
+
+/* النماذج */
+.stake-input {
+  background: var(--stake-bg-card) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  color: var(--stake-text-primary) !important;
+  border-radius: 6px !important;
+  padding: 8px 12px !important;
+}
+
+.stake-input:focus {
+  border-color: var(--stake-border-accent) !important;
+  box-shadow: 0 0 0 2px rgba(91, 141, 239, 0.18) !important;
+}
+
+.stake-label {
+  color: var(--stake-text-secondary) !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* القوائم المنبثقة */
+.stake-input option,
+select option,
+.chakra-select option {
+  background: var(--stake-bg-secondary) !important;
+  color: var(--stake-text-primary) !important;
+  padding: 10px 12px !important;
+  font-size: 14px !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  min-width: 100% !important;
+  width: auto !important;
+  max-width: none !important;
+  display: block !important;
+}
+
+.stake-input option:hover,
+select option:hover,
+.chakra-select option:hover {
+  background: var(--stake-bg-hover) !important;
+}
+
+.stake-input option:checked,
+select option:checked,
+.chakra-select option:checked {
+  background: var(--stake-primary) !important;
+  color: white !important;
+}
+
+/* تحسين Select للحجم الصغير */
+select[size="sm"],
+.chakra-select[size="sm"] {
+  font-size: 14px !important;
+  height: 36px !important;
+}
+
+/* إصلاح عرض النص في القوائم المنسدلة - حل بديل */
+select {
+  min-width: 100% !important;
+  width: 100% !important;
+}
+
+/* تحسين عرض النص في القوائم المنسدلة - إصلاح التقطيع */
+select option,
+.chakra-select option,
+.stake-input option {
+  white-space: normal !important;
+  padding: 8px 12px !important;
+  min-width: 100% !important;
+  width: auto !important;
+  word-wrap: break-word !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  display: block !important;
+  max-width: none !important;
+}
+
+/* إصلاح عرض النص في Select نفسه - منع التقطيع */
+select,
+.chakra-select,
+.stake-input select {
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+}
+
+/* إصلاح عرض النص المحدد في Select */
+select:focus,
+.chakra-select:focus,
+.stake-input select:focus {
+  text-overflow: ellipsis !important;
+}
+
+/* إصلاح تقطيع النص في Select - حل مشكلة min-width: 0px */
+.css-1qfwqpb,
+select.chakra-select,
+.chakra-select,
+.stake-input select,
+select[class*="chakra-select"],
+[class*="chakra-select"] select,
+.chakra-select__wrapper select,
+select {
+  min-width: 100% !important;
+  width: 100% !important;
+  overflow: visible !important;
+  --input-height: var(--chakra-sizes-10) !important;
+  height: var(--chakra-sizes-10) !important;
+}
+
+/* إصلاح تقطيع النص في Select options */
+.css-1qfwqpb option,
+select.chakra-select option,
+.chakra-select option,
+.stake-input select option,
+select[class*="chakra-select"] option,
+[class*="chakra-select"] select option,
+.chakra-select__wrapper select option,
+select option {
+  min-width: 100% !important;
+  width: auto !important;
+  max-width: none !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  padding: 8px 12px !important;
+  display: block !important;
+  word-wrap: break-word !important;
+  word-break: normal !important;
+}
+
+input[size="sm"],
+.chakra-input[size="sm"],
+select[size="sm"],
+.chakra-select[size="sm"],
+select.chakra-select[size="sm"] {
+  font-size: 14px !important;
+  height: 36px !important;
+  --input-height: var(--chakra-sizes-10) !important;
+}
+
+/* Select dropdown styling */
+.stake-input:focus {
+  border-color: var(--stake-border-accent) !important;
+  box-shadow: 0 0 0 2px rgba(91, 141, 239, 0.18) !important;
+}
+
+/* DatePicker styling */
+.ant-picker {
+  background: var(--stake-bg-card) !important;
+  border-color: var(--stake-border-primary) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.ant-picker:hover {
+  border-color: var(--stake-border-accent) !important;
+}
+
+.ant-picker-focused {
+  border-color: var(--stake-border-accent) !important;
+  box-shadow: 0 0 0 2px rgba(91, 141, 239, 0.18) !important;
+}
+
+.ant-picker-dropdown {
+  background: var(--stake-bg-primary) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  box-shadow: var(--stake-shadow-lg) !important;
+}
+
+.ant-picker-panel {
+  background: var(--stake-bg-card) !important;
+}
+
+.ant-picker-header {
+  color: var(--stake-text-primary) !important;
+}
+
+.ant-picker-content th {
+  color: var(--stake-text-secondary) !important;
+}
+
+.ant-picker-cell {
+  color: var(--stake-text-primary) !important;
+}
+
+.ant-picker-cell:hover {
+  background: var(--stake-bg-hover) !important;
+}
+
+.ant-picker-cell-selected {
+  background: var(--stake-primary) !important;
+  color: white !important;
+}
+
+.ant-picker-cell-today {
+  border-color: var(--stake-border-accent) !important;
+}
+
+/* Date Range Picker - الأيام المحددة في النطاق */
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-in-range:not(.ant-picker-cell-disabled):before,
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-start:not(.ant-picker-cell-disabled):before,
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-end:not(.ant-picker-cell-disabled):before {
+  background: #141f28 !important;
+}
+
+/* لون النص داخل النطاق المحدد */
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-in-range .ant-picker-cell-inner,
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+  color: white !important;
+}
+
+/* بداية ونهاية النطاق */
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+  background: var(--stake-primary, #1475e1) !important;
+  border-radius: 4px !important;
+}
+
+/* تجاوز أي قواعد CSS أخرى */
+:where(.css-dev-only-do-not-override-xepvsj).ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-in-range:not(.ant-picker-cell-disabled):before,
+:where(.css-dev-only-do-not-override-xepvsj).ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-start:not(.ant-picker-cell-disabled):before,
+:where(.css-dev-only-do-not-override-xepvsj).ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-end:not(.ant-picker-cell-disabled):before,
+[class*="css-"].ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-in-range:not(.ant-picker-cell-disabled):before,
+[class*="css-"].ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-start:not(.ant-picker-cell-disabled):before,
+[class*="css-"].ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-end:not(.ant-picker-cell-disabled):before {
+  background: var(--stake-bg-hover) !important;
+}
+
+/* Header الرئيسي */
+.stake-header:not(.tp-zone-has-custom-bg) {
+  background: var(--stake-header-bg-glass, var(--stake-header-bg, #131a24)) !important;
+  border-bottom: 1px solid var(--stake-border-primary) !important;
+  margin-top: 0 !important;
+  box-shadow: none;
+  position: relative;
+  transition: background 0.25s ease, border-color 0.25s ease, backdrop-filter 0.25s ease;
+}
+
+.stake-header.tp-main-header {
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+.stake-header.tp-zone-has-custom-bg {
+  background: var(--stake-bg-primary, #0f212e) !important;
+  background-image: none !important;
+}
+
+.stake-header > .chakra-flex {
+  flex-wrap: nowrap !important;
+  white-space: nowrap !important;
+  padding-top: 0 !important;
+}
+
+.stake-header .chakra-button {
+  background: transparent !important;
+  color: var(--stake-text-primary) !important;
+  transition: all 0.3s ease !important;
+}
+
+.stake-header .chakra-button:hover,
+.stake-header .chakra-iconbutton:hover {
+  background: var(--stake-bg-hover) !important;
+  border-color: transparent !important;
+  color: var(--stake-text-primary) !important;
+  border-radius: 10px !important;
+}
+
+/* Sidebar */
+html:not([data-layout-bg='dashboard']) .stake-sidebar:not(.tp-sidebar-fixed-shell) {
+  background: linear-gradient(
+    180deg,
+    var(--stake-sidebar-bg-start, var(--stake-header-bg, #131a24)) 0%,
+    var(--stake-sidebar-bg-end, var(--stake-bg-secondary, #111820)) 100%
+  ) !important;
+  border-color: var(--stake-border-primary) !important;
+  box-shadow: var(--stake-shadow-sidebar, -8px 0 32px rgba(0, 0, 0, 0.24)) !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  position: relative;
+}
+
+/* الغلاف الخارجي للشريط — ثابت يمين الشاشة دائماً */
+.stake-sidebar.tp-sidebar-fixed-shell {
+  position: fixed !important;
+  right: 0 !important;
+  top: 0 !important;
+  z-index: 100 !important;
+}
+
+/* Sidebar content area - stretch only the content, not icons */
+.stake-sidebar .chakra-stack:not(.chakra-stack--spacing-0):not(.chakra-stack--spacing-4) {
+  align-items: stretch !important;
+  -webkit-align-items: stretch !important;
+  -ms-flex-align: stretch !important;
+}
+
+/* Protect icons from shrinking */
+.stake-sidebar .chakra-stack--spacing-4 {
+  align-items: center !important;
+  -webkit-align-items: center !important;
+  -ms-flex-align: center !important;
+}
+
+.stake-sidebar .chakra-icon {
+  min-width: 22px !important;
+  min-height: 22px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Collapsed sidebar icon buttons */
+.stake-sidebar .chakra-iconbutton {
+  background: transparent !important;
+  color: var(--color-grey-200) !important;
+  border: none !important;
+  transition: all 0.2s ease !important;
+  border-radius: 8px !important;
+}
+
+.stake-sidebar .chakra-iconbutton:hover {
+  background: var(--stake-bg-hover) !important;
+  color: var(--stake-text-primary) !important;
+  transform: none !important;
+  box-shadow: none !important;
+  border-radius: 8px !important;
+}
+
+.stake-sidebar .chakra-iconbutton[aria-current="page"]:not(.tp-sidebar-nav-item) {
+  background: var(--stake-bg-hover) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+/* Tooltip styling for collapsed sidebar */
+.stake-sidebar .chakra-tooltip__content {
+  background: var(--stake-bg-secondary) !important;
+  color: var(--stake-text-primary) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  box-shadow: var(--stake-shadow-lg) !important;
+}
+
+/* أزرار Sidebar */
+.stake-sidebar .chakra-button {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--stake-text-secondary) !important;
+  border: none !important;
+  transition: background 0.2s ease, color 0.2s ease !important;
+  margin: 0 !important;
+  border-radius: 10px !important;
+}
+
+.stake-sidebar .chakra-button:hover {
+  background: var(--stake-bg-hover) !important;
+  background-color: var(--stake-bg-hover) !important;
+  color: var(--stake-text-primary) !important;
+  transform: none !important;
+  box-shadow: none !important;
+  border-radius: 8px !important;
+}
+
+.stake-sidebar .chakra-button[aria-current="page"]:not(.tp-sidebar-nav-item),
+.stake-sidebar button[aria-current="page"]:not(.tp-sidebar-nav-item) {
+  background: var(--stake-active-button-bg, var(--stake-bg-hover)) !important;
+  background-color: var(--stake-active-button-bg, var(--stake-bg-hover)) !important;
+  color: var(--stake-active-button-text, var(--stake-text-primary)) !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  position: relative !important;
+}
+.stake-sidebar .chakra-button[aria-current="page"]:not(.tp-sidebar-nav-item) .chakra-icon,
+.stake-sidebar .chakra-button[aria-current="page"]:not(.tp-sidebar-nav-item) svg,
+.stake-sidebar button[aria-current="page"]:not(.tp-sidebar-nav-item) .chakra-icon,
+.stake-sidebar button[aria-current="page"]:not(.tp-sidebar-nav-item) svg {
+  color: var(--stake-active-button-icon, var(--stake-active-button-text, var(--stake-text-primary))) !important;
+}
+
+/* إزالة الشريط القديم — يُدار عبر tp-sidebar-nav-item--active */
+.stake-sidebar .chakra-button:not(.tp-sidebar-nav-item)::before,
+.stake-sidebar button:not(.tp-sidebar-nav-item)::before,
+.stake-sidebar [class*="css-"]:not(.tp-sidebar-nav-item)::before {
+  display: none !important;
+}
+
+/* Page Header */
+.stake-page-header {
+  background: var(--stake-bg-card) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--stake-shadow-sm) !important;
+  margin-bottom: 24px !important;
+}
+
+.stake-page-header .chakra-heading {
+  color: var(--stake-text-primary) !important;
+}
+
+.stake-page-header .chakra-text {
+  color: var(--stake-text-secondary) !important;
+}
+
+/* Main Content */
+.stake-main-content:not(.stake-main-content--has-layout-bg) {
+  background: var(--stake-main-bg, var(--stake-bg-primary)) !important;
+  color: var(--stake-text-primary) !important;
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
+.stake-main-content--has-layout-bg {
+  background: transparent !important;
+  color: var(--stake-text-primary) !important;
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
+.stake-main-content:not(.stake-main-content--has-layout-bg) .tp-page {
+  background: var(--stake-main-bg, var(--stake-bg-primary)) !important;
+}
+
+.stake-main-content--has-layout-bg .tp-page {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+/* حاوية Flex: المحتوى يبقى يساراً ولا يُسحب خلف الشريط (RTL/LTR) */
+.stake-main-content > div:first-of-type {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  justify-content: flex-end !important; /* في RTL = المحتوى يساراً */
+}
+/* الشريط الجانبي دائماً فوق المحتوى */
+.stake-sidebar {
+  z-index: 100 !important;
+}
+
+.stake-sidebar.tp-sidebar-fixed-shell {
+  position: fixed !important;
+  right: 0 !important;
+  top: 0 !important;
+}
+
+/* قالب الضوء الناعم: التبويبات الأفقية - تدرج مع الخلفية */
+body.light-theme .stake-page-tabs,
+body[data-theme="light"] .stake-page-tabs {
+  background: var(--stake-bg-secondary) !important;
+  border-color: var(--stake-border-primary) !important;
+}
+body.light-theme .stake-page-tabs .chakra-stack,
+body.light-theme .stake-page-tabs > div,
+body[data-theme="light"] .stake-page-tabs .chakra-stack,
+body[data-theme="light"] .stake-page-tabs > div {
+  background: var(--stake-bg-secondary) !important;
+  border-color: var(--stake-border-primary) !important;
+}
+body.light-theme .stake-page-tabs .chakra-button,
+body.light-theme .stake-page-tabs button,
+body[data-theme="light"] .stake-page-tabs .chakra-button,
+body[data-theme="light"] .stake-page-tabs button {
+  color: var(--stake-text-primary) !important;
+}
+body.light-theme .stake-page-tabs .chakra-button:hover,
+body.light-theme .stake-page-tabs button:hover,
+body[data-theme="light"] .stake-page-tabs .chakra-button:hover,
+body[data-theme="light"] .stake-page-tabs button:hover {
+  background: var(--stake-bg-hover) !important;
+  color: var(--stake-text-primary) !important;
+  border-radius: 8px !important;
+}
+body.light-theme .stake-page-tabs .stake-tab-active,
+body.light-theme .stake-page-tabs .chakra-button.stake-tab-active,
+body[data-theme="light"] .stake-page-tabs .stake-tab-active,
+body[data-theme="light"] .stake-page-tabs .chakra-button.stake-tab-active {
+  background: var(--stake-bg-hover) !important;
+  color: var(--stake-text-primary) !important;
+}
+body.light-theme .stake-page-tabs .chakra-icon,
+body.light-theme .stake-page-tabs svg,
+body[data-theme="light"] .stake-page-tabs .chakra-icon,
+body[data-theme="light"] .stake-page-tabs svg {
+  color: var(--stake-text-primary) !important;
+}
+
+/* قالب الضوء الناعم: الشريط الجانبي — ألوان متناسقة + hover و active */
+html:not([data-layout-bg='dashboard']) body.light-theme .stake-sidebar,
+html:not([data-layout-bg='dashboard']) body[data-theme="light"] .stake-sidebar {
+  background: linear-gradient(90deg, var(--stake-sidebar-bg-start) 0%, var(--stake-sidebar-bg-end) 100%) !important;
+  background-image: linear-gradient(90deg, var(--stake-sidebar-bg-start) 0%, var(--stake-sidebar-bg-end) 100%) !important;
+  border-color: var(--stake-border-primary) !important;
+}
+body.light-theme .stake-sidebar .chakra-button,
+body.light-theme .stake-sidebar .chakra-iconbutton,
+body.light-theme .stake-sidebar .chakra-text,
+body[data-theme="light"] .stake-sidebar .chakra-button,
+body[data-theme="light"] .stake-sidebar .chakra-iconbutton,
+body[data-theme="light"] .stake-sidebar .chakra-text {
+  color: var(--stake-text-primary) !important;
+}
+body.light-theme .stake-sidebar .chakra-button:hover,
+body.light-theme .stake-sidebar .chakra-iconbutton:hover,
+body[data-theme="light"] .stake-sidebar .chakra-button:hover,
+body[data-theme="light"] .stake-sidebar .chakra-iconbutton:hover {
+  background: var(--stake-bg-hover) !important;
+  color: var(--stake-text-primary) !important;
+  border-radius: 8px !important;
+  transition: background 0.2s ease, color 0.2s ease !important;
+}
+body.light-theme .stake-sidebar .chakra-button[aria-current="page"],
+body.light-theme .stake-sidebar .chakra-iconbutton[aria-current="page"],
+body[data-theme="light"] .stake-sidebar .chakra-button[aria-current="page"],
+body[data-theme="light"] .stake-sidebar .chakra-iconbutton[aria-current="page"] {
+  background: var(--stake-bg-hover) !important;
+  color: var(--stake-primary) !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+}
+.stake-main-content,
+.stake-main-content .stake-header {
+  z-index: 1 !important;
+}
+
+/* البطاقات */
+.stake-card {
+  background: var(--stake-bg-card) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--stake-shadow-sm) !important;
+}
+
+/* الجداول */
+.stake-table {
+  background: var(--stake-bg-card) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+.stake-table th {
+  background: var(--stake-bg-secondary) !important;
+  color: var(--stake-text-primary) !important;
+  border-bottom: 1px solid var(--stake-border-primary) !important;
+  font-weight: 600 !important;
+}
+
+/* صفوف الإذن - لون غامق - قواعد قوية جداً لتتجاوز كل شيء */
+.stake-table td {
+  background: var(--stake-bg-card) !important;
+  color: var(--stake-text-primary) !important;
+  border-bottom: 1px solid var(--stake-border-primary) !important;
+}
+
+.stake-table tr:hover td {
+  background: var(--stake-bg-hover) !important;
+}
+
+/* الأزرار */
+
+/* النماذج */
+.stake-input {
+  background: var(--stake-bg-secondary) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  color: var(--stake-text-primary) !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.stake-input:focus {
+  border-color: var(--stake-primary) !important;
+  box-shadow: 0 0 0 2px rgba(91, 141, 239, 0.15) !important;
+}
+
+.stake-input::placeholder {
+  color: var(--stake-text-muted) !important;
+}
+
+/* العناوين */
+.stake-heading {
+  color: var(--stake-text-primary) !important;
+  font-weight: 700 !important;
+}
+
+.stake-subheading {
+  color: var(--stake-text-secondary) !important;
+  font-weight: 500 !important;
+}
+
+/* الإحصائيات */
+.stake-stat-card {
+  background: var(--stake-bg-card) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  border-radius: 12px !important;
+  padding: 24px !important;
+  transition: all 0.3s ease !important;
+}
+
+.stake-stat-card:hover {
+  border-color: var(--stake-primary) !important;
+  box-shadow: var(--stake-shadow-md) !important;
+}
+
+.stake-stat-value {
+  color: var(--stake-primary) !important;
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+}
+
+.stake-stat-label {
+  color: var(--stake-text-secondary) !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+}
+
+/* التنبيهات */
+.stake-alert-success {
+  background: rgba(16, 185, 129, 0.1) !important;
+  border: 1px solid var(--stake-success) !important;
+  color: var(--stake-success) !important;
+  border-radius: 8px !important;
+}
+
+.stake-alert-warning {
+  background: rgba(245, 158, 11, 0.1) !important;
+  border: 1px solid var(--stake-warning) !important;
+  color: var(--stake-warning) !important;
+  border-radius: 8px !important;
+}
+
+.stake-alert-error {
+  background: rgba(239, 68, 68, 0.1) !important;
+  border: 1px solid var(--stake-error) !important;
+  color: var(--stake-error) !important;
+  border-radius: 8px !important;
+}
+
+/* التمرير المخصص */
+.stake-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.stake-scrollbar::-webkit-scrollbar-track {
+  background: var(--stake-bg-secondary);
+  border-radius: 4px;
+}
+
+.stake-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--stake-border-primary);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.stake-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--stake-primary);
+}
+
+/* التأثيرات الخاصة */
+.stake-glow {
+  box-shadow: 0 0 20px rgba(0, 212, 170, 0.3) !important;
+}
+
+.stake-pulse {
+  animation: stake-pulse 2s infinite;
+}
+
+@keyframes stake-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* الاستجابة للشاشات الصغيرة */
+@media (max-width: 768px) {
+  html:not([data-layout-bg='dashboard']) .stake-sidebar {
+    background: var(--stake-bg-primary) !important;
+  }
+  
+  .stake-card {
+    margin: 8px !important;
+  }
+  
+  .stake-stat-card {
+    padding: 16px !important;
+  }
+}
+
+/* تطبيق الألوان على العناصر الموجودة */
+.chakra-ui-light {
+  --chakra-colors-gray-50: var(--stake-bg-primary);
+  --chakra-colors-gray-100: var(--stake-bg-secondary);
+  --chakra-colors-gray-200: var(--stake-bg-tertiary);
+  --chakra-colors-gray-300: var(--stake-border-primary);
+  --chakra-colors-gray-400: var(--stake-border-secondary);
+  --chakra-colors-gray-500: var(--stake-text-muted);
+  --chakra-colors-gray-600: var(--stake-text-secondary);
+  --chakra-colors-gray-700: var(--stake-text-primary);
+  --chakra-colors-gray-800: var(--stake-text-primary);
+  --chakra-colors-gray-900: var(--stake-text-primary);
+  
+  --chakra-colors-blue-500: var(--stake-primary);
+  --chakra-colors-green-500: var(--stake-success);
+  --chakra-colors-orange-500: var(--stake-secondary);
+  --chakra-colors-red-500: var(--stake-error);
+  --chakra-colors-purple-500: var(--stake-accent);
+}
+
+/* الـ scrollbar تلقائي (يظهر فقط عند الحاجة) */
+.stake-table {
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+}
+
+.stake-table::-webkit-scrollbar {
+  width: 12px !important;
+  height: 12px !important;
+  display: block !important;
+}
+
+.stake-table::-webkit-scrollbar-track {
+  background: var(--stake-bg-secondary) !important;
+  border-radius: 6px !important;
+  display: block !important;
+}
+
+.stake-table::-webkit-scrollbar-thumb {
+  background: var(--stake-border-primary) !important;
+  border-radius: 6px !important;
+  border: 2px solid var(--stake-bg-secondary) !important;
+  display: block !important;
+}
+
+.stake-table::-webkit-scrollbar-thumb:hover {
+  background: var(--stake-border-accent) !important;
+}
+
+.stake-table::-webkit-scrollbar-corner {
+  background: var(--stake-bg-secondary) !important;
+  display: block !important;
+}
+
+/* أنماط البادج الجديدة */
+.stake-badge-success {
+  background: var(--stake-success) !important;
+  color: white !important;
+  border: 1px solid var(--stake-success) !important;
+  border-radius: 6px !important;
+  padding: 4px 8px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+}
+
+.stake-badge-error {
+  background: var(--stake-error) !important;
+  color: white !important;
+  border: 1px solid var(--stake-error) !important;
+  border-radius: 6px !important;
+  padding: 4px 8px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+}
+
+.stake-badge-warning {
+  background: var(--stake-warning) !important;
+  color: white !important;
+  border: 1px solid var(--stake-warning) !important;
+  border-radius: 6px !important;
+  padding: 4px 8px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+}
+
+.stake-badge-primary {
+  background: var(--stake-primary) !important;
+  color: white !important;
+  border: 1px solid var(--stake-primary) !important;
+  border-radius: 6px !important;
+  padding: 4px 8px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+}
+
+.stake-badge-accent {
+  background: var(--stake-accent) !important;
+  color: white !important;
+  border: 1px solid var(--stake-accent) !important;
+  border-radius: 6px !important;
+  padding: 4px 8px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+}
+
+.stake-badge-secondary {
+  background: var(--stake-bg-tertiary) !important;
+  color: var(--stake-text-primary) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  border-radius: 6px !important;
+  padding: 4px 8px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+}
+
+/* أنماط المنيو (الإجراءات) */
+.chakra-menu__menu-list {
+  background: var(--stake-bg-primary) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  box-shadow: var(--stake-shadow-lg) !important;
+  border-radius: 12px !important;
+}
+
+.chakra-menu__menuitem {
+  background: transparent !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.chakra-menu__menuitem:hover {
+  background: var(--stake-bg-hover) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.chakra-menu__menuitem[data-danger="true"] {
+  color: var(--stake-error) !important;
+}
+
+.chakra-menu__menuitem[data-danger="true"]:hover {
+  background: rgba(233, 17, 60, 0.1) !important;
+}
+
+/* أنماط المودال — احترافية متناسقة */
+.chakra-modal__content {
+  background: var(--stake-bg-card) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  box-shadow: var(--stake-shadow-xl) !important;
+  color: var(--stake-text-primary) !important;
+  border-radius: 16px !important;
+}
+
+.chakra-modal__header {
+  background: var(--stake-bg-secondary) !important;
+  border-bottom: 1px solid var(--stake-border-primary) !important;
+  color: var(--stake-text-primary) !important;
+  padding: 16px 20px !important;
+}
+
+.chakra-modal__body {
+  background: var(--stake-bg-card) !important;
+  color: var(--stake-text-primary) !important;
+  padding: 20px !important;
+}
+
+.chakra-modal__footer {
+  background: var(--stake-bg-secondary) !important;
+  border-top: 1px solid var(--stake-border-primary) !important;
+  padding: 16px 20px !important;
+}
+
+.chakra-modal__overlay {
+  background: rgba(11, 19, 36, 0.85) !important;
+  backdrop-filter: blur(4px);
+}
+
+/* مودال العرض الكامل للحضور — بدون padding/margin وبدون تغيّر عند التمرير */
+.fullscreen-attendance-modal,
+.fullscreen-attendance-modal.chakra-modal__content,
+.fullscreen-attendance-modal .chakra-modal__header,
+.fullscreen-attendance-modal .chakra-modal__body {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.fullscreen-attendance-modal .chakra-modal__header {
+  flex-shrink: 0;
+}
+.fullscreen-attendance-modal .chakra-modal__body {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* تم إلغاء تأثير blur */
+
+/* English Key Tooltip Styling */
+.chakra-tooltip__content {
+  background: #2d3748 !important;
+  color: white !important;
+  border: 1px solid #4a5568 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  font-family: 'Courier New', monospace !important;
+  font-size: 12px !important;
+  padding: 8px 12px !important;
+}
+
+.chakra-tooltip__arrow {
+  border-top-color: #2d3748 !important;
+}
+
+/* تحسينات إضافية للأزرار */
+.stake-btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.stake-btn-secondary:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* تحسين أزرار Chakra UI - تم دمجها مع .stake-btn */
+
+.chakra-button.stake-btn-secondary {
+  background: transparent !important;
+  color: var(--stake-text-primary) !important;
+  border: 2px solid var(--stake-border-primary) !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  padding: 10px 22px !important;
+  transition: all 0.3s ease !important;
+  font-size: 14px !important;
+  letter-spacing: 0.025em !important;
+}
+
+.chakra-button.stake-btn-secondary:hover {
+  background: var(--stake-bg-secondary) !important;
+  color: var(--stake-primary) !important;
+  border-color: var(--stake-primary) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: none !important;
+}
+
+/* تحسين أزرار التنقل */
+.stake-btn-secondary:disabled {
+  opacity: 0.4 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+/* تحسين قوائم الإجراءات */
+.chakra-menu__menu-list {
+  border-radius: 8px !important;
+  box-shadow: var(--stake-shadow-lg) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+}
+
+.chakra-menu__menuitem {
+  border-radius: 4px !important;
+  margin: 2px 4px !important;
+  transition: all 0.15s ease !important;
+}
+
+.chakra-menu__menuitem:hover {
+  transform: translateX(2px) !important;
+}
+
+/* تحسينات إضافية لضمان ظهور الأزرار — لا [class*="stake-btn"] حتى لا يُطبَّق الأزرق على stake-btn-success */
+button.stake-btn,
+button.stake-btn-primary,
+.chakra-button.stake-btn,
+.chakra-button.stake-btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  padding: 12px 24px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: none !important;
+  font-size: 14px !important;
+  letter-spacing: 0.025em !important;
+  min-height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+button.stake-btn:hover,
+button.stake-btn-primary:hover,
+.chakra-button.stake-btn:hover,
+.chakra-button.stake-btn-primary:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: none !important;
+}
+
+button.stake-btn-secondary,
+.chakra-button.stake-btn-secondary,
+[class*="stake-btn-secondary"] {
+  background: transparent !important;
+  color: var(--stake-text-primary) !important;
+  border: 2px solid var(--stake-border-primary) !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  padding: 10px 22px !important;
+  transition: all 0.3s ease !important;
+  font-size: 14px !important;
+  letter-spacing: 0.025em !important;
+    min-height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+button.stake-btn-secondary:hover,
+.chakra-button.stake-btn-secondary:hover,
+[class*="stake-btn-secondary"]:hover {
+  background: var(--stake-bg-secondary) !important;
+  color: var(--stake-primary) !important;
+  border-color: var(--stake-primary) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: none !important;
+}
+
+/* Chakra: زر أساسي أزرق فقط (لا يطابق stake-btn-success عبر substring) */
+.chakra-button.stake-btn,
+.chakra-button.stake-btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  padding: 12px 24px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: none !important;
+  font-size: 14px !important;
+  letter-spacing: 0.025em !important;
+  min-height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.chakra-button.stake-btn:hover,
+.chakra-button.stake-btn-primary:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%) !important;
+  color: #ffffff !important;
+}
+
+.chakra-button.stake-btn-success {
+  background: var(--stake-success) !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  border: 1px solid var(--stake-success) !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  padding: 12px 24px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: none !important;
+  font-size: 14px !important;
+  letter-spacing: 0.025em !important;
+  min-height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.chakra-button.stake-btn-success:hover,
+.chakra-button.stake-btn-success[data-hover] {
+  background: var(--stake-success) !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  border-color: var(--stake-success) !important;
+  filter: brightness(1.08) !important;
+}
+
+.chakra-button[class*="stake-btn-secondary"] {
+  background: transparent !important;
+  color: var(--stake-text-primary) !important;
+  border: 2px solid var(--stake-border-primary) !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  padding: 10px 22px !important;
+  transition: all 0.3s ease !important;
+  font-size: 14px !important;
+  letter-spacing: 0.025em !important;
+  min-height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* تحسين IconButton */
+.chakra-iconbutton.stake-btn-secondary {
+  background: transparent !important;
+  color: var(--stake-text-primary) !important;
+  border: 2px solid var(--stake-border-primary) !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+  width: 44px !important;
+  height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.chakra-iconbutton.stake-btn-secondary:hover {
+  background: var(--stake-bg-secondary) !important;
+  color: var(--stake-primary) !important;
+  border-color: var(--stake-primary) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: none !important;
+}
+
+.chakra-iconbutton.stake-btn-secondary:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* تحسين الأيقونات داخل الأزرار */
+.chakra-iconbutton.stake-btn-secondary svg {
+  color: var(--stake-text-primary) !important;
+  transition: color 0.3s ease !important;
+}
+
+.chakra-iconbutton.stake-btn-secondary:hover svg {
+  color: var(--stake-primary) !important;
+}
+
+/* CSS قوي لضمان تطبيق الألوان على الأيقونات */
+.chakra-iconbutton[class*="stake-btn-secondary"] {
+  background: transparent !important;
+  color: var(--stake-text-primary) !important;
+  border: 2px solid var(--stake-border-primary) !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+  width: 44px !important;
+  height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.chakra-iconbutton[class*="stake-btn-secondary"] svg {
+  color: var(--stake-text-primary) !important;
+  transition: color 0.3s ease !important;
+}
+
+.chakra-iconbutton[class*="stake-btn-secondary"]:hover {
+  background: var(--stake-bg-secondary) !important;
+  color: var(--stake-primary) !important;
+  border-color: var(--stake-primary) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: none !important;
+}
+
+.chakra-iconbutton[class*="stake-btn-secondary"]:hover svg {
+  color: var(--stake-primary) !important;
+}
+
+/* CSS إضافي لضمان ظهور الأيقونات */
+.chakra-iconbutton[class*="stake-btn-secondary"] * {
+  color: var(--stake-text-primary) !important;
+  transition: color 0.3s ease !important;
+}
+
+.chakra-iconbutton[class*="stake-btn-secondary"]:hover * {
+  color: var(--stake-primary) !important;
+}
+
+/* تحسين إضافي للأيقونات */
+.chakra-iconbutton[class*="stake-btn-secondary"] .chakra-icon {
+  color: var(--stake-text-primary) !important;
+  transition: color 0.3s ease !important;
+}
+
+.chakra-iconbutton[class*="stake-btn-secondary"]:hover .chakra-icon {
+  color: var(--stake-primary) !important;
+}
+
+/* تحسين للأيقونات من react-icons */
+.chakra-iconbutton[class*="stake-btn-secondary"] path {
+  /* fill: #d5dceb !important; */
+  transition: fill 0.3s ease !important;
+}
+
+
+
+/* CSS قوي جداً لضمان ظهور الأيقونات */
+.chakra-iconbutton[class*="stake-btn-secondary"] svg,
+.chakra-iconbutton[class*="stake-btn-secondary"] svg *,
+.chakra-iconbutton[class*="stake-btn-secondary"] svg path,
+.chakra-iconbutton[class*="stake-btn-secondary"] svg circle,
+.chakra-iconbutton[class*="stake-btn-secondary"] svg rect,
+.chakra-iconbutton[class*="stake-btn-secondary"] svg line {
+  fill: var(--stake-text-primary) !important;
+  stroke: var(--stake-text-primary) !important;
+  color: var(--stake-text-primary) !important;
+  transition: all 0.3s ease !important;
+}
+
+.chakra-iconbutton[class*="stake-btn-secondary"]:hover svg,
+.chakra-iconbutton[class*="stake-btn-secondary"]:hover svg *,
+.chakra-iconbutton[class*="stake-btn-secondary"]:hover svg path,
+.chakra-iconbutton[class*="stake-btn-secondary"]:hover svg circle,
+.chakra-iconbutton[class*="stake-btn-secondary"]:hover svg rect,
+.chakra-iconbutton[class*="stake-btn-secondary"]:hover svg line {
+  fill: var(--stake-primary) !important;
+  stroke: var(--stake-primary) !important;
+  color: var(--stake-primary) !important;
+}
+
+/* CSS محدد جداً للأيقونات */
+button[class*="stake-btn-secondary"] svg,
+button[class*="stake-btn-secondary"] svg * {
+  stroke: var(--stake-text-primary) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+button[class*="stake-btn-secondary"]:hover svg,
+button[class*="stake-btn-secondary"]:hover svg * {
+  stroke: var(--stake-primary) !important;
+  color: var(--stake-primary) !important;
+}
+
+/* CSS للعناصر المحددة في الصفحة */
+.chakra-iconbutton[aria-label="تحديث"] svg,
+.chakra-iconbutton[aria-label="تحديث"] svg * {
+  stroke: var(--stake-text-primary) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.chakra-iconbutton[aria-label="تحديث"]:hover svg,
+.chakra-iconbutton[aria-label="تحديث"]:hover svg * {
+  stroke: var(--stake-primary) !important;
+  color: var(--stake-primary) !important;
+}
+
+.chakra-iconbutton[aria-label*="عرض كامل"] svg,
+.chakra-iconbutton[aria-label*="عرض كامل"] svg *,
+.chakra-iconbutton[aria-label*="تصغير"] svg,
+.chakra-iconbutton[aria-label*="تصغير"] svg * {
+  fill: var(--stake-text-primary) !important;
+  stroke: var(--stake-text-primary) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.chakra-iconbutton[aria-label*="عرض كامل"]:hover svg,
+.chakra-iconbutton[aria-label*="عرض كامل"]:hover svg *,
+.chakra-iconbutton[aria-label*="تصغير"]:hover svg,
+.chakra-iconbutton[aria-label*="تصغير"]:hover svg * {
+  fill: var(--stake-primary) !important;
+  stroke: var(--stake-primary) !important;
+  color: var(--stake-primary) !important;
+}
+
+/* CSS قوي لضمان ظهور الأيقونات */
+.chakra-iconbutton[class*="stake-btn-secondary"] {
+  position: relative !important;
+}
+
+.chakra-iconbutton[class*="stake-btn-secondary"] svg {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 20px !important;
+  height: 20px !important;
+  fill: var(--stake-text-primary) !important;
+  stroke: var(--stake-text-primary) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.chakra-iconbutton[class*="stake-btn-secondary"]:hover svg {
+  fill: var(--stake-primary) !important;
+  stroke: var(--stake-primary) !important;
+  color: var(--stake-primary) !important;
+}
+
+/* إجبار ظهور الأيقونات */
+.chakra-iconbutton[class*="stake-btn-secondary"] * {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* CSS للأزرار الحمراء */
+.chakra-iconbutton[class*="stake-btn-error"] {
+  background: transparent !important;
+  color: #d5dceb !important;
+  border: 2px solid var(--stake-border-primary) !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+  width: 44px !important;
+  height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.chakra-iconbutton[class*="stake-btn-error"] svg {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 20px !important;
+  height: 20px !important;
+  fill: #d5dceb !important;
+  stroke: #d5dceb !important;
+  color: #d5dceb !important;
+}
+
+.chakra-iconbutton[class*="stake-btn-error"]:hover {
+  background: var(--stake-bg-secondary) !important;
+  color: #e9113c !important;
+  border-color: #e9113c !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(233, 17, 60, 0.2) !important;
+}
+
+.chakra-iconbutton[class*="stake-btn-error"]:hover svg {
+  fill: #e9113c !important;
+  stroke: #e9113c !important;
+  color: #e9113c !important;
+}
+
+.chakra-iconbutton[class*="stake-btn-error"] * {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* CSS شامل لجميع الأيقونات */
+.chakra-iconbutton svg,
+.chakra-iconbutton svg * {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: none !important;
+}
+
+/* إجبار ظهور الأيقونات في أزرار أساسية فقط */
+button.stake-btn svg,
+button.stake-btn-primary svg,
+button.stake-btn svg *,
+button.stake-btn-primary svg *,
+.chakra-button.stake-btn svg,
+.chakra-button.stake-btn-primary svg,
+.chakra-button.stake-btn svg *,
+.chakra-button.stake-btn-primary svg * {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.chakra-button.stake-btn-success svg,
+.chakra-button.stake-btn-success svg * {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* CSS قوي جداً لضمان ظهور الأيقونات */
+.chakra-button.stake-btn svg,
+.chakra-button.stake-btn-primary svg {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 20px !important;
+  height: 20px !important;
+  /* لا نفرض fill/stroke هنا لتفادي تشويه الأيقونات المعبأة */
+}
+
+.chakra-button.stake-btn svg *,
+.chakra-button.stake-btn-primary svg * {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  /* لا نفرض fill/stroke داخل المسارات للحفاظ على ألوان الأيقونة الأصلية */
+}
+
+/* IconButton بـ class stake-btn فقط (بدون substring يطابق stake-btn-secondary) */
+.chakra-iconbutton.stake-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 2px solid var(--stake-border-primary) !important;
+  background: transparent !important;
+  color: #d5dceb !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.chakra-iconbutton.stake-btn svg {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 20px !important;
+  height: 20px !important;
+  /* لا نفرض fill/stroke هنا لتفادي تشويه الأيقونات */
+}
+
+.chakra-iconbutton.stake-btn:hover {
+  background: var(--stake-bg-hover) !important;
+  border-color: var(--stake-primary) !important;
+  color: var(--stake-primary) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: var(--stake-shadow-md) !important;
+}
+
+.chakra-iconbutton[class*="stake-btn-error"]:hover {
+  border-color: #e9113c !important;
+  color: #e9113c !important;
+  box-shadow: 0 4px 12px rgba(233, 17, 60, 0.2) !important;
+}
+
+/* إزالة الدائرة البيضاء من أيقونة التحديث فقط */
+.chakra-button.stake-btn svg circle[fill="white"],
+.chakra-button.stake-btn svg circle[fill="#ffffff"],
+.chakra-button.stake-btn svg circle[fill="currentColor"],
+.chakra-button.stake-btn-primary svg circle[fill="white"],
+.chakra-button.stake-btn-primary svg circle[fill="#ffffff"],
+.chakra-button.stake-btn-primary svg circle[fill="currentColor"] {
+  display: none !important;
+  opacity: 0 !important;
+  fill: none !important;
+  stroke: none !important;
+}
+
+/* لا نفرض fill/stroke على path داخل الأزرار لتفادي تغيير تصميم الأيقونة */
+/* يمكن التحكم في لون الأيقونة عبر لون الزر نفسه */
+
+.chakra-iconbutton svg {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* CSS خاص لأيقونة البحث في الـ header */
+.stake-header .chakra-iconbutton svg {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 20px !important;
+  height: 20px !important;
+  fill: var(--stake-text-primary) !important;
+  stroke: var(--stake-text-primary) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.stake-header .chakra-iconbutton:hover svg {
+  fill: var(--stake-primary) !important;
+  stroke: var(--stake-primary) !important;
+  color: var(--stake-primary) !important;
+}
+
+/* CSS خاص لأيقونات التعديل في الجداول */
+.chakra-menu__menu-item svg {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 16px !important;
+  height: 16px !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+  color: currentColor !important;
+}
+
+.chakra-menu__menu-item:hover svg {
+  fill: var(--stake-primary) !important;
+  stroke: var(--stake-primary) !important;
+  color: var(--stake-primary) !important;
+}
+
+/* CSS للـ Tooltip */
+.chakra-tooltip__content {
+  background: var(--stake-bg-secondary) !important;
+  color: var(--stake-text-primary) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  box-shadow: var(--stake-shadow-lg) !important;
+}
+
+.chakra-tooltip__arrow {
+  border-color: var(--stake-bg-secondary) transparent transparent transparent !important;
+}
+
+/* CSS للأزرار القابلة للتوسع */
+.expandable-btn {
+  position: relative !important;
+  overflow: hidden !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* الحالة العادية - الأيقونة في المنتصف */
+.expandable-btn .chakra-button__icon {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 2 !important;
+  transition: all 0.3s ease !important;
+  margin: 0 !important;
+  -webkit-margin-end: 0 !important;
+  margin-inline-end: 0 !important;
+}
+
+/* عند التمرير - الأيقونة تنتقل لليسار */
+.expandable-btn:hover .chakra-button__icon {
+  left: 12px !important;
+  transform: translateY(-50%) !important;
+  margin: 0 !important;
+  -webkit-margin-end: 0 !important;
+  margin-inline-end: 0 !important;
+}
+
+.expandable-text {
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+.expandable-btn:hover .expandable-text {
+  opacity: 1 !important;
+}
+
+/* طباعة تقرير / طباعة الكل: أيقونة بنفس لون النص في الوضع المضغوط والموسّع والتمرير */
+.chakra-button.stake-btn.expandable-btn .chakra-button__icon,
+.chakra-button.stake-btn-primary.expandable-btn .chakra-button__icon,
+.chakra-button.stake-btn-success.expandable-btn .chakra-button__icon {
+  color: #ffffff !important;
+}
+
+.chakra-button.stake-btn.expandable-btn .chakra-button__icon svg,
+.chakra-button.stake-btn.expandable-btn .chakra-button__icon svg *,
+.chakra-button.stake-btn-primary.expandable-btn .chakra-button__icon svg,
+.chakra-button.stake-btn-primary.expandable-btn .chakra-button__icon svg *,
+.chakra-button.stake-btn-success.expandable-btn .chakra-button__icon svg,
+.chakra-button.stake-btn-success.expandable-btn .chakra-button__icon svg * {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+.chakra-button.stake-btn.expandable-btn:hover .chakra-button__icon,
+.chakra-button.stake-btn.expandable-btn:hover .chakra-button__icon svg,
+.chakra-button.stake-btn.expandable-btn:hover .chakra-button__icon svg *,
+.chakra-button.stake-btn-primary.expandable-btn:hover .chakra-button__icon,
+.chakra-button.stake-btn-primary.expandable-btn:hover .chakra-button__icon svg,
+.chakra-button.stake-btn-primary.expandable-btn:hover .chakra-button__icon svg *,
+.chakra-button.stake-btn-success.expandable-btn:hover .chakra-button__icon,
+.chakra-button.stake-btn-success.expandable-btn:hover .chakra-button__icon svg,
+.chakra-button.stake-btn-success.expandable-btn:hover .chakra-button__icon svg * {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+.chakra-button.stake-btn.expandable-btn .expandable-text,
+.chakra-button.stake-btn-primary.expandable-btn .expandable-text,
+.chakra-button.stake-btn-success.expandable-btn .expandable-text {
+  color: #ffffff !important;
+}
+
+/* منع خلفية/لون Chakra الافتراضي (مثل minimal-bright) يجعل زر «طباعة الكل» أبيض على أبيض */
+.chakra-button.stake-btn.expandable-btn:hover,
+.chakra-button.stake-btn.expandable-btn[data-hover],
+.chakra-button.stake-btn-primary.expandable-btn:hover,
+.chakra-button.stake-btn-primary.expandable-btn[data-hover] {
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+/* تحسين ألوان المودال */
+.modal-form-label {
+  color: var(--stake-text-primary) !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  margin-bottom: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.modal-form-control {
+  margin-bottom: 0 !important;
+}
+
+.modal-form-control .chakra-input,
+.modal-form-control .chakra-select,
+.modal-form-control .chakra-textarea,
+.modal-form-control .chakra-numberinput__field {
+  background: var(--stake-bg-primary) !important;
+  border: 2px solid var(--stake-border-primary) !important;
+  color: var(--stake-text-primary) !important;
+  border-radius: 12px !important;
+  transition: all 0.3s ease !important;
+  height: 48px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+.modal-form-control .chakra-input:focus,
+.modal-form-control .chakra-select:focus,
+.modal-form-control .chakra-textarea:focus,
+.modal-form-control .chakra-numberinput__field:focus {
+  border-color: var(--stake-primary) !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+  transform: translateY(-1px) !important;
+  background: var(--stake-bg-primary) !important;
+}
+
+.modal-form-control .chakra-input:hover,
+.modal-form-control .chakra-select:hover,
+.modal-form-control .chakra-textarea:hover,
+.modal-form-control .chakra-numberinput__field:hover {
+  border-color: var(--stake-primary) !important;
+  background: var(--stake-bg-primary) !important;
+}
+
+.modal-form-control .chakra-input::placeholder,
+.modal-form-control .chakra-textarea::placeholder {
+  color: var(--stake-text-secondary) !important;
+  font-weight: 400 !important;
+}
+
+.modal-form-control .chakra-textarea {
+  height: auto !important;
+  min-height: 100px !important;
+  resize: vertical !important;
+}
+
+/* تحسين NumberInput */
+.modal-form-control .chakra-numberinput {
+  width: 100% !important;
+}
+
+.modal-form-control .chakra-numberinput__field {
+  border-radius: 12px 0 0 12px !important;
+}
+
+.modal-form-control .chakra-numberinput__stepper {
+  border-radius: 0 12px 12px 0 !important;
+  border: 2px solid var(--stake-border-primary) !important;
+  border-left: none !important;
+  background: var(--stake-bg-primary) !important;
+}
+
+.modal-form-control .chakra-numberinput__stepper button {
+  color: var(--stake-text-secondary) !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.modal-form-control .chakra-numberinput__stepper button:hover {
+  background: var(--stake-bg-hover) !important;
+  color: var(--stake-primary) !important;
+}
+
+/* ========================================
+   قواعد جداول Chakra UI
+   ======================================== */
+
+/* هيدر جداول Chakra — يتبع ألوان رأس الجدول وليس لون البطاقة (كان يُظهر هيدراً داكناً مع ثيم داكن) */
+.chakra-table thead,
+.chakra-table thead tr,
+.chakra-table thead th {
+  background: var(--stake-table-header-bg, var(--stake-bg-secondary)) !important;
+  color: var(--stake-table-header-text, var(--stake-text-primary)) !important;
+}
+
+.chakra-table tbody td {
+  background: var(--stake-bg-secondary) !important;
+  color: var(--stake-text-primary) !important;
+  border-color: var(--stake-border-primary) !important;
+}
+
+.chakra-table tbody tr:hover td {
+  background: var(--stake-bg-hover) !important;
+}
+
+/* ========================================
+   قواعد ألوان النصوص الرئيسية
+   ======================================== */
+
+/* إجبار ألوان النصوص في جميع العناصر */
+.chakra-text,
+.chakra-heading,
+p, h1, h2, h3, h4, h5, h6, span, label {
+  color: var(--stake-text-primary);
+}
+
+/* النصوص الثانوية */
+.stake-text-secondary,
+.chakra-text[class*="css-"]:not([class*="bold"]) {
+  color: var(--stake-text-secondary) !important;
+}
+
+/* النصوص داخل الكروت */
+.chakra-card .chakra-text,
+.chakra-card .chakra-heading,
+.chakra-card__body .chakra-text {
+  color: var(--stake-text-primary);
+}
+
+/* ========================================
+   قواعد تجاوز ألوان النصوص للقوالب
+   ======================================== */
+
+/* تجاوز ألوان gray.300, gray.400, gray.500 لتستخدم متغير القالب */
+[class*="css-"][style*="color: var(--stake-text-secondary"] {
+  color: var(--stake-text-secondary) !important;
+}
+
+/* النصوص التوضيحية والوصفية */
+.chakra-text[class*="css-"] {
+  color: inherit;
+}
+
+/* إجبار النصوص الثانوية على استخدام متغير القالب */
+.theme-text-secondary,
+.description-text,
+.helper-text {
+  color: var(--stake-text-secondary) !important;
+}
+
+/* تحديث ألوان النصوص في البطاقات */
+.chakra-card__body .chakra-text,
+.chakra-card__body .chakra-form__helper-text {
+  color: var(--stake-text-secondary);
+}
+
+/* تحديث ألوان العناوين */
+.chakra-card__header .chakra-heading {
+  color: var(--stake-text-primary) !important;
+}
+
+/* تحديث ألوان الأزرار الرئيسية */
+.stake-btn-primary,
+button[class*="css-"][style*="background: var(--stake-primary"] {
+  background: var(--stake-primary) !important;
+  color: white !important;
+}
+
+/* تحديث hover للأزرار */
+.stake-btn-primary:hover {
+  filter: brightness(1.1);
+}
+
+/* ========================================
+   قواعد خاصة بالقالب الفاتح (Soft Light)
+   تُطبق عندما تكون الخلفية فاتحة
+   ======================================== */
+
+/* قالب الضوء الناعم (Soft Light) — ألوان متناسقة ومتنوعة */
+body[data-theme="light"],
+body.light-theme {
+  color: var(--stake-text-primary) !important;
+  background: var(--stake-bg-primary) !important;
+}
+
+body.light-theme *,
+body[data-theme="light"] * {
+  --text-color-override: var(--stake-text-primary);
+}
+
+/* النصوص الرئيسية */
+body.light-theme .chakra-text,
+body.light-theme .chakra-heading,
+body.light-theme p,
+body.light-theme span,
+body.light-theme label,
+body.light-theme h1, body.light-theme h2, body.light-theme h3,
+body.light-theme h4, body.light-theme h5, body.light-theme h6,
+body.light-theme .stake-heading-3,
+body.light-theme [class*="heading"],
+body[data-theme="light"] .chakra-text,
+body[data-theme="light"] .chakra-heading,
+body[data-theme="light"] p,
+body[data-theme="light"] span,
+body[data-theme="light"] label,
+body[data-theme="light"] h1, body[data-theme="light"] h2, body[data-theme="light"] h3,
+body[data-theme="light"] h4, body[data-theme="light"] h5, body[data-theme="light"] h6,
+body[data-theme="light"] .stake-heading-3,
+body[data-theme="light"] [class*="heading"] {
+  color: var(--stake-text-primary) !important;
+}
+
+/* النصوص الثانوية */
+body.light-theme .stake-text-secondary,
+body.light-theme [class*="text-secondary"],
+body[data-theme="light"] .stake-text-secondary,
+body[data-theme="light"] [class*="text-secondary"] {
+  color: var(--stake-text-secondary) !important;
+}
+
+/* الأزرار في القالب الفاتح */
+body.light-theme .stake-btn,
+body.light-theme button.stake-btn,
+body[data-theme="light"] .stake-btn,
+body[data-theme="light"] button.stake-btn {
+  color: white !important;
+}
+
+/* الـ Sidebar الداخلي للصفحات */
+body.light-theme .stake-main-content button[class*="ghost"],
+body.light-theme .stake-main-content .chakra-button[class*="ghost"],
+body[data-theme="light"] .stake-main-content button[class*="ghost"],
+body[data-theme="light"] .stake-main-content .chakra-button[class*="ghost"] {
+  color: var(--stake-text-primary) !important;
+}
+
+body.light-theme .stake-main-content button[class*="ghost"]:hover,
+body.light-theme .stake-main-content .chakra-button[class*="ghost"]:hover,
+body[data-theme="light"] .stake-main-content button[class*="ghost"]:hover,
+body[data-theme="light"] .stake-main-content .chakra-button[class*="ghost"]:hover {
+  background: var(--stake-bg-hover) !important;
+}
+
+/* العنصر النشط في القالب الفاتح */
+body.light-theme .stake-main-content button[aria-current="page"],
+body.light-theme .stake-main-content .chakra-button[aria-current="page"],
+body[data-theme="light"] .stake-main-content button[aria-current="page"],
+body[data-theme="light"] .stake-main-content .chakra-button[aria-current="page"] {
+  background: var(--stake-bg-hover) !important;
+  color: var(--stake-primary) !important;
+}
+
+/* الجداول في القالب الفاتح */
+body.light-theme .stake-table th,
+body.light-theme .stake-table td,
+body.light-theme .chakra-table th,
+body.light-theme .chakra-table td,
+body[data-theme="light"] .stake-table th,
+body[data-theme="light"] .stake-table td,
+body[data-theme="light"] .chakra-table th,
+body[data-theme="light"] .chakra-table td {
+  color: var(--stake-text-primary) !important;
+}
+
+body.light-theme .stake-table thead th,
+body.light-theme .chakra-table thead th,
+body[data-theme="light"] .stake-table thead th,
+body[data-theme="light"] .chakra-table thead th {
+  background: var(--stake-table-header-bg, var(--stake-bg-secondary)) !important;
+  border-bottom: 1px solid var(--stake-border-primary) !important;
+  color: var(--stake-table-header-text, var(--stake-text-primary)) !important;
+}
+
+body.light-theme .stake-table tbody td,
+body.light-theme .chakra-table tbody td,
+body[data-theme="light"] .stake-table tbody td,
+body[data-theme="light"] .chakra-table tbody td {
+  background: var(--stake-bg-card) !important;
+}
+
+body.light-theme .stake-table tbody tr:hover td,
+body.light-theme .chakra-table tbody tr:hover td,
+body[data-theme="light"] .stake-table tbody tr:hover td,
+body[data-theme="light"] .chakra-table tbody tr:hover td {
+  background: var(--stake-bg-hover) !important;
+}
+
+/* الكروت والبطاقات */
+body.light-theme .chakra-card,
+body.light-theme .chakra-card__body,
+body.light-theme .chakra-card__header,
+body[data-theme="light"] .chakra-card,
+body[data-theme="light"] .chakra-card__body,
+body[data-theme="light"] .chakra-card__header {
+  color: var(--stake-text-primary) !important;
+  background: var(--stake-bg-card) !important;
+  border-color: var(--stake-border-primary) !important;
+}
+
+/* الـ Inputs في القالب الفاتح */
+body.light-theme .chakra-input,
+body.light-theme .chakra-select,
+body.light-theme .chakra-textarea,
+body.light-theme .chakra-numberinput input,
+body[data-theme="light"] .chakra-input,
+body[data-theme="light"] .chakra-select,
+body[data-theme="light"] .chakra-textarea,
+body[data-theme="light"] .chakra-numberinput input {
+  color: var(--stake-text-primary) !important;
+  background: var(--stake-bg-card) !important;
+  border-color: var(--stake-border-primary) !important;
+}
+
+/* الـ Modals في القالب الفاتح */
+body.light-theme .chakra-modal__content,
+body[data-theme="light"] .chakra-modal__content {
+  background: var(--stake-bg-card) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+body.light-theme .chakra-modal__header,
+body.light-theme .chakra-modal__body,
+body.light-theme .chakra-modal__footer,
+body[data-theme="light"] .chakra-modal__header,
+body[data-theme="light"] .chakra-modal__body,
+body[data-theme="light"] .chakra-modal__footer {
+  color: var(--stake-text-primary) !important;
+}
+
+body.light-theme .chakra-modal__header,
+body[data-theme="light"] .chakra-modal__header {
+  background: var(--stake-bg-secondary) !important;
+  border-bottom: 1px solid var(--stake-border-primary) !important;
+}
+
+body.light-theme .chakra-modal__footer,
+body[data-theme="light"] .chakra-modal__footer {
+  background: var(--stake-bg-secondary) !important;
+  border-top: 1px solid var(--stake-border-primary) !important;
+}
+
+/* الـ Alerts وأيقونات القالب الفاتح */
+body.light-theme .chakra-alert,
+body[data-theme="light"] .chakra-alert {
+  color: var(--stake-text-primary) !important;
+}
+
+body.light-theme .chakra-icon,
+body.light-theme svg,
+body[data-theme="light"] .chakra-icon,
+body[data-theme="light"] svg {
+  color: var(--stake-text-primary);
+}
+
+/* الهيدر ومنطقة المحتوى */
+body.light-theme .stake-header,
+body[data-theme="light"] .stake-header {
+  background: var(--stake-header-bg, var(--stake-bg-primary)) !important;
+  color: var(--stake-text-primary) !important;
+  border-color: var(--stake-border-primary) !important;
+}
+
+html:not([data-layout-bg='dashboard']) body.light-theme .stake-main-content:not(.stake-main-content--has-layout-bg):not(.tp-page--has-dashboard-bg),
+html:not([data-layout-bg='dashboard']) body[data-theme="light"] .stake-main-content:not(.stake-main-content--has-layout-bg):not(.tp-page--has-dashboard-bg) {
+  background: var(--stake-header-bg, var(--stake-bg-primary)) !important;
+  color: var(--stake-text-primary) !important;
+  border-color: var(--stake-border-primary) !important;
+}
+
+body.light-theme .stake-header .chakra-text,
+body.light-theme .stake-header .chakra-heading,
+body.light-theme .stake-main-content .chakra-text,
+body.light-theme .stake-main-content .chakra-heading,
+body[data-theme="light"] .stake-header .chakra-text,
+body[data-theme="light"] .stake-header .chakra-heading,
+body[data-theme="light"] .stake-main-content .chakra-text,
+body[data-theme="light"] .stake-main-content .chakra-heading {
+  color: var(--stake-text-primary) !important;
+}
+
+/* الروابط في القالب الفاتح */
+body.light-theme a:not(.chakra-button),
+body[data-theme="light"] a:not(.chakra-button) {
+  color: var(--stake-primary) !important;
+}
+body.light-theme a:not(.chakra-button):hover,
+body[data-theme="light"] a:not(.chakra-button):hover {
+  color: var(--stake-text-primary) !important;
+}
+
+/* القوائم والأزرار في الصفحات الداخلية للقالب الفاتح */
+.stake-main-content .chakra-text,
+.stake-main-content .chakra-heading,
+.stake-main-content p,
+.stake-main-content span,
+.stake-main-content label {
+  color: var(--stake-text-primary);
+}
+
+/* الجداول للقالب الفاتح */
+.stake-table th,
+.stake-table td,
+.chakra-table th,
+.chakra-table td {
+  color: var(--stake-text-primary) !important;
+}
+
+/* البطاقات والكروت */
+.chakra-card,
+.chakra-card__body,
+.chakra-card__header {
+  color: var(--stake-text-primary);
+}
+
+/* النصوص الثانوية */
+.stake-text-secondary {
+  color: var(--stake-text-secondary) !important;
+}
+
+/* الـ Inputs والـ Selects */
+.chakra-input,
+.chakra-select,
+.chakra-textarea,
+.chakra-numberinput input {
+  color: var(--stake-text-primary) !important;
+  border-color: var(--stake-border-primary) !important;
+}
+
+.chakra-input::placeholder,
+.chakra-select::placeholder,
+.chakra-textarea::placeholder {
+  color: var(--stake-text-secondary) !important;
+}
+
+/* الـ Labels */
+.chakra-form__label,
+.chakra-form-control label {
+  color: var(--stake-text-primary) !important;
+}
+
+/* القوائم المنسدلة */
+.chakra-menu__menu-list,
+.chakra-select__menu {
+  background: var(--stake-bg-card) !important;
+  border-color: var(--stake-border-primary) !important;
+}
+
+.chakra-menu__menuitem,
+.chakra-select__option {
+  color: var(--stake-text-primary) !important;
+}
+
+.chakra-menu__menuitem:hover,
+.chakra-select__option:hover {
+  background: var(--stake-bg-hover) !important;
+}
+
+/* الـ Badges والـ Tags */
+.chakra-badge,
+.chakra-tag {
+  color: var(--stake-text-primary);
+}
+
+/* الـ Alerts */
+.chakra-alert {
+  color: var(--stake-text-primary);
+}
+
+/* الـ Modals للقالب الفاتح */
+.chakra-modal__content {
+  background: var(--stake-bg-card) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.chakra-modal__header {
+  color: var(--stake-text-primary) !important;
+}
+
+.chakra-modal__body {
+  color: var(--stake-text-primary) !important;
+}
+
+/* الـ Tabs */
+.chakra-tabs__tab {
+  color: var(--stake-text-secondary) !important;
+}
+
+.chakra-tabs__tab[aria-selected="true"] {
+  color: var(--stake-text-primary) !important;
+}
+
+/* الـ Switches */
+.chakra-switch__label {
+  color: var(--stake-text-primary) !important;
+}
+
+/* الـ Tooltips */
+.chakra-tooltip {
+  background: var(--stake-bg-card) !important;
+  color: var(--stake-text-primary) !important;
+  border: 1px solid var(--stake-border-primary) !important;
+}
+
+/* الـ Progress */
+.chakra-progress {
+  background: var(--stake-bg-hover) !important;
+}
+
+/* الجداول - هيدر وخلايا */
+.stake-table thead th,
+.chakra-table thead th {
+  background: var(--stake-table-header-bg, var(--stake-bg-secondary)) !important;
+  color: var(--stake-table-header-text, var(--stake-text-primary)) !important;
+  border-bottom: 1px solid var(--stake-border-primary) !important;
+}
+
+.stake-table tbody td,
+.chakra-table tbody td {
+  background: var(--stake-bg-secondary) !important;
+  color: var(--stake-text-primary) !important;
+  border-bottom: 1px solid var(--stake-border-primary) !important;
+}
+
+.stake-table tbody tr:hover td,
+.chakra-table tbody tr:hover td {
+  background: var(--stake-bg-hover) !important;
+}
+
+/* توحيد padding خلايا الجداول الرئيسية مثل جدول سجلات الحضور والانصراف (بدون padding كبير) */
+.stake-table.main-content th,
+.stake-table.main-content td,
+.chakra-table.stake-table.main-content th,
+.chakra-table.stake-table.main-content td {
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  padding-inline-start: 8px !important;
+  padding-inline-end: 8px !important;
+}
+
+/* ========== صفوف العطلات - قواعد قوية جداً لتتجاوز كل شيء ========== */
+/* يجب أن تأتي بعد القواعد العامة للجداول */
+/* لون أغمق قليلاً من الصفوف العادية - يستخدم var(--stake-bg-primary) بدلاً من var(--stake-bg-secondary) */
+.stake-table tr.holiday-row td,
+.stake-table tbody tr.holiday-row td,
+.chakra-table.stake-table tr.holiday-row td,
+.chakra-table.stake-table tbody tr.holiday-row td,
+table.stake-table tr.holiday-row td,
+table.stake-table tbody tr.holiday-row td,
+.chakra-table tr.holiday-row td,
+.chakra-table tbody tr.holiday-row td,
+table.chakra-table tr.holiday-row td,
+table.chakra-table tbody tr.holiday-row td,
+tr.holiday-row td,
+tr.holiday-row > td,
+.holiday-row td,
+.holiday-row > td {
+  background: var(--stake-bg-primary) !important;
+  background-color: var(--stake-bg-primary) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+.stake-table tr.holiday-row:hover td,
+.stake-table tbody tr.holiday-row:hover td,
+.chakra-table.stake-table tr.holiday-row:hover td,
+.chakra-table.stake-table tbody tr.holiday-row:hover td,
+table.stake-table tr.holiday-row:hover td,
+table.stake-table tbody tr.holiday-row:hover td,
+.chakra-table tr.holiday-row:hover td,
+.chakra-table tbody tr.holiday-row:hover td,
+table.chakra-table tr.holiday-row:hover td,
+table.chakra-table tbody tr.holiday-row:hover td,
+tr.holiday-row:hover td,
+tr.holiday-row:hover > td,
+.holiday-row:hover td,
+.holiday-row:hover > td {
+  background: var(--stake-bg-secondary) !important;
+  background-color: var(--stake-bg-secondary) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+/* للقوالب الفاتحة (Soft Light) - صفوف العطلات */
+body.light-theme .stake-table tr.holiday-row td,
+body.light-theme .stake-table tbody tr.holiday-row td,
+body.light-theme .chakra-table tr.holiday-row td,
+body.light-theme .chakra-table tbody tr.holiday-row td,
+body.light-theme tr.holiday-row td,
+body.light-theme tr.holiday-row > td,
+body.light-theme .holiday-row td,
+body[data-theme="light"] .stake-table tr.holiday-row td,
+body[data-theme="light"] .stake-table tbody tr.holiday-row td,
+body[data-theme="light"] .chakra-table tr.holiday-row td,
+body[data-theme="light"] .chakra-table tbody tr.holiday-row td,
+body[data-theme="light"] tr.holiday-row td,
+body[data-theme="light"] tr.holiday-row > td,
+body[data-theme="light"] .holiday-row td {
+  background: var(--stake-bg-card) !important;
+  background-color: var(--stake-bg-card) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+body.light-theme .stake-table tr.holiday-row:hover td,
+body.light-theme .stake-table tbody tr.holiday-row:hover td,
+body.light-theme .chakra-table tr.holiday-row:hover td,
+body.light-theme .chakra-table tbody tr.holiday-row:hover td,
+body.light-theme tr.holiday-row:hover td,
+body.light-theme tr.holiday-row:hover > td,
+body.light-theme .holiday-row:hover td,
+body[data-theme="light"] .stake-table tr.holiday-row:hover td,
+body[data-theme="light"] .stake-table tbody tr.holiday-row:hover td,
+body[data-theme="light"] .chakra-table tr.holiday-row:hover td,
+body[data-theme="light"] .chakra-table tbody tr.holiday-row:hover td,
+body[data-theme="light"] tr.holiday-row:hover td,
+body[data-theme="light"] tr.holiday-row:hover > td,
+body[data-theme="light"] .holiday-row:hover td {
+  background: var(--stake-bg-hover) !important;
+  background-color: var(--stake-bg-hover) !important;
+  color: var(--stake-text-primary) !important;
+}
+
+/* الأيقونات */
+.chakra-icon {
+  color: var(--stake-text-primary);
+}
+
+/* الـ Sidebar الداخلي للصفحات */
+.stake-main-content [class*="sidebar"] button,
+.stake-main-content [class*="sidebar"] .chakra-button {
+  color: var(--stake-text-primary) !important;
+}
+
+.stake-main-content [class*="sidebar"] button:hover,
+.stake-main-content [class*="sidebar"] .chakra-button:hover {
+  background: var(--stake-bg-hover) !important;
+}
+
+/* =============================================================================
+   قوالب فاتحة مدمجة — استقلال عن :root الداكن الافتراضي
+   تُعرَّف المتغيرات على body حتى تُورَّث لكل الواجهة حتى لو تأخر تطبيق JS على html
+   أو بقي تعارض مع أنماط قديمة.
+   ============================================================================= */
+body[data-color-theme="minimal-bright"] {
+  --stake-bg-primary: #f4f5fa;
+  --stake-bg-secondary: #eceef6;
+  --stake-bg-tertiary: #e8ebf4;
+  --stake-bg-card: #ffffff;
+  --stake-bg-hover: #e6eaf4;
+  --stake-border-primary: rgba(100, 116, 139, 0.18);
+  --stake-border-secondary: rgba(100, 116, 139, 0.28);
+  --stake-border-accent: #5c62d8;
+  --stake-text-primary: #1e293b;
+  --stake-text-secondary: #5a6b82;
+  --stake-text-muted: #64748b;
+  --stake-primary: #5c62d8;
+  --stake-success: #2e7d32;
+  --stake-error: #c62828;
+  --stake-warning: #ef6c00;
+  --stake-table-bg: #ffffff;
+  --stake-table-header-bg: #eef0f7;
+  --stake-table-header-text: #3d4a63;
+  --stake-table-header-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(100, 116, 139, 0.14),
+    0 4px 14px -4px rgba(15, 23, 42, 0.14),
+    0 2px 6px -2px rgba(15, 23, 42, 0.08);
+  --stake-active-button-bg: #e8ebfa;
+  --stake-active-button-text: #3f45b8;
+  --stake-active-button-icon: #3f45b8;
+  --stake-sidebar-bg-start: #eef0f7;
+  --stake-sidebar-bg-end: #e8ebf4;
+  --stake-header-bg: #ffffff;
+  --stake-header-bg-glass: rgba(255, 255, 255, 0.88);
+  --stake-header-border: rgba(15, 23, 42, 0.1);
+  --stake-header-shadow: 0 1px 0 rgba(15, 23, 42, 0.04), 0 4px 18px -8px rgba(15, 23, 42, 0.1);
+  --stake-header-shadow-scrolled: 0 10px 28px -10px rgba(15, 23, 42, 0.14);
+  --stake-main-bg: #f3f4f9;
+  --stake-breadcrumb-bg: #f0f2f8;
+  --stake-breadcrumb-bg-gradient: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--stake-primary, #5c62d8) 8%, var(--stake-breadcrumb-bg, #f0f2f8)) 0%,
+    color-mix(in srgb, var(--stake-primary, #5c62d8) 2%, var(--stake-breadcrumb-bg, #f0f2f8)) 100%
+  );
+  --stake-breadcrumb-bg-gradient-scrolled: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--stake-primary, #5c62d8) 6%, rgba(255, 255, 255, 0.94)) 0%,
+    rgba(255, 255, 255, 0.86) 100%
+  );
+  --stake-shadow-sidebar: 4px 0 20px rgba(15, 23, 42, 0.06);
+  --stake-content-surface: #ffffff;
+  --stake-content-surface-raised: #ffffff;
+  --stake-content-shadow: 0 4px 20px -8px rgba(15, 23, 42, 0.1);
+  --stake-content-shadow-soft: 0 2px 10px -4px rgba(15, 23, 42, 0.08);
+  /* تدرج أزرار Chakra colorScheme="blue" ليتوافق مع اللون الأساسي */
+  --chakra-colors-blue-50: #eef0ff;
+  --chakra-colors-blue-100: #e0e4ff;
+  --chakra-colors-blue-200: #c7ccf9;
+  --chakra-colors-blue-300: #a8aff5;
+  --chakra-colors-blue-400: #7d86ed;
+  --chakra-colors-blue-500: #5c62d8;
+  --chakra-colors-blue-600: #4a4dc4;
+  --chakra-colors-blue-700: #3d40a8;
+  --chakra-colors-blue-800: #33368a;
+  --chakra-colors-blue-900: #2b2e6e;
+}

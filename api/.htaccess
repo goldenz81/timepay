@@ -1,0 +1,12 @@
+Options -Indexes
+
+# CORS headers are handled by cors_headers.php
+# ملف .htaccess لـ API - بدون CORS headers
+# CORS يتم التعامل معه من خلال ملفات PHP
+
+# إضافة headers أمنية فقط
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>

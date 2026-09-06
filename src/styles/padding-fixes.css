@@ -1,0 +1,332 @@
+/* إصلاحات الـ Padding الموحدة للنظام */
+
+/* إعادة تعيين الـ padding الافتراضي */
+.ant-card-body {
+  padding: 20px !important;
+}
+
+/* إصلاح الـ padding في التبويبات */
+.ant-tabs-content-holder {
+  padding: 0 !important;
+}
+
+.ant-tabs-tabpane {
+  padding: 0 !important;
+}
+
+.ant-tabs-content {
+  padding: 0 !important;
+}
+
+.ant-tabs-tabpane-active {
+  padding: 0 !important;
+}
+
+/* إصلاح الـ padding في الكروت داخل التبويبات */
+.ant-tabs .ant-card-body {
+  padding: 16px !important;
+}
+
+/* إصلاح الـ padding في الكروت المتداخلة */
+.ant-card .ant-card .ant-card-body {
+  padding: 12px !important;
+}
+
+/* إصلاح الـ padding في الصفحات */
+.page-container {
+  padding: 20px !important;
+}
+
+/* إصلاح الـ padding في الجداول */
+.ant-table-container {
+  padding: 0 !important;
+}
+
+.ant-table-thead > tr > th {
+  padding: 12px 8px !important;
+}
+
+.ant-table-tbody > tr > td {
+  padding: 12px 8px !important;
+}
+
+/* إصلاح الـ padding في النماذج */
+.ant-form-item {
+  margin-bottom: 16px !important;
+}
+
+/* إصلاح الـ padding في الكروت داخل الصفحات */
+.page-container .ant-card {
+  margin-bottom: 16px;
+}
+
+.page-container .ant-card:last-child {
+  margin-bottom: 0;
+}
+
+/* إصلاح الـ padding في المودالات */
+.ant-modal-body {
+  padding: 24px !important;
+}
+
+/* إصلاح الـ padding في القوائم المنسدلة */
+.ant-select-dropdown {
+  padding: 8px !important;
+}
+
+/* إصلاح الـ padding في الأزرار */
+.ant-btn {
+  padding: 4px 15px !important;
+}
+
+.ant-btn-lg {
+  padding: 8px 20px !important;
+}
+
+.ant-btn-sm {
+  padding: 2px 8px !important;
+}
+
+/* إصلاح الـ padding في المدخلات */
+.ant-input {
+  padding: 4px 11px !important;
+}
+
+.ant-input-lg {
+  padding: 6px 11px !important;
+}
+
+.ant-input-sm {
+  padding: 2px 7px !important;
+}
+
+/* إصلاح الـ padding في التحديد */
+.ant-select-selector {
+  padding: 0 11px !important;
+}
+
+/* إصلاح الـ padding في التواريخ */
+.ant-picker {
+  padding: 4px 11px !important;
+}
+
+/* إصلاح الـ padding في الأيقونات */
+.anticon {
+  padding: 0 !important;
+}
+
+/* إصلاح الـ padding في المسافات */
+.ant-space {
+  gap: 8px !important;
+}
+
+.ant-space-vertical {
+  gap: 8px !important;
+}
+
+/* إصلاح الـ padding في الصفوف والأعمدة */
+.ant-row {
+  margin-left: -8px !important;
+  margin-right: -8px !important;
+}
+
+.ant-col {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+
+/* إصلاح الـ padding في التقسيمات */
+.ant-divider {
+  margin: 16px 0 !important;
+}
+
+/* إصلاح الـ padding في التنبيهات */
+.ant-alert {
+  margin-bottom: 16px !important;
+}
+
+.ant-alert:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* إصلاح الـ padding في الرسائل */
+.ant-message {
+  padding: 0 !important;
+}
+
+/* إصلاح الـ padding في التلميحات */
+.ant-tooltip-inner {
+  padding: 6px 8px !important;
+}
+
+/* إصلاح الـ padding في البوب أوفر */
+.ant-popover-inner {
+  padding: 12px !important;
+}
+
+/* إصلاح الـ padding في القوائم */
+.ant-menu-item {
+  padding: 0 12px !important;
+}
+
+.ant-menu-submenu-title {
+  padding: 0 12px !important;
+}
+
+/* إصلاح الـ padding في الخطوات */
+.ant-steps-item-title {
+  padding-right: 8px !important;
+}
+
+/* إصلاح الـ padding في التقدم */
+.ant-progress-text {
+  padding: 0 8px !important;
+}
+
+/* إصلاح الـ padding في الإحصائيات */
+.ant-statistic-title {
+  margin-bottom: 4px !important;
+}
+
+.ant-statistic-content {
+  padding: 0 !important;
+}
+
+/* إصلاح الـ padding في العناوين */
+.ant-typography {
+  margin-bottom: 0.5em !important;
+}
+
+.ant-typography:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* إصلاح الـ padding في العلامات */
+.ant-tag {
+  padding: 0 7px !important;
+  margin: 2px !important;
+}
+
+/* إصلاح الـ padding في الشارات */
+.ant-badge {
+  padding: 0 !important;
+}
+
+/* إصلاح الـ padding في الأفاتار */
+.ant-avatar {
+  padding: 0 !important;
+}
+
+/* إصلاح الـ padding في الصور */
+.ant-image {
+  padding: 0 !important;
+}
+
+/* إصلاح الـ padding في الفيديو */
+.ant-video {
+  padding: 0 !important;
+}
+
+/* إصلاح الـ padding في الصوت */
+.ant-audio {
+  padding: 0 !important;
+}
+
+/* إصلاح الـ padding في الخرائط */
+.ant-map {
+  padding: 0 !important;
+}
+
+/* إصلاح الـ padding في الرسوم البيانية */
+.ant-chart {
+  padding: 0 !important;
+}
+
+/* إصلاح الـ padding في التقويم */
+.ant-calendar {
+  padding: 0 !important;
+}
+
+/* إصلاح الـ padding في الجدول الزمني */
+.ant-timeline-item-content {
+  padding: 0 0 0 16px !important;
+}
+
+/* إصلاح الـ padding في القوائم */
+.ant-list-item {
+  padding: 12px 0 !important;
+}
+
+/* إصلاح الـ padding في البطاقات */
+.ant-card-head {
+  padding: 0 24px !important;
+}
+
+.ant-card-extra {
+  padding: 0 !important;
+}
+
+/* إصلاح الـ padding في الأقدام */
+.ant-card-actions {
+  padding: 0 !important;
+}
+
+/* إصلاح الـ padding في الأقدام */
+.ant-card-actions > li {
+  padding: 12px 0 !important;
+}
+
+/* إصلاح الـ padding في الأقدام */
+.ant-card-actions > li:not(:last-child) {
+  border-right: 1px solid #f0f0f0 !important;
+}
+
+/* إصلاح الـ padding في الأقدام */
+.ant-card-actions > li > span {
+  padding: 0 !important;
+}
+
+/* إصلاح الـ padding في الأقدام */
+.ant-card-actions > li > span:hover {
+  color: #1890ff !important;
+}
+
+/* إصلاح الـ padding في الأقدام */
+.ant-card-actions > li > span:active {
+  color: #096dd9 !important;
+}
+
+/* إصلاح الـ padding في الأقدام */
+.ant-card-actions > li > span:focus {
+  color: #1890ff !important;
+}
+
+/* إصلاح الـ padding في الأقدام */
+.ant-card-actions > li > span:visited {
+  color: #1890ff !important;
+}
+
+/* إصلاح الـ padding في الأقدام */
+.ant-card-actions > li > span:link {
+  color: #1890ff !important;
+}
+
+/* إصلاح الـ padding في الأقدام */
+.ant-card-actions > li > span:link:hover {
+  color: #40a9ff !important;
+}
+
+/* إصلاح الـ padding في الأقدام */
+.ant-card-actions > li > span:link:active {
+  color: #096dd9 !important;
+}
+
+/* إصلاح الـ padding في الأقدام */
+.ant-card-actions > li > span:link:focus {
+  color: #1890ff !important;
+}
+
+/* إصلاح الـ padding في الأقدام */
+.ant-card-actions > li > span:link:visited {
+  color: #722ed1 !important;
+}

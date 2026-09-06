@@ -1,0 +1,124 @@
+
+/* TimePay - PremiumEmployees Dark Redesign - matches screenshot */
+.tp-employees-page-layout {
+  background: #0B1120 !important;
+  color: white !important;
+  padding: 16px !important;
+  font-family: 'Cairo', sans-serif !important;
+}
+.tp-employees-page-layout .weekly-salary-header-shell,
+.tp-employees-page-layout .tp-page-header-toolbar {
+  background: #151E32 !important;
+  border: 1px solid #1F2A44 !important;
+  border-radius: 20px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+}
+.tp-employees-page-layout .weekly-salary-header-icon-wrap {
+  background: linear-gradient(135deg, #3B82F6, #6366F1) !important;
+  border-radius: 12px !important;
+}
+.tp-employees-page-layout .tp-page-header-title {
+  color: white !important;
+  font-weight: 800 !important;
+}
+.tp-employees-page-layout .tp-page-header-subtitle {
+  color: rgba(255,255,255,0.5) !important;
+  font-size: 12px !important;
+}
+
+/* STAT CHIPS - Transform to new KPI cards */
+.tp-page-header-stats {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  width: 100% !important;
+  margin-top: 12px !important;
+}
+@media (max-width: 768px) {
+  .tp-page-header-stats { grid-template-columns: repeat(2, 1fr) !important; }
+}
+.tp-page-header-stat-chip {
+  background: #101A2E !important;
+  border: 1px solid #1F2A44 !important;
+  border-radius: 16px !important;
+  padding: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  min-height: 90px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: all 0.2s !important;
+}
+.tp-page-header-stat-chip:hover { border-color: #2A3D64 !important; background: #121E36 !important; }
+.tp-page-header-stat-chip--active { border-color: rgba(16,185,129,0.4) !important; box-shadow: 0 0 24px rgba(16,185,129,0.15) !important; }
+.tp-page-header-stat-chip__value {
+  font-size: 28px !important;
+  font-weight: 900 !important;
+  color: white !important;
+  line-height: 1 !important;
+  order: 2 !important;
+  margin-top: 8px !important;
+}
+.tp-page-header-stat-chip__label {
+  font-size: 11px !important;
+  color: rgba(255,255,255,0.5) !important;
+  order: 1 !important;
+  background: rgba(255,255,255,0.06) !important;
+  padding: 4px 8px !important;
+  border-radius: 20px !important;
+}
+
+/* FILTER BAR */
+.tp-employees-page-layout .fp-toolbar-zone--filters {
+  background: #0F172A !important;
+  border: 1px solid #1F2A44 !important;
+  border-radius: 12px !important;
+  padding: 8px !important;
+}
+.tp-employees-page-layout .stake-input {
+  background: #0F172A !important;
+  border-color: #1F2A44 !important;
+  color: white !important;
+  height: 44px !important;
+}
+.tp-employees-page-layout .stake-input:focus { border-color: #3B82F6 !important; }
+
+/* TABLE */
+.tp-employees-page-layout .weekly-salary-main-table-scroll {
+  background: #101A2E !important;
+  border: 1px solid #1F2A44 !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  margin-top: 16px !important;
+}
+.tp-employees-page-layout .stake-table thead tr {
+  background: #121C33 !important;
+  height: 44px !important;
+}
+.tp-employees-page-layout .stake-table th {
+  color: rgba(255,255,255,0.4) !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  border-bottom: 1px solid #1F2A44 !important;
+}
+.tp-employees-page-layout .stake-table tbody tr {
+  height: 56px !important;
+  border-bottom: 1px solid rgba(26,39,66,0.6) !important;
+  transition: background 0.15s !important;
+}
+.tp-employees-page-layout .stake-table tbody tr:hover { background: rgba(255,255,255,0.03) !important; }
+.tp-employees-page-layout .stake-table td {
+  color: rgba(255,255,255,0.85) !important;
+  font-size: 13px !important;
+}
+
+/* Buttons */
+.tp-employees-page-layout .stake-btn-secondary {
+  background: #151E32 !important;
+  border: 1px solid #1F2A44 !important;
+  color: white !important;
+  border-radius: 12px !important;
+  height: 44px !important;
+}
+.tp-employees-page-layout .stake-btn-secondary:hover { background: #1B2947 !important; }

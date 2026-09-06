@@ -1,0 +1,556 @@
+/* تحسين تخطيط الصفحات للشاشات الكبيرة */
+
+/* تحسين تخطيط الصفحات الرئيسية */
+.page-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* تحسين تخطيط الصفحات للشاشات الكبيرة */
+@media (min-width: 1200px) {
+  .page-container {
+    max-width: 1600px;
+    padding: 24px 32px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .page-container {
+    max-width: 1800px;
+    padding: 32px 48px;
+  }
+}
+
+/* تحسين تخطيط الكروت */
+.page-container .ant-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* .page-container .ant-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+} */
+
+.page-container .ant-card .ant-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+/* تحسين تخطيط الشبكة */
+.page-container .ant-row {
+  margin-left: -12px;
+  margin-right: -12px;
+}
+
+.page-container .ant-col {
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-bottom: 24px;
+}
+
+/* تحسين تخطيط الجداول */
+.page-container .ant-table-wrapper {
+  flex: 1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.page-container .ant-table {
+  border-radius: 8px;
+}
+
+.page-container .ant-table-thead > tr > th {
+  background: #fafafa;
+  font-weight: 600;
+  padding: 12px 8px;
+}
+
+.page-container .ant-table-tbody > tr > td {
+  padding: 12px 8px;
+}
+
+/* تحسين تخطيط النماذج */
+.page-container .ant-form {
+  flex: 1;
+}
+
+.page-container .ant-form-item {
+  margin-bottom: 16px;
+}
+
+.page-container .ant-form-item-label {
+  padding-bottom: 4px;
+}
+
+/* تحسين تخطيط الأزرار */
+.page-container .ant-btn {
+  margin: 4px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.page-container .ant-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* تحسين تخطيط المسافات */
+.page-container .ant-space {
+  width: 100%;
+}
+
+.page-container .ant-space-vertical {
+  width: 100%;
+}
+
+/* تحسين تخطيط التبويبات */
+.page-container .ant-tabs {
+  flex: 1;
+}
+
+.page-container .ant-tabs-content-holder {
+  padding: 0;
+}
+
+.page-container .ant-tabs-tabpane {
+  padding: 0;
+}
+
+/* تحسين تخطيط الإحصائيات */
+.page-container .ant-statistic {
+  text-align: center;
+  padding: 16px;
+  background: #fafafa;
+  border-radius: 8px;
+  margin: 8px 0;
+}
+
+.page-container .ant-statistic-title {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.page-container .ant-statistic-content {
+  color: #1890ff;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* تحسين تخطيط الرسوم البيانية */
+.page-container .ant-progress {
+  margin: 8px 0;
+}
+
+.page-container .ant-progress-text {
+  font-weight: 600;
+}
+
+/* تحسين تخطيط التنبيهات */
+.page-container .ant-alert {
+  margin: 8px 0;
+  border-radius: 8px;
+}
+
+/* تحسين تخطيط العناوين */
+.page-container .ant-typography {
+  margin-bottom: 12px;
+}
+
+.page-container .ant-typography-title {
+  color: #262626;
+  font-weight: 600;
+}
+
+/* تحسين تخطيط الأيقونات */
+.page-container .anticon {
+  margin: 0 4px;
+  color: #1890ff;
+}
+
+/* تحسين تخطيط العلامات */
+.page-container .ant-tag {
+  margin: 2px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+/* تحسين تخطيط الشارات */
+.page-container .ant-badge {
+  margin: 2px;
+}
+
+/* تحسين تخطيط الأفاتار */
+.page-container .ant-avatar {
+  margin: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* تحسين تخطيط الصور */
+.page-container .ant-image {
+  margin: 4px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* تحسين تخطيط الفيديو */
+.page-container .ant-video {
+  margin: 4px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* تحسين تخطيط الصوت */
+.page-container .ant-audio {
+  margin: 4px;
+  border-radius: 8px;
+}
+
+/* تحسين تخطيط الخرائط */
+.page-container .ant-map {
+  margin: 4px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* تحسين تخطيط الرسوم البيانية */
+.page-container .ant-chart {
+  margin: 4px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* تحسين تخطيط التقويم */
+.page-container .ant-calendar {
+  margin: 4px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* تحسين تخطيط الجدول الزمني */
+.page-container .ant-timeline {
+  margin: 4px;
+  padding: 16px;
+}
+
+/* تحسين تخطيط القوائم */
+.page-container .ant-list {
+  margin: 4px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* تحسين تخطيط البطاقات */
+.page-container .ant-card {
+  margin: 4px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* تحسين تخطيط الأقدام */
+.page-container .ant-card-actions {
+  margin: 4px;
+  padding: 12px 0;
+  background: #fafafa;
+}
+
+.page-container .ant-card-actions > li {
+  margin: 4px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.page-container .ant-card-actions > li:hover {
+  background: #e6f7ff;
+  color: #1890ff;
+}
+
+/* تحسين تخطيط الأقدام */
+.page-container .ant-card-actions > li > span {
+  margin: 4px;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.page-container .ant-card-actions > li > span:hover {
+  color: #1890ff;
+}
+
+/* تحسين تخطيط الأقدام */
+.page-container .ant-card-actions > li > span:active {
+  color: #096dd9;
+}
+
+/* تحسين تخطيط الأقدام */
+.page-container .ant-card-actions > li > span:focus {
+  color: #1890ff;
+}
+
+/* تحسين تخطيط الأقدام */
+.page-container .ant-card-actions > li > span:visited {
+  color: #722ed1;
+}
+
+/* تحسين تخطيط الأقدام */
+.page-container .ant-card-actions > li > span:link {
+  color: #1890ff;
+}
+
+/* تحسين تخطيط الأقدام */
+.page-container .ant-card-actions > li > span:link:hover {
+  color: #40a9ff;
+}
+
+/* تحسين تخطيط الأقدام */
+.page-container .ant-card-actions > li > span:link:active {
+  color: #096dd9;
+}
+
+/* تحسين تخطيط الأقدام */
+.page-container .ant-card-actions > li > span:link:focus {
+  color: #1890ff;
+}
+
+/* تحسين تخطيط الأقدام */
+.page-container .ant-card-actions > li > span:link:visited {
+  color: #722ed1;
+}
+
+/* تحسين تخطيط الصفحات المختلفة */
+.employees-page .ant-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.attendance-page .ant-card {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+}
+
+.fingerprint-page .ant-card {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+}
+
+.salary-page .ant-card {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  color: white;
+}
+
+.settings-page .ant-card {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  color: white;
+}
+
+/* تحسين تخطيط الصفحات المختلفة */
+.employees-page .ant-card .ant-card-head-title {
+  color: white;
+}
+
+.attendance-page .ant-card .ant-card-head-title {
+  color: white;
+}
+
+.fingerprint-page .ant-card .ant-card-head-title {
+  color: white;
+}
+
+.salary-page .ant-card .ant-card-head-title {
+  color: white;
+}
+
+/* تحسين تخطيط الصفحات المختلفة */
+.employees-page .ant-card .ant-card-extra {
+  color: white;
+}
+
+.attendance-page .ant-card .ant-card-extra {
+  color: white;
+}
+
+.fingerprint-page .ant-card .ant-card-extra {
+  color: white;
+}
+
+.salary-page .ant-card .ant-card-extra {
+  color: white;
+}
+
+/* تحسين تخطيط الصفحات المختلفة */
+.employees-page .ant-card .ant-card-actions > li > span {
+  color: white;
+}
+
+.attendance-page .ant-card .ant-card-actions > li > span {
+  color: white;
+}
+
+.fingerprint-page .ant-card .ant-card-actions > li > span {
+  color: white;
+}
+
+.salary-page .ant-card .ant-card-actions > li > span {
+  color: white;
+}
+
+/* تحسين تخطيط الصفحات المختلفة */
+.employees-page .ant-card .ant-card-actions > li > span:hover {
+  color: #e6f7ff;
+}
+
+.attendance-page .ant-card .ant-card-actions > li > span:hover {
+  color: #e6f7ff;
+}
+
+.fingerprint-page .ant-card .ant-card-actions > li > span:hover {
+  color: #e6f7ff;
+}
+
+.salary-page .ant-card .ant-card-actions > li > span:hover {
+  color: #e6f7ff;
+}
+
+/* تحسين تخطيط الصفحات المختلفة */
+.employees-page .ant-card .ant-card-actions > li > span:active {
+  color: #bae7ff;
+}
+
+.attendance-page .ant-card .ant-card-actions > li > span:active {
+  color: #bae7ff;
+}
+
+.fingerprint-page .ant-card .ant-card-actions > li > span:active {
+  color: #bae7ff;
+}
+
+.salary-page .ant-card .ant-card-actions > li > span:active {
+  color: #bae7ff;
+}
+
+/* تحسين تخطيط الصفحات المختلفة */
+.employees-page .ant-card .ant-card-actions > li > span:focus {
+  color: #e6f7ff;
+}
+
+.attendance-page .ant-card .ant-card-actions > li > span:focus {
+  color: #e6f7ff;
+}
+
+.fingerprint-page .ant-card .ant-card-actions > li > span:focus {
+  color: #e6f7ff;
+}
+
+.salary-page .ant-card .ant-card-actions > li > span:focus {
+  color: #e6f7ff;
+}
+
+/* تحسين تخطيط الصفحات المختلفة */
+.employees-page .ant-card .ant-card-actions > li > span:visited {
+  color: #d3adf7;
+}
+
+.attendance-page .ant-card .ant-card-actions > li > span:visited {
+  color: #d3adf7;
+}
+
+.fingerprint-page .ant-card .ant-card-actions > li > span:visited {
+  color: #d3adf7;
+}
+
+.salary-page .ant-card .ant-card-actions > li > span:visited {
+  color: #d3adf7;
+}
+
+/* تحسين تخطيط الصفحات المختلفة */
+.employees-page .ant-card .ant-card-actions > li > span:link {
+  color: #e6f7ff;
+}
+
+.attendance-page .ant-card .ant-card-actions > li > span:link {
+  color: #e6f7ff;
+}
+
+.fingerprint-page .ant-card .ant-card-actions > li > span:link {
+  color: #e6f7ff;
+}
+
+.salary-page .ant-card .ant-card-actions > li > span:link {
+  color: #e6f7ff;
+}
+
+/* تحسين تخطيط الصفحات المختلفة */
+.employees-page .ant-card .ant-card-actions > li > span:link:hover {
+  color: #bae7ff;
+}
+
+.attendance-page .ant-card .ant-card-actions > li > span:link:hover {
+  color: #bae7ff;
+}
+
+.fingerprint-page .ant-card .ant-card-actions > li > span:link:hover {
+  color: #bae7ff;
+}
+
+.salary-page .ant-card .ant-card-actions > li > span:link:hover {
+  color: #bae7ff;
+}
+
+/* تحسين تخطيط الصفحات المختلفة */
+.employees-page .ant-card .ant-card-actions > li > span:link:active {
+  color: #91d5ff;
+}
+
+.attendance-page .ant-card .ant-card-actions > li > span:link:active {
+  color: #91d5ff;
+}
+
+.fingerprint-page .ant-card .ant-card-actions > li > span:link:active {
+  color: #91d5ff;
+}
+
+.salary-page .ant-card .ant-card-actions > li > span:link:active {
+  color: #91d5ff;
+}
+
+/* تحسين تخطيط الصفحات المختلفة */
+.employees-page .ant-card .ant-card-actions > li > span:link:focus {
+  color: #bae7ff;
+}
+
+.attendance-page .ant-card .ant-card-actions > li > span:link:focus {
+  color: #bae7ff;
+}
+
+.fingerprint-page .ant-card .ant-card-actions > li > span:link:focus {
+  color: #bae7ff;
+}
+
+.salary-page .ant-card .ant-card-actions > li > span:link:focus {
+  color: #bae7ff;
+}
+
+/* تحسين تخطيط الصفحات المختلفة */
+.employees-page .ant-card .ant-card-actions > li > span:link:visited {
+  color: #d3adf7;
+}
+
+.attendance-page .ant-card .ant-card-actions > li > span:link:visited {
+  color: #d3adf7;
+}
+
+.fingerprint-page .ant-card .ant-card-actions > li > span:link:visited {
+  color: #d3adf7;
+}
+
+.salary-page .ant-card .ant-card-actions > li > span:link:visited {
+  color: #d3adf7;
+}

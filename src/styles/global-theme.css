@@ -1,0 +1,952 @@
+/* إعدادات المظهر العامة للنظام */
+
+/* متغيرات CSS للخلفية */
+:root {
+  --app-background: linear-gradient(135deg, rgb(245, 247, 250) 0%, rgb(195, 207, 226) 100%);
+  --app-background-solid: #f5f5f5;
+  
+  /* متغيرات CSS للجداول */
+  --table-font-family: 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  --table-font-size: 14px;
+  --table-font-weight: 600;
+  --show-english-keys: 1;
+}
+
+/* تطبيق الخلفية على جميع الصفحات + منع scroll زائد على صفحة البداية */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+body {
+  background: var(--app-background) !important;
+  min-height: 100vh;
+}
+#root {
+  height: 100%;
+  min-height: 100vh;
+}
+
+/* تطبيق الخلفية على العناصر الأساسية فقط */
+html, body, #root {
+  background: var(--app-background) !important;
+}
+
+/* تطبيق إعدادات الجداول */
+.ant-table-thead > tr > th {
+  font-family: var(--table-font-family) !important;
+  font-size: var(--table-font-size) !important;
+  font-weight: var(--table-font-weight) !important;
+}
+
+.ant-table-tbody > tr > td {
+  font-family: var(--table-font-family) !important;
+  font-size: var(--table-font-size) !important;
+}
+
+/* تعزيز التأثير خصيصاً لصفحة إدارة الحضور والانصراف (AntD) */
+.attendance-page .ant-table,
+.attendance-page .ant-table-wrapper,
+.attendance-page .ant-table-container,
+.attendance-page .ant-table-content {
+  font-family: var(--table-font-family) !important;
+}
+
+.attendance-page .ant-table-thead > tr > th,
+.attendance-page .ant-table-tbody > tr > td {
+  font-family: var(--table-font-family) !important;
+  font-size: var(--table-font-size) !important;
+  font-weight: var(--table-font-weight) !important;
+}
+
+.attendance-page .ant-table-thead > tr > th .ant-table-column-title,
+.attendance-page .ant-table-thead > tr > th span,
+.attendance-page .ant-typography,
+.attendance-page .ant-card-head-title {
+  font-family: var(--table-font-family) !important;
+  font-size: var(--table-font-size) !important;
+  font-weight: var(--table-font-weight) !important;
+}
+
+/* تطبيق إعدادات الجداول على جداول Chakra عبر النظام كله */
+table.chakra-table,
+.chakra-table {
+  font-family: var(--table-font-family) !important;
+  font-size: var(--table-font-size) !important;
+  font-weight: var(--table-font-weight) !important;
+}
+
+table.chakra-table thead th,
+.chakra-ui-light table.chakra-table thead th,
+.chakra-ui-dark table.chakra-table thead th,
+.chakra-table thead th {
+  font-family: var(--table-font-family) !important;
+  font-size: var(--table-font-size) !important;
+  font-weight: var(--table-font-weight) !important;
+  line-height: 1.2 !important; /* يسمح بعناوين من سطرين عند الحاجة */
+  white-space: normal !important;
+  background: var(--stake-table-header-bg, var(--stake-bg-secondary)) !important;
+  color: var(--stake-table-header-text, var(--stake-text-primary)) !important;
+}
+
+/* تأكيد تطبيق الإعدادات على محتوى عناوين خلايا الرأس داخل عناصر داخلية */
+.chakra-table thead th *,
+table.chakra-table thead th *,
+.chakra-ui-light table.chakra-table thead th *,
+.chakra-ui-dark table.chakra-table thead th * {
+  font-family: var(--table-font-family) !important;
+  font-size: var(--table-font-size) !important;
+  font-weight: var(--table-font-weight) !important;
+  line-height: 1.2 !important;
+}
+
+table.chakra-table tbody td,
+.chakra-ui-light table.chakra-table tbody td,
+.chakra-ui-dark table.chakra-table tbody td,
+.chakra-table tbody td {
+  font-family: var(--table-font-family) !important;
+  font-size: var(--table-font-size) !important;
+  font-weight: var(--table-font-weight) !important;
+}
+
+/* تطبيق الخلفية على الصفحات الرئيسية فقط */
+.ant-layout-content {
+  background: var(--app-background) !important;
+}
+
+/* تطبيق الخلفية على الصفحات الفردية */
+.dashboard-page,
+.employees-page,
+.attendance-page,
+.salary-page,
+.settings-page,
+.dynamic-tables-page,
+.system-manager-page {
+  background: var(--app-background) !important;
+  min-height: 100vh;
+}
+
+/* تطبيق الخلفية على الكروت */
+.ant-card {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* إصلاح مشاكل الـ padding في الكروت */
+.ant-card-body {
+  padding: 20px !important;
+}
+
+/* إصلاح الـ padding في التبويبات */
+.ant-tabs-content-holder {
+  padding: 0 !important;
+}
+
+.ant-tabs-tabpane {
+  padding: 0 !important;
+}
+
+/* إصلاح الـ padding في الصفحات الرئيسية */
+.page-container {
+  padding: 20px !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+}
+
+/* تنظيم المحتوى للشاشات الكبيرة */
+@media (min-width: 1200px) {
+  .page-container {
+    padding: 24px 32px !important;
+    max-width: 1600px !important;
+  }
+}
+
+@media (min-width: 1600px) {
+  .page-container {
+    padding: 32px 48px !important;
+    max-width: 1800px !important;
+  }
+}
+
+/* إصلاح الـ padding في الكروت داخل التبويبات */
+.ant-tabs .ant-card-body {
+  padding: 16px !important;
+}
+
+/* إصلاح الـ padding في الكروت المتداخلة */
+.ant-card .ant-card .ant-card-body {
+  padding: 12px !important;
+}
+
+/* إصلاح الـ padding في الصفحات المختلفة */
+.employees-page,
+.attendance-page,
+.departments-page,
+.fingerprint-page,
+.salary-page,
+.settings-page {
+  padding: 20px !important;
+}
+
+/* إصلاح الـ padding في الكروت داخل الصفحات */
+.page-container .ant-card {
+  margin-bottom: 16px;
+}
+
+.page-container .ant-card:last-child {
+  margin-bottom: 0;
+}
+
+/* تنظيم الكروت في الشبكة للشاشات الكبيرة */
+.page-container .ant-row {
+  margin-left: -12px !important;
+  margin-right: -12px !important;
+}
+
+.page-container .ant-col {
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+
+/* تنظيم الكروت في الصفوف */
+.page-container .ant-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-container .ant-card .ant-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* تنظيم المحتوى داخل الكروت */
+.page-container .ant-card .ant-card-body > * {
+  margin-bottom: 16px;
+}
+
+.page-container .ant-card .ant-card-body > *:last-child {
+  margin-bottom: 0;
+}
+
+/* تنظيم الجداول في الكروت */
+.page-container .ant-card .ant-table-wrapper {
+  flex: 1;
+}
+
+/* تنظيم النماذج في الكروت */
+.page-container .ant-card .ant-form {
+  flex: 1;
+}
+
+/* تنظيم الإحصائيات في الكروت */
+.page-container .ant-card .ant-statistic {
+  text-align: center;
+}
+
+/* تنظيم الأزرار في الكروت */
+.page-container .ant-card .ant-btn {
+  margin: 4px;
+}
+
+/* تنظيم المسافات في الكروت */
+.page-container .ant-card .ant-space {
+  width: 100%;
+}
+
+/* تنظيم التبويبات في الكروت */
+.page-container .ant-card .ant-tabs {
+  flex: 1;
+}
+
+/* تنظيم القوائم في الكروت */
+.page-container .ant-card .ant-list {
+  flex: 1;
+}
+
+/* تنظيم الرسوم البيانية في الكروت */
+.page-container .ant-card .ant-progress {
+  margin: 8px 0;
+}
+
+/* تنظيم التنبيهات في الكروت */
+.page-container .ant-card .ant-alert {
+  margin: 8px 0;
+}
+
+/* تنظيم العناوين في الكروت */
+.page-container .ant-card .ant-typography {
+  margin-bottom: 12px;
+}
+
+/* تنظيم الأيقونات في الكروت */
+.page-container .ant-card .anticon {
+  margin: 0 4px;
+}
+
+/* تنظيم العلامات في الكروت */
+.page-container .ant-card .ant-tag {
+  margin: 2px;
+}
+
+/* تنظيم الشارات في الكروت */
+.page-container .ant-card .ant-badge {
+  margin: 2px;
+}
+
+/* تنظيم الأفاتار في الكروت */
+.page-container .ant-card .ant-avatar {
+  margin: 4px;
+}
+
+/* تنظيم الصور في الكروت */
+.page-container .ant-card .ant-image {
+  margin: 4px;
+}
+
+/* تنظيم الفيديو في الكروت */
+.page-container .ant-card .ant-video {
+  margin: 4px;
+}
+
+/* تنظيم الصوت في الكروت */
+.page-container .ant-card .ant-audio {
+  margin: 4px;
+}
+
+/* تنظيم الخرائط في الكروت */
+.page-container .ant-card .ant-map {
+  margin: 4px;
+}
+
+/* تنظيم الرسوم البيانية في الكروت */
+.page-container .ant-card .ant-chart {
+  margin: 4px;
+}
+
+/* تنظيم التقويم في الكروت */
+.page-container .ant-card .ant-calendar {
+  margin: 4px;
+}
+
+/* تنظيم الجدول الزمني في الكروت */
+.page-container .ant-card .ant-timeline {
+  margin: 4px;
+}
+
+/* تنظيم القوائم في الكروت */
+.page-container .ant-card .ant-list {
+  margin: 4px;
+}
+
+/* تنظيم البطاقات في الكروت */
+.page-container .ant-card .ant-card {
+  margin: 4px;
+}
+
+/* تنظيم الأقدام في الكروت */
+.page-container .ant-card .ant-card-actions {
+  margin: 4px;
+}
+
+/* تنظيم الأقدام في الكروت */
+.page-container .ant-card .ant-card-actions > li {
+  margin: 4px;
+}
+
+/* تنظيم الأقدام في الكروت */
+.page-container .ant-card .ant-card-actions > li > span {
+  margin: 4px;
+}
+
+/* تنظيم الأقدام في الكروت */
+.page-container .ant-card .ant-card-actions > li > span:hover {
+  margin: 4px;
+}
+
+/* تنظيم الأقدام في الكروت */
+.page-container .ant-card .ant-card-actions > li > span:active {
+  margin: 4px;
+}
+
+/* تنظيم الأقدام في الكروت */
+.page-container .ant-card .ant-card-actions > li > span:focus {
+  margin: 4px;
+}
+
+/* تنظيم الأقدام في الكروت */
+.page-container .ant-card .ant-card-actions > li > span:visited {
+  margin: 4px;
+}
+
+/* تنظيم الأقدام في الكروت */
+.page-container .ant-card .ant-card-actions > li > span:link {
+  margin: 4px;
+}
+
+/* تنظيم الأقدام في الكروت */
+.page-container .ant-card .ant-card-actions > li > span:link:hover {
+  margin: 4px;
+}
+
+/* تنظيم الأقدام في الكروت */
+.page-container .ant-card .ant-card-actions > li > span:link:active {
+  margin: 4px;
+}
+
+/* تنظيم الأقدام في الكروت */
+.page-container .ant-card .ant-card-actions > li > span:link:focus {
+  margin: 4px;
+}
+
+/* تنظيم الأقدام في الكروت */
+.page-container .ant-card .ant-card-actions > li > span:link:visited {
+  margin: 4px;
+}
+
+/* إصلاح الـ padding في التبويبات */
+.ant-tabs-content {
+  padding: 0 !important;
+}
+
+.ant-tabs-tabpane-active {
+  padding: 0 !important;
+}
+
+/* إصلاح الـ padding في النماذج */
+.ant-form-item {
+  margin-bottom: 16px !important;
+}
+
+/* إصلاح الـ padding في الجداول */
+.ant-table-container {
+  padding: 0 !important;
+}
+
+.ant-table-thead > tr > th {
+  padding: 12px 8px !important;
+}
+
+.ant-table-tbody > tr > td {
+  padding: 12px 8px !important;
+}
+
+/* تطبيق الخلفية على الجداول */
+.ant-table-wrapper {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* تطبيق الخلفية على النماذج */
+.ant-form {
+  background: rgba(255, 255, 255, 0.95) !important;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* تطبيق الخلفية على المودالات */
+.ant-modal-content {
+  background: rgba(255, 255, 255, 0.98) !important;
+  backdrop-filter: blur(15px);
+}
+
+/* تطبيق الخلفية على القوائم المنسدلة */
+.ant-select-dropdown,
+.ant-dropdown {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(10px);
+}
+
+
+
+/* تطبيق الخلفية على الصفحات المحددة */
+[data-page="dashboard"],
+[data-page="employees"],
+[data-page="attendance"],
+[data-page="salary"],
+[data-page="settings"],
+[data-page="dynamic-tables"],
+[data-page="system-manager"] {
+  background: var(--app-background) !important;
+  min-height: 100vh;
+}
+
+/* تطبيق الخلفية على العناصر المحددة */
+div[style*="background: #f5f5f5"],
+div[style*="background-color: #f5f5f5"],
+div[style*="background: rgb(245, 245, 245)"],
+div[style*="background-color: rgb(245, 245, 245)"] {
+  background: var(--app-background) !important;
+}
+
+
+
+/* تطبيق الخلفية على الصفحات التي تستخدم minHeight */
+div[style*="minHeight: 100vh"] {
+  background: var(--app-background) !important;
+}
+
+/* تطبيق الخلفية على الصفحات التي تستخدم min-height */
+div[style*="min-height: 100vh"] {
+  background: var(--app-background) !important;
+}
+
+/* تطبيق إعدادات الجداول */
+.ant-table-thead > tr > th {
+  font-family: var(--table-font-family) !important;
+  font-size: var(--table-font-size) !important;
+  font-weight: var(--table-font-weight) !important;
+}
+
+/* تطبيق إعدادات الجداول على عناوين الجداول */
+.ant-table-title,
+.ant-card-head-title,
+.ant-typography-title {
+  font-family: var(--table-font-family) !important;
+  font-size: var(--table-font-size) !important;
+  font-weight: var(--table-font-weight) !important;
+}
+
+/* تطبيق إعدادات الجداول على صفحة الرواتب والأجور */
+.dynamic-tables-viewer .ant-table-thead > tr > th,
+.dynamic-tables-viewer .ant-table-title,
+.dynamic-tables-viewer .ant-card-head-title {
+  font-family: var(--table-font-family) !important;
+  font-size: var(--table-font-size) !important;
+  font-weight: var(--table-font-weight) !important;
+}
+
+/* تطبيق إعدادات الجداول على جميع الجداول في النظام */
+.ant-table-thead > tr > th {
+  font-family: var(--table-font-family) !important;
+  font-size: var(--table-font-size) !important;
+  font-weight: var(--table-font-weight) !important;
+}
+
+/* تطبيق إعدادات الجداول على عناوين الأعمدة */
+.table-header-title {
+  font-family: var(--table-font-family) !important;
+  font-size: var(--table-font-size) !important;
+  font-weight: var(--table-font-weight) !important;
+}
+
+/* تطبيق إعدادات الجداول على عناوين الأعمدة في صفحة كشوف الرواتب */
+.dynamic-tables-viewer .table-header-title {
+  font-family: var(--table-font-family) !important;
+  font-size: var(--table-font-size) !important;
+  font-weight: var(--table-font-weight) !important;
+}
+
+/* إعدادات Sidebar */
+.enhanced-sidebar {
+  background: linear-gradient(225deg, #667eea 0%, #764ba2 100%) !important;
+  box-shadow: 2px 0 20px rgba(0, 0, 0, 0.25) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(20px) !important;
+}
+
+.enhanced-sidebar .ant-layout-sider-children {
+  background: transparent !important;
+}
+
+.sidebar-header {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(15px) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.sidebar-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.05) 100%);
+  pointer-events: none;
+}
+
+.sidebar-title {
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+.sidebar-subtitle {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* إعدادات قائمة التنقل */
+.enhanced-sidebar .ant-menu {
+  background: transparent !important;
+  border-right: none !important;
+}
+
+.enhanced-sidebar .ant-menu-item {
+  color: rgba(255, 255, 255, 0.85) !important;
+  border-radius: 12px !important;
+  margin: 6px 12px !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  border: 1px solid transparent !important;
+}
+
+.enhanced-sidebar .ant-menu-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.enhanced-sidebar .ant-menu-item:hover::before {
+  left: 100%;
+}
+
+.enhanced-sidebar .ant-menu-item:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+  transform: translateX(4px) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.enhanced-sidebar .ant-menu-item-selected {
+  background: rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
+  transform: translateX(6px) !important;
+}
+
+.enhanced-sidebar .ant-menu-item-selected::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 60%;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 2px 0 0 2px;
+}
+
+.enhanced-sidebar .ant-menu-item-icon {
+  color: inherit !important;
+}
+
+/* إعدادات القائمة المطوية */
+.enhanced-sidebar.ant-layout-sider-collapsed .sidebar-header {
+  padding: 20px 8px !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .sidebar-title {
+  display: none !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .sidebar-subtitle {
+  display: none !important;
+}
+
+/* إصلاح بسيط للأيقونات في القائمة المطوية */
+.enhanced-sidebar.ant-layout-sider-collapsed .ant-menu-item {
+  margin: 4px 8px !important;
+  padding: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  max-width: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .ant-menu-item .anticon,
+.enhanced-sidebar.ant-layout-sider-collapsed .ant-menu-item .menu-item-icon {
+  font-size: 20px !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  display: inline-block !important;
+  margin: 0 !important;
+  line-height: 1 !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .ant-menu-item:hover .anticon,
+.enhanced-sidebar.ant-layout-sider-collapsed .ant-menu-item:hover .menu-item-icon {
+  color: #ffffff !important;
+  transform: scale(1.1) !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .ant-menu-item-selected .anticon,
+.enhanced-sidebar.ant-layout-sider-collapsed .ant-menu-item-selected .menu-item-icon {
+  color: #ffffff !important;
+}
+
+/* إعدادات الأيقونات */
+.enhanced-sidebar .ant-menu-item .anticon,
+.enhanced-sidebar .ant-menu-item .menu-item-icon {
+  font-size: 18px !important;
+  transition: all 0.3s ease !important;
+  display: inline-block !important;
+}
+
+.enhanced-sidebar .ant-menu-item:hover .anticon,
+.enhanced-sidebar .ant-menu-item:hover .menu-item-icon {
+  transform: scale(1.1) !important;
+}
+
+/* إعدادات قوية لـ SortableMenuItem */
+.enhanced-sidebar.ant-layout-sider-collapsed .sortable-menu-item {
+  margin: 4px 8px !important;
+  padding: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  max-width: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .sortable-menu-item .menu-item-icon {
+  font-size: 20px !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  display: inline-block !important;
+  margin: 0 !important;
+  line-height: 1 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .sortable-menu-item .menu-item-icon svg {
+  width: 20px !important;
+  height: 20px !important;
+  fill: rgba(255, 255, 255, 0.85) !important;
+  stroke: rgba(255, 255, 255, 0.85) !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .sortable-menu-item:hover .menu-item-icon {
+  color: #ffffff !important;
+  transform: scale(1.1) !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .sortable-menu-item:hover .menu-item-icon svg {
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .sortable-menu-item.ant-menu-item-selected .menu-item-icon {
+  color: #ffffff !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .sortable-menu-item.ant-menu-item-selected .menu-item-icon svg {
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* حل مباشر - إضافة أيقونات باستخدام CSS */
+.enhanced-sidebar.ant-layout-sider-collapsed .sortable-menu-item * {
+  display: none !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .sortable-menu-item {
+  position: relative !important;
+}
+
+/* أيقونات مختلفة لكل عنصر */
+.enhanced-sidebar.ant-layout-sider-collapsed .sortable-menu-item:nth-child(1)::before {
+  content: "📊" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  font-size: 20px !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  z-index: 100 !important;
+  display: block !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .sortable-menu-item:nth-child(2)::before {
+  content: "👥" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  font-size: 20px !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  z-index: 100 !important;
+  display: block !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .sortable-menu-item:nth-child(3)::before {
+  content: "🏢" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  font-size: 20px !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  z-index: 100 !important;
+  display: block !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .sortable-menu-item:nth-child(4)::before {
+  content: "📅" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  font-size: 20px !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  z-index: 100 !important;
+  display: block !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .sortable-menu-item:nth-child(5)::before {
+  content: "⬆️" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  font-size: 20px !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  z-index: 100 !important;
+  display: block !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .sortable-menu-item:nth-child(6)::before {
+  content: "💰" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  font-size: 20px !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  z-index: 100 !important;
+  display: block !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .sortable-menu-item:nth-child(7)::before {
+  content: "⚙️" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  font-size: 20px !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  z-index: 100 !important;
+  display: block !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .sortable-menu-item:nth-child(8)::before {
+  content: "👆" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  font-size: 20px !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  z-index: 100 !important;
+  display: block !important;
+}
+
+.enhanced-sidebar.ant-layout-sider-collapsed .sortable-menu-item:nth-child(9)::before {
+  content: "🔧" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  font-size: 20px !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  z-index: 100 !important;
+  display: block !important;
+}
+
+/* إعدادات النص */
+.enhanced-sidebar .ant-menu-item span {
+  color: inherit !important;
+  font-weight: 500 !important;
+}
+
+/* إعدادات Header */
+.enhanced-header {
+  background: linear-gradient(225deg, #667eea 0%, #764ba2 100%) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(20px) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.enhanced-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(255,255,255,0.05) 0%, transparent 50%, rgba(255,255,255,0.02) 100%);
+  pointer-events: none;
+}
+
+.enhanced-header .page-title {
+  color: #ffffff !important;
+  font-weight: bold !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+.enhanced-header .page-subtitle {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* أنماط scrollbar مخصصة للثيم الداكن */
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a202c;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4a5568;
+  border-radius: 4px;
+  border: 1px solid #2d3748;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #718096;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #a0aec0;
+}
+
+::-webkit-scrollbar-corner {
+  background: #1a202c;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #4a5568 #1a202c;
+}
