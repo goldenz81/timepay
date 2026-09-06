@@ -1,11 +1,11 @@
-/* 123 TIMEPAY FULL REPLACEMENT - 2859 lines preserved - Dark #0B1120
+/* TIMEPAY FULL REPLACEMENT - 2859 lines preserved - Dark #0B1120
    Same selectors, new palette: #151c27→#0B1120, #111820→#0F172A, #1c2533→#151E32
    REPLACES src/styles/stake-theme.css directly
 */
 /* قالب المحيط الداكن - ألوان احترافية متناسقة (Dark Ocean) */
 
 :root {
-  /*s ألوان التفاعل */
+  /* ألوان التفاعل */
   --stake-primary: #3B82F6;
   --stake-secondary: #f59e0b;
   --stake-accent: #8b5cf6;
