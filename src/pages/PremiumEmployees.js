@@ -116,11 +116,34 @@ import {
   FiKey,
 } from 'react-icons/fi';
 import EnglishKeyTooltip from '../components/EnglishKeyTooltip';
+// import './PremiumEmployees.dark.css'; // REMOVED - using Tailwind + stake-theme.css #0B1120
 import { useEmployeesToolbar } from '../contexts/EmployeesToolbarContext';
 import PagePanelToggle from '../components/PagePanelToggle';
 import { useForm, useWatch, Controller, watch } from 'react-hook-form';
 import useCurrency from '../hooks/useCurrency';
 import { useLocation, useNavigate } from 'react-router-dom';
+
+// TAILWIND MODERN TABLE - Stake.com style #0B1120
+const TailwindTableWrapper = ({ children }) => (
+  <div className="bg-[#151E32] border border-[#1F2A44] rounded-[20px] overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.38)]">
+    <div className="overflow-x-auto">
+      {children}
+    </div>
+  </div>
+);
+
+const TailwindTableHeaderCell = ({ children, className = "" }) => (
+  <th className={`px-4 py-3 text-[11px] font-bold tracking-[0.8px] uppercase text-white/40 bg-[#0F172A] border-b border-[#1F2A44] whitespace-nowrap ${className}`}>
+    {children}
+  </th>
+);
+
+const TailwindTableCell = ({ children, className = "" }) => (
+  <td className={`px-4 py-3 text-[13px] text-white/80 border-b border-[#1F2A44]/50 whitespace-nowrap ${className}`}>
+    {children}
+  </td>
+);
+
 
 const DEFAULT_IMPORT_XML_PREVIEW = {
   total: 0,
@@ -2123,7 +2146,7 @@ const PremiumEmployees = () => {
         )}
         
           {viewMode === 'table' ? (
-            <TableContainer
+            <div className="bg-[#151E32] border border-[#1F2A44] rounded-[20px] overflow-hidden" style={{background:'#151E32', border:'1px solid #1F2A44', borderRadius:'20px'}}
               className="weekly-salary-main-table-scroll"
               flex="1"
               minH="0"
@@ -2137,7 +2160,7 @@ const PremiumEmployees = () => {
                 size="xs"
                 w="100%"
                 layout="fixed"
-                className="stake-table main-content compact-data-table"
+                className="stake-table main-content compact-data-table w-full" style={{background:"#151E32"}}
                 style={{ fontFamily: 'var(--table-font-family)' }}
                 sx={{
                   'th, td': {
@@ -2375,7 +2398,7 @@ const PremiumEmployees = () => {
                   ))}
                 </Tbody>
               </Table>
-            </TableContainer>
+            </div>
           ) : (
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3, xl: 4 }} spacing="6">
               {filteredEmployees.map((employee) => (
@@ -5132,7 +5155,7 @@ const PremiumEmployees = () => {
                     <Text fontSize="sm" fontWeight="600" color="orange.300" mb={2}>
                       موظفون لم يُعيَّن لهم كود البصمة ({importXmlResult.duplicate_fingerprint_skipped_details.length})
                     </Text>
-                    <TableContainer
+                    <div className="bg-[#151E32] border border-[#1F2A44] rounded-[20px] overflow-hidden" style={{background:'#151E32', border:'1px solid #1F2A44', borderRadius:'20px'}}
                       flex="1"
                       maxH="200px"
                       overflowY="auto"
@@ -5162,7 +5185,7 @@ const PremiumEmployees = () => {
                           ))}
                         </Tbody>
                       </Table>
-                    </TableContainer>
+                    </div>
                   </Box>
                 ) : (
                   <VStack align="stretch" spacing={3} mt="auto">
