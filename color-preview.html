@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معاينة ألوان TimePay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .page-title {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .page-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .page-title p {
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+        
+        .themes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .theme-card {
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .theme-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.6);
+        }
+        
+        .theme-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .theme-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .theme-header .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .theme-preview {
+            padding: 20px;
+        }
+        
+        /* Dashboard Preview */
+        .dashboard-preview {
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .dashboard-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .stat-card {
+            padding: 15px 10px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-size: 1.2rem;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+        
+        /* System Status */
+        .status-section {
+            margin-top: 15px;
+        }
+        
+        .status-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .status-items {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .status-item {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .status-text {
+            font-size: 0.75rem;
+        }
+        
+        /* Color Palette */
+        .color-palette {
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+        
+        .palette-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .colors-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .color-swatch {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .color-swatch:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Buttons Preview */
+        .buttons-preview {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .preview-btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .preview-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* ===============================
+           THEME 1: Dark Ocean (الحالي محسّن)
+           =============================== */
+        .theme-1 {
+            background: linear-gradient(135deg, #0f212e 0%, #1a2c38 100%);
+        }
+        
+        .theme-1 .theme-header {
+            background: linear-gradient(135deg, #0d1b24 0%, #132736 100%);
+            color: white;
+        }
+        
+        .theme-1 .theme-header .badge {
+            background: rgba(20, 117, 225, 0.2);
+            color: #4da3ff;
+        }
+        
+        .theme-1 .dashboard-preview {
+            background: #0f212e;
+        }
+        
+        .theme-1 .dashboard-title {
+            color: #ffffff;
+        }
+        
+        .theme-1 .stat-card {
+            background: linear-gradient(145deg, #182935 0%, #1f3544 100%);
+            border: 1px solid #2f4553;
+            color: white;
+        }
+        
+        .theme-1 .stat-icon.green { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+        .theme-1 .stat-icon.red { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+        .theme-1 .stat-icon.orange { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+        
+        .theme-1 .status-item {
+            background: #182935;
+            border: 1px solid #2f4553;
+            color: #b1bad3;
+        }
+        
+        .theme-1 .status-dot.online { background: #22c55e; }
+        .theme-1 .status-dot.warning { background: #f59e0b; }
+        
+        .theme-1 .color-palette {
+            background: #0d1b24;
+            color: #b1bad3;
+        }
+        
+        .theme-1 .preview-btn.primary {
+            background: linear-gradient(135deg, #1475e1 0%, #0d5bb5 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(20, 117, 225, 0.3);
+        }
+        
+        .theme-1 .preview-btn.secondary {
+            background: transparent;
+            border: 2px solid #3e5665;
+            color: #b1bad3;
+        }
+        
+        /* ===============================
+           THEME 2: Soft Light (فاتح)
+           =============================== */
+        .theme-2 {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        
+        .theme-2 .theme-header {
+            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+            color: #1e293b;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .theme-2 .theme-header .badge {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+        
+        .theme-2 .dashboard-preview {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .theme-2 .dashboard-title {
+            color: #1e293b;
+        }
+        
+        .theme-2 .stat-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            color: #334155;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        
+        .theme-2 .stat-icon.green { background: rgba(34, 197, 94, 0.1); color: #16a34a; }
+        .theme-2 .stat-icon.red { background: rgba(239, 68, 68, 0.1); color: #dc2626; }
+        .theme-2 .stat-icon.orange { background: rgba(245, 158, 11, 0.1); color: #d97706; }
+        
+        .theme-2 .stat-value { color: #1e293b; }
+        .theme-2 .stat-label { color: #64748b; }
+        
+        .theme-2 .status-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #475569;
+        }
+        
+        .theme-2 .status-dot.online { background: #16a34a; }
+        .theme-2 .status-dot.warning { background: #d97706; }
+        
+        .theme-2 .color-palette {
+            background: #f1f5f9;
+            color: #475569;
+        }
+        
+        .theme-2 .preview-btn.primary {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+        
+        .theme-2 .preview-btn.secondary {
+            background: white;
+            border: 2px solid #e2e8f0;
+            color: #475569;
+        }
+        
+        /* ===============================
+           THEME 3: Modern Gradient (عصري)
+           =============================== */
+        .theme-3 {
+            background: linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%);
+        }
+        
+        .theme-3 .theme-header {
+            background: linear-gradient(135deg, #252538 0%, #2d2d44 100%);
+            color: white;
+        }
+        
+        .theme-3 .theme-header .badge {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%);
+            color: #c084fc;
+        }
+        
+        .theme-3 .dashboard-preview {
+            background: linear-gradient(145deg, #1e1e2f 0%, #252538 100%);
+        }
+        
+        .theme-3 .dashboard-title {
+            color: #ffffff;
+        }
+        
+        .theme-3 .stat-card {
+            background: linear-gradient(145deg, #2d2d44 0%, #353550 100%);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            color: white;
+        }
+        
+        .theme-3 .stat-icon.green { background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(34, 197, 94, 0.1) 100%); color: #10b981; }
+        .theme-3 .stat-icon.red { background: linear-gradient(135deg, rgba(244, 63, 94, 0.2) 0%, rgba(239, 68, 68, 0.1) 100%); color: #f43f5e; }
+        .theme-3 .stat-icon.orange { background: linear-gradient(135deg, rgba(251, 146, 60, 0.2) 0%, rgba(245, 158, 11, 0.1) 100%); color: #fb923c; }
+        
+        .theme-3 .status-item {
+            background: rgba(139, 92, 246, 0.05);
+            border: 1px solid rgba(139, 92, 246, 0.15);
+            color: #a5b4fc;
+        }
+        
+        .theme-3 .status-dot.online { background: #10b981; }
+        .theme-3 .status-dot.warning { background: #fb923c; }
+        
+        .theme-3 .color-palette {
+            background: rgba(139, 92, 246, 0.05);
+            color: #a5b4fc;
+        }
+        
+        .theme-3 .preview-btn.primary {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+        
+        .theme-3 .preview-btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            color: #a5b4fc;
+        }
+        
+        /* ===============================
+           THEME 4: Emerald Dark (أخضر زمردي)
+           =============================== */
+        .theme-4 {
+            background: linear-gradient(135deg, #0c1f1f 0%, #132626 100%);
+        }
+        
+        .theme-4 .theme-header {
+            background: linear-gradient(135deg, #0a1818 0%, #102020 100%);
+            color: white;
+        }
+        
+        .theme-4 .theme-header .badge {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+        
+        .theme-4 .dashboard-preview {
+            background: #0c1f1f;
+        }
+        
+        .theme-4 .dashboard-title {
+            color: #ffffff;
+        }
+        
+        .theme-4 .stat-card {
+            background: linear-gradient(145deg, #132626 0%, #1a3333 100%);
+            border: 1px solid #1f4040;
+            color: white;
+        }
+        
+        .theme-4 .stat-icon.green { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+        .theme-4 .stat-icon.red { background: rgba(248, 113, 113, 0.15); color: #f87171; }
+        .theme-4 .stat-icon.orange { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
+        
+        .theme-4 .status-item {
+            background: #132626;
+            border: 1px solid #1f4040;
+            color: #6ee7b7;
+        }
+        
+        .theme-4 .status-dot.online { background: #10b981; }
+        .theme-4 .status-dot.warning { background: #fbbf24; }
+        
+        .theme-4 .color-palette {
+            background: #0a1818;
+            color: #6ee7b7;
+        }
+        
+        .theme-4 .preview-btn.primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        
+        .theme-4 .preview-btn.secondary {
+            background: transparent;
+            border: 2px solid #1f4040;
+            color: #6ee7b7;
+        }
+        
+        /* Vote Section */
+        .vote-section {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 24px;
+            margin-top: 20px;
+        }
+        
+        .vote-section h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .vote-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .vote-btn {
+            padding: 15px 30px;
+            border-radius: 12px;
+            border: none;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .vote-btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        .vote-btn.btn-1 {
+            background: linear-gradient(135deg, #1475e1 0%, #0d5bb5 100%);
+            color: white;
+        }
+        
+        .vote-btn.btn-2 {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+        }
+        
+        .vote-btn.btn-3 {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            color: white;
+        }
+        
+        .vote-btn.btn-4 {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 10px 40px rgba(16, 185, 129, 0.4);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .themes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .status-items {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-title">
+            <h1>🎨 معاينة ألوان TimePay</h1>
+            <p>اختر الثيم المناسب للنظام - انقر على الألوان لنسخها</p>
+        </div>
+        
+        <div class="themes-grid">
+            <!-- Theme 1: Dark Ocean -->
+            <div class="theme-card theme-1">
+                <div class="theme-header">
+                    <h2>🌊 Dark Ocean</h2>
+                    <span class="badge">الثيم الحالي محسّن</span>
+                </div>
+                <div class="theme-preview">
+                    <div class="dashboard-preview">
+                        <div class="dashboard-title">إحصائيات اليوم</div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon green">✓</div>
+                                <div class="stat-value">12</div>
+                                <div class="stat-label">حاضر</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon red">✗</div>
+                                <div class="stat-value">3</div>
+                                <div class="stat-label">غائب</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon orange">⏰</div>
+                                <div class="stat-value">2</div>
+                                <div class="stat-label">متأخر</div>
+                            </div>
+                        </div>
+                        <div class="status-section">
+                            <div class="status-title">حالة النظام</div>
+                            <div class="status-items">
+                                <div class="status-item">
+                                    <div class="status-dot online"></div>
+                                    <div class="status-text">قاعدة البيانات</div>
+                                </div>
+                                <div class="status-item">
+                                    <div class="status-dot warning"></div>
+                                    <div class="status-text">البصمة</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="color-palette">
+                        <div class="palette-title">لوحة الألوان</div>
+                        <div class="colors-row">
+                            <div class="color-swatch" style="background: #0f212e" onclick="copyColor('#0f212e')">خلفية</div>
+                            <div class="color-swatch" style="background: #182935" onclick="copyColor('#182935')">بطاقات</div>
+                            <div class="color-swatch" style="background: #1475e1" onclick="copyColor('#1475e1')">أساسي</div>
+                            <div class="color-swatch" style="background: #22c55e" onclick="copyColor('#22c55e')">نجاح</div>
+                            <div class="color-swatch" style="background: #ef4444" onclick="copyColor('#ef4444')">خطأ</div>
+                        </div>
+                    </div>
+                    <div class="buttons-preview">
+                        <button class="preview-btn primary">زر أساسي</button>
+                        <button class="preview-btn secondary">زر ثانوي</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Theme 2: Soft Light -->
+            <div class="theme-card theme-2">
+                <div class="theme-header">
+                    <h2>☀️ Soft Light</h2>
+                    <span class="badge">فاتح ومريح</span>
+                </div>
+                <div class="theme-preview">
+                    <div class="dashboard-preview">
+                        <div class="dashboard-title">إحصائيات اليوم</div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon green">✓</div>
+                                <div class="stat-value">12</div>
+                                <div class="stat-label">حاضر</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon red">✗</div>
+                                <div class="stat-value">3</div>
+                                <div class="stat-label">غائب</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon orange">⏰</div>
+                                <div class="stat-value">2</div>
+                                <div class="stat-label">متأخر</div>
+                            </div>
+                        </div>
+                        <div class="status-section">
+                            <div class="status-title">حالة النظام</div>
+                            <div class="status-items">
+                                <div class="status-item">
+                                    <div class="status-dot online"></div>
+                                    <div class="status-text">قاعدة البيانات</div>
+                                </div>
+                                <div class="status-item">
+                                    <div class="status-dot warning"></div>
+                                    <div class="status-text">البصمة</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="color-palette">
+                        <div class="palette-title">لوحة الألوان</div>
+                        <div class="colors-row">
+                            <div class="color-swatch" style="background: #f8fafc; color: #333" onclick="copyColor('#f8fafc')">خلفية</div>
+                            <div class="color-swatch" style="background: #ffffff; color: #333; border: 1px solid #e2e8f0" onclick="copyColor('#ffffff')">بطاقات</div>
+                            <div class="color-swatch" style="background: #6366f1" onclick="copyColor('#6366f1')">أساسي</div>
+                            <div class="color-swatch" style="background: #16a34a" onclick="copyColor('#16a34a')">نجاح</div>
+                            <div class="color-swatch" style="background: #dc2626" onclick="copyColor('#dc2626')">خطأ</div>
+                        </div>
+                    </div>
+                    <div class="buttons-preview">
+                        <button class="preview-btn primary">زر أساسي</button>
+                        <button class="preview-btn secondary">زر ثانوي</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Theme 3: Modern Gradient -->
+            <div class="theme-card theme-3">
+                <div class="theme-header">
+                    <h2>🌌 Modern Gradient</h2>
+                    <span class="badge">عصري ومميز</span>
+                </div>
+                <div class="theme-preview">
+                    <div class="dashboard-preview">
+                        <div class="dashboard-title">إحصائيات اليوم</div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon green">✓</div>
+                                <div class="stat-value">12</div>
+                                <div class="stat-label">حاضر</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon red">✗</div>
+                                <div class="stat-value">3</div>
+                                <div class="stat-label">غائب</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon orange">⏰</div>
+                                <div class="stat-value">2</div>
+                                <div class="stat-label">متأخر</div>
+                            </div>
+                        </div>
+                        <div class="status-section">
+                            <div class="status-title">حالة النظام</div>
+                            <div class="status-items">
+                                <div class="status-item">
+                                    <div class="status-dot online"></div>
+                                    <div class="status-text">قاعدة البيانات</div>
+                                </div>
+                                <div class="status-item">
+                                    <div class="status-dot warning"></div>
+                                    <div class="status-text">البصمة</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="color-palette">
+                        <div class="palette-title">لوحة الألوان</div>
+                        <div class="colors-row">
+                            <div class="color-swatch" style="background: #1e1e2f" onclick="copyColor('#1e1e2f')">خلفية</div>
+                            <div class="color-swatch" style="background: #2d2d44" onclick="copyColor('#2d2d44')">بطاقات</div>
+                            <div class="color-swatch" style="background: #8b5cf6" onclick="copyColor('#8b5cf6')">بنفسجي</div>
+                            <div class="color-swatch" style="background: #ec4899" onclick="copyColor('#ec4899')">وردي</div>
+                            <div class="color-swatch" style="background: #10b981" onclick="copyColor('#10b981')">نجاح</div>
+                        </div>
+                    </div>
+                    <div class="buttons-preview">
+                        <button class="preview-btn primary">زر أساسي</button>
+                        <button class="preview-btn secondary">زر ثانوي</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Theme 4: Emerald Dark -->
+            <div class="theme-card theme-4">
+                <div class="theme-header">
+                    <h2>💎 Emerald Dark</h2>
+                    <span class="badge">أخضر زمردي</span>
+                </div>
+                <div class="theme-preview">
+                    <div class="dashboard-preview">
+                        <div class="dashboard-title">إحصائيات اليوم</div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon green">✓</div>
+                                <div class="stat-value">12</div>
+                                <div class="stat-label">حاضر</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon red">✗</div>
+                                <div class="stat-value">3</div>
+                                <div class="stat-label">غائب</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon orange">⏰</div>
+                                <div class="stat-value">2</div>
+                                <div class="stat-label">متأخر</div>
+                            </div>
+                        </div>
+                        <div class="status-section">
+                            <div class="status-title">حالة النظام</div>
+                            <div class="status-items">
+                                <div class="status-item">
+                                    <div class="status-dot online"></div>
+                                    <div class="status-text">قاعدة البيانات</div>
+                                </div>
+                                <div class="status-item">
+                                    <div class="status-dot warning"></div>
+                                    <div class="status-text">البصمة</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="color-palette">
+                        <div class="palette-title">لوحة الألوان</div>
+                        <div class="colors-row">
+                            <div class="color-swatch" style="background: #0c1f1f" onclick="copyColor('#0c1f1f')">خلفية</div>
+                            <div class="color-swatch" style="background: #132626" onclick="copyColor('#132626')">بطاقات</div>
+                            <div class="color-swatch" style="background: #10b981" onclick="copyColor('#10b981')">أساسي</div>
+                            <div class="color-swatch" style="background: #34d399" onclick="copyColor('#34d399')">فاتح</div>
+                            <div class="color-swatch" style="background: #f87171" onclick="copyColor('#f87171')">خطأ</div>
+                        </div>
+                    </div>
+                    <div class="buttons-preview">
+                        <button class="preview-btn primary">زر أساسي</button>
+                        <button class="preview-btn secondary">زر ثانوي</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="vote-section">
+            <h3>🗳️ اختر الثيم المفضل</h3>
+            <div class="vote-buttons">
+                <button class="vote-btn btn-1" onclick="selectTheme(1)">🌊 Dark Ocean</button>
+                <button class="vote-btn btn-2" onclick="selectTheme(2)">☀️ Soft Light</button>
+                <button class="vote-btn btn-3" onclick="selectTheme(3)">🌌 Modern Gradient</button>
+                <button class="vote-btn btn-4" onclick="selectTheme(4)">💎 Emerald Dark</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        function copyColor(color) {
+            navigator.clipboard.writeText(color).then(() => {
+                showToast(`تم نسخ اللون: ${color}`);
+            });
+        }
+        
+        function selectTheme(themeNumber) {
+            const themeNames = {
+                1: 'Dark Ocean 🌊',
+                2: 'Soft Light ☀️',
+                3: 'Modern Gradient 🌌',
+                4: 'Emerald Dark 💎'
+            };
+            showToast(`تم اختيار: ${themeNames[themeNumber]} - أخبرني لتطبيقه!`);
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
+

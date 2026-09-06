@@ -1,8 +1,12 @@
+/* TIMEPAY FULL REPLACEMENT - 2859 lines preserved - Dark #0B1120
+   Same selectors, new palette: #151c27→#0B1120, #111820→#0F172A, #1c2533→#151E32
+   REPLACES src/styles/stake-theme.css directly
+*/
 /* قالب المحيط الداكن - ألوان احترافية متناسقة (Dark Ocean) */
 
 :root {
   /* ألوان التفاعل */
-  --stake-primary: #5b8def;
+  --stake-primary: #3B82F6;
   --stake-secondary: #f59e0b;
   --stake-accent: #8b5cf6;
   --stake-success: #22c55e;
@@ -10,17 +14,17 @@
   --stake-error: #ef4444;
   
   /* خلفيات متناسقة — طبقات Slate واضحة */
-  --stake-bg-primary: #151c27;
-  --stake-bg-secondary: #111820;
-  --color-grey-600: #111820;
-  --stake-bg-tertiary: #1a2330;
-  --stake-bg-card: #1c2533;
-  --stake-bg-hover: #222d3d;
+  --stake-bg-primary: #0B1120;
+  --stake-bg-secondary: #0F172A;
+  --color-grey-600: #0F172A;
+  --stake-bg-tertiary: #101A2E;
+  --stake-bg-card: #151E32;
+  --stake-bg-hover: #1B2947;
   --stake-active-button-bg: rgba(91, 141, 239, 0.14);
   --stake-active-button-text: #e8edf4;
-  --stake-active-button-icon: #7eb0ff;
-  --stake-table-bg: #1c2533;
-  --stake-table-header-bg: #171f2b;
+  --stake-active-button-icon: #60A5FA;
+  --stake-table-bg: #151E32;
+  --stake-table-header-bg: #0F172A;
   --stake-table-header-text: #e2e8f0;
   --stake-table-header-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
@@ -29,20 +33,20 @@
     0 2px 6px -2px rgba(0, 0, 0, 0.35);
 
   /* طبقات الإطار: Sidebar / Header / المحتوى — نفس عائلة slate للمكونات */
-  --stake-sidebar-bg-start: #131a24;
-  --stake-sidebar-bg-end: #111820;
-  --stake-sidebar-hover: #222d3d;
-  --stake-header-bg: #131a24;
+  --stake-sidebar-bg-start: #0F172A;
+  --stake-sidebar-bg-end: #0F172A;
+  --stake-sidebar-hover: #1B2947;
+  --stake-header-bg: #0F172A;
   --stake-header-bg-glass: rgba(19, 26, 36, 0.82);
   --stake-header-border: rgba(148, 163, 184, 0.16);
   --stake-header-shadow: 0 1px 0 rgba(148, 163, 184, 0.05), 0 4px 18px -6px rgba(0, 0, 0, 0.38);
   --stake-header-shadow-scrolled: 0 10px 32px -10px rgba(0, 0, 0, 0.52);
-  --stake-main-bg: #171f2b;
-  --stake-breadcrumb-bg: #111827;
+  --stake-main-bg: #0F172A;
+  --stake-breadcrumb-bg: #0B1120;
   --stake-breadcrumb-bg-gradient: linear-gradient(
     180deg,
     #1a2234 0%,
-    #111827 50%,
+    #0B1120 50%,
     #1a2234 100%
   );
   --stake-breadcrumb-bg-gradient-scrolled: linear-gradient(
@@ -53,8 +57,8 @@
   );
 
   /* أسطح المحتوى الرئيسي */
-  --stake-content-surface: #1a2330;
-  --stake-content-surface-raised: #1c2533;
+  --stake-content-surface: #101A2E;
+  --stake-content-surface-raised: #151E32;
   --stake-content-radius: 1rem;
   --stake-content-radius-lg: 1.25rem;
   --stake-content-shadow: 0 4px 24px -10px rgba(0, 0, 0, 0.38);
@@ -69,7 +73,7 @@
   /* حدود ناعمة */
   --stake-border-primary: rgba(148, 163, 184, 0.16);
   --stake-border-secondary: rgba(148, 163, 184, 0.24);
-  --stake-border-accent: #5b8def;
+  --stake-border-accent: #3B82F6;
   
   /* ظلال خفيفة */
   --stake-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.18);
@@ -79,7 +83,7 @@
   --stake-shadow-sidebar: -8px 0 32px rgba(0, 0, 0, 0.24);
   
   /* تدرجات احترافية */
-  --stake-gradient-primary: linear-gradient(135deg, #5b8def 0%, #7eb0ff 100%);
+  --stake-gradient-primary: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%);
   --stake-gradient-secondary: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
   --stake-gradient-accent: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
   --stake-gradient-bg: linear-gradient(180deg, #10161f 0%, #141b26 100%);
@@ -818,7 +822,7 @@ select.chakra-select[size="sm"] {
 
 /* Header الرئيسي */
 .stake-header:not(.tp-zone-has-custom-bg) {
-  background: var(--stake-header-bg-glass, var(--stake-header-bg, #131a24)) !important;
+  background: var(--stake-header-bg-glass, var(--stake-header-bg, #0F172A)) !important;
   border-bottom: 1px solid var(--stake-border-primary) !important;
   margin-top: 0 !important;
   box-shadow: none;
@@ -832,7 +836,7 @@ select.chakra-select[size="sm"] {
 }
 
 .stake-header.tp-zone-has-custom-bg {
-  background: var(--stake-bg-primary, #0f212e) !important;
+  background: var(--stake-bg-primary, #0B1120) !important;
   background-image: none !important;
 }
 
@@ -860,8 +864,8 @@ select.chakra-select[size="sm"] {
 html:not([data-layout-bg='dashboard']) .stake-sidebar:not(.tp-sidebar-fixed-shell) {
   background: linear-gradient(
     180deg,
-    var(--stake-sidebar-bg-start, var(--stake-header-bg, #131a24)) 0%,
-    var(--stake-sidebar-bg-end, var(--stake-bg-secondary, #111820)) 100%
+    var(--stake-sidebar-bg-start, var(--stake-header-bg, #0F172A)) 0%,
+    var(--stake-sidebar-bg-end, var(--stake-bg-secondary, #0F172A)) 100%
   ) !important;
   border-color: var(--stake-border-primary) !important;
   box-shadow: var(--stake-shadow-sidebar, -8px 0 32px rgba(0, 0, 0, 0.24)) !important;
@@ -2857,3 +2861,7 @@ body[data-color-theme="minimal-bright"] {
   --chakra-colors-blue-800: #33368a;
   --chakra-colors-blue-900: #2b2e6e;
 }
+/* NEW: stat chips grid for screenshot */
+.tp-page-header-stats{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:12px!important}
+@media(max-width:900px){.tp-page-header-stats{grid-template-columns:repeat(2,1fr)!important}}
+.tp-page-header-stat-chip{background:#101A2E!important;border:1px solid #1F2A44!important;border-radius:16px!important}

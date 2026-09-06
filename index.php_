@@ -1,0 +1,84 @@
+<?php
+/**
+ * نقطة الدخول الرئيسية لتطبيق TimePay
+ */
+
+// إذا كان الطلب لملف API، اترك PHP يتعامل معه
+if (strpos($_SERVER['REQUEST_URI'], '/api/') !== false) {
+    return false;
+}
+
+// للطلبات الأخرى، اعرض صفحة React الرئيسية
+?>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="نظام إدارة الرواتب TimePay" />
+    <title>TimePay - نظام إدارة الرواتب</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .loading-container {
+            text-align: center;
+            color: white;
+        }
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-text {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .loading-subtext {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">جاري تحميل نظام TimePay...</div>
+        <div class="loading-subtext">نظام إدارة الرواتب المتقدم</div>
+    </div>
+    
+    <script>
+        // إعادة توجيه إلى تطبيق React الكامل
+        setTimeout(() => {
+            // تحقق من وجود تطبيق React
+            if (window.location.port === '3000' || window.location.hostname === 'localhost') {
+                // إذا كان على localhost:3000، ابق في نفس الصفحة
+                if (window.location.port !== '3000') {
+                    window.location.href = 'http://localhost:3000/';
+                }
+            } else {
+                // للإنتاج، اذهب إلى صفحة إدارة المعادلات
+                window.location.href = '/src/pages/SalaryFormulasManager.html';
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

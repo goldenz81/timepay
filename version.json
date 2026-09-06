@@ -1,0 +1,11 @@
+﻿{
+    "buildDate":  "2026-01-07 01:36:38",
+    "version":  "1.0.14",
+    "changelog":  [
+                      {
+                          "date":  "2026-01-07 01:36:38",
+                          "summary":  "Remove advance_amount from entitlements - Add work_hours to salary details modal",
+                          "version":  "1.0.14"
+                      }
+                  ]
+}
