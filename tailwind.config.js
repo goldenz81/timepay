@@ -1,5 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  // Scoped: utilities only apply inside #ae-root (employees Aurora layout),
+  // so the rest of the app is completely unaffected.
+  important: '#ae-root',
+  // No global preflight: it would reset elements app-wide.
+  // The page gets its own minimal scoped reset in aurora-reset.css instead.
+  corePlugins: { preflight: false },
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
     "./public/index.html"

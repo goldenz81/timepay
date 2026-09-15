@@ -1,0 +1,100 @@
+/* Minimal scoped reset for the Aurora employees layout (#ae-root only).
+   Mirrors the bits of Tailwind preflight the artifact markup relies on,
+   without touching anything outside #ae-root. */
+#ae-root *,
+#ae-root *::before,
+#ae-root *::after {
+  box-sizing: border-box;
+}
+#ae-root h1,
+#ae-root h2,
+#ae-root h3,
+#ae-root h4,
+#ae-root p {
+  margin: 0;
+  font-weight: inherit;
+}
+#ae-root button,
+#ae-root input,
+#ae-root select,
+#ae-root textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+}
+#ae-root button {
+  background-color: transparent;
+  background-image: none;
+  border: 0 solid transparent;
+  cursor: pointer;
+  text-transform: none;
+}
+#ae-root input::placeholder {
+  opacity: 1;
+  color: rgba(255, 255, 255, 0.3);
+}
+#ae-root img {
+  max-width: 100%;
+}
+#ae-root ::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+#ae-root ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+
+/* Aurora form controls inside the employee modals (details + edit).
+   Scoped under .ae-modal so nothing else in the app is affected. */
+.ae-modal .stake-input {
+  background: #0f172a !important;
+  border: 1px solid #1f2a44 !important;
+  border-radius: 12px !important;
+  color: #fff !important;
+  font-size: 14px !important;
+  min-height: 44px;
+}
+.ae-modal .stake-input:hover {
+  border-color: #2a3d64 !important;
+}
+.ae-modal .stake-input:focus {
+  border-color: rgba(59, 130, 246, 0.4) !important;
+  box-shadow: none !important;
+}
+.ae-modal .stake-label {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  margin-bottom: 6px !important;
+}
+.ae-modal select option {
+  background: #0f172a;
+  color: #fff;
+}
+.ae-modal input[type='date']::-webkit-calendar-picker-indicator {
+  filter: invert(0.6);
+}
+
+/* Single thin scrollbar inside modals (body scrolls, nothing else) */
+.ae-modal ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.ae-modal ::-webkit-scrollbar-track {
+  background: transparent;
+}
+.ae-modal ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+}
+
+/* Small screens: footer buttons stack full-width, no horizontal overflow */
+@media (max-width: 520px) {
+  .ae-modal footer button {
+    flex: 1 1 100%;
+  }
+}

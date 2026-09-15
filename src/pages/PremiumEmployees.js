@@ -105,7 +105,6 @@ import {
   FiPhone,
   FiMapPin,
   FiCalendar,
-  FiClock,
   FiAlertCircle,
   FiUserPlus,
   FiUserMinus,
@@ -114,13 +113,39 @@ import {
   FiPercent,
   FiTarget,
   FiKey,
+  FiCopy,
+  FiCheck,
 } from 'react-icons/fi';
 import EnglishKeyTooltip from '../components/EnglishKeyTooltip';
+// import './PremiumEmployees.dark.css'; // REMOVED - using Tailwind + stake-theme.css #0B1120
 import { useEmployeesToolbar } from '../contexts/EmployeesToolbarContext';
 import PagePanelToggle from '../components/PagePanelToggle';
 import { useForm, useWatch, Controller, watch } from 'react-hook-form';
 import useCurrency from '../hooks/useCurrency';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { AuroraEmployees } from '../components/payroll/AuroraEmployees';
+
+// TAILWIND MODERN TABLE - Stake.com style #0B1120
+const TailwindTableWrapper = ({ children }) => (
+  <div className="bg-[#151E32] border border-[#1F2A44] rounded-[20px] overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.38)]">
+    <div className="overflow-x-auto">
+      {children}
+    </div>
+  </div>
+);
+
+const TailwindTableHeaderCell = ({ children, className = "" }) => (
+  <th className={`px-4 py-3 text-[11px] font-bold tracking-[0.8px] uppercase text-white/40 bg-[#0F172A] border-b border-[#1F2A44] whitespace-nowrap ${className}`}>
+    {children}
+  </th>
+);
+
+const TailwindTableCell = ({ children, className = "" }) => (
+  <td className={`px-4 py-3 text-[13px] text-white/80 border-b border-[#1F2A44]/50 whitespace-nowrap ${className}`}>
+    {children}
+  </td>
+);
+
 
 const DEFAULT_IMPORT_XML_PREVIEW = {
   total: 0,
@@ -200,14 +225,6 @@ function normalizeEmpTableColumns(parsed) {
 }
 
 const PremiumEmployees = () => {
-  // Tailwind modern table styles injected
-  
-// TAILWIND #0B1120 OVERRIDES - preserves 5341 lines logic, modernizes table
-const tailwindTableStyles = `
-.stake-table { background:#151E32 !important; border-radius:20px !important; overflow:hidden !important; }
-`;
-
-
   const toast = useToast();
   const location = useLocation();
   const navigate = useNavigate();
@@ -234,6 +251,8 @@ const tailwindTableStyles = `
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedEmployees, setSelectedEmployees] = useState([]);
+  const [empViewTab, setEmpViewTab] = useState('overview'); // 'overview' | 'salary'
+  const [empEditTab, setEmpEditTab] = useState('basic'); // 'basic' | 'work' | 'extra'
   const { isOpen: isBulkEditOpen, onOpen: onBulkEditOpen, onClose: onBulkEditClose } = useDisclosure();
   const { isOpen: isBulkDeleteOpen, onOpen: onBulkDeleteOpen, onClose: onBulkDeleteClose } = useDisclosure();
   const { isOpen: isExportOpen, onOpen: onExportOpen, onClose: onExportClose } = useDisclosure();
@@ -463,7 +482,7 @@ const tailwindTableStyles = `
   // Combined filter states
   const [selectedFilterType, setSelectedFilterType] = useState('');
 
-  const { register, handleSubmit, reset, control, setValue, trigger, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, reset, control, setValue, trigger, watch, formState: { errors, isDirty } } = useForm();
   const { formatCurrency, isCurrencyEnabled, reloadSettings } = useCurrency();
 
   // Clear all filters - تحسين الأداء
@@ -1273,6 +1292,7 @@ const tailwindTableStyles = `
       // في حالة الخطأ، استخدم البيانات المحلية
       setSelectedEmployee(employee);
     }
+    setEmpViewTab('overview');
     onViewOpen();
   }, [onViewOpen]);
 
@@ -1301,6 +1321,7 @@ const tailwindTableStyles = `
     console.log('Form data to reset:', formData);
     console.log('Employee salary_type:', employee.salary_type);
     reset(formData);
+    setEmpEditTab('basic');
     onEditOpen();
   }, [reset, onEditOpen]);
 
@@ -1581,39 +1602,85 @@ const tailwindTableStyles = `
     departments,
   ]);
 
-  const StatCard = ({ title, value, change, changeType, icon, color, bgGradient }) => (
-    <Card
-      className="stake-card"
-      overflow="hidden"
-      position="relative"
-      transition="all 0.3s ease"
-      boxShadow="0 4px 15px rgba(0, 0, 0, 0.05)"
-    >
-      <CardBody p="6">
-        <HStack justify="space-between" align="flex-start" mb="4">
-          <VStack align="flex-start" spacing="1">
-            <Text fontSize="sm" fontWeight="medium" color="gray.600">
-              {title}
-            </Text>
-            <Heading  color="gray.800" fontWeight="bold">
-              {value}
-            </Heading>
-          </VStack>
-          <Circle size="10" bg={bgGradient} color="white">
-            <Icon as={icon} boxSize="5" />
-          </Circle>
-        </HStack>
-        {change && (
-          <HStack spacing="2">
-            <Icon as={changeType === 'increase' ? 'FiTrendingUp' : 'FiTrendingDown'} color={changeType === 'increase' ? 'green.500' : 'red.500'} />
-            <Text fontSize="sm" color={changeType === 'increase' ? 'green.600' : 'red.600'} fontWeight="medium">
-              {change}
-            </Text>
-          </HStack>
-        )}
-      </CardBody>
-    </Card>
+  // ===== Aurora modal helpers (view + edit) =====
+  const empInitials = (emp) => {
+    const s = String(emp?.name_ar || emp?.name || '؟').trim();
+    if (!s) return '؟';
+    return s.split(/\s+/).map((w) => w[0]).slice(0, 2).join('');
+  };
+
+  // ===== Aurora list primitives (view modal) =====
+  const AeSection = ({ title, children }) => (
+    <Box>
+      <Text fontSize="11px" fontWeight="700" letterSpacing="1px" color="rgba(255,255,255,0.35)" mb={2}>
+        {title}
+      </Text>
+      <Box bg="rgba(255,255,255,0.03)" border="1px solid rgba(255,255,255,0.06)" borderRadius="14px" px={4}>
+        {children}
+      </Box>
+    </Box>
   );
+
+  // ===== Aurora edit-row primitive (label | control rows with dividers) =====
+  const AeField = ({ label, children, last, required }) => (
+    <Flex
+      direction={{ base: 'column', md: 'row' }}
+      gap={{ base: 1, md: 4 }}
+      py="13px"
+      align={{ base: 'stretch', md: 'center' }}
+      borderBottom={last ? 'none' : '1px solid rgba(255,255,255,0.05)'}
+    >
+      <Text fontSize="12px" fontWeight="600" color="rgba(255,255,255,0.55)" w={{ md: '150px' }} flexShrink={0}>
+        {label} {required ? <Text as="span" color="#F87171">*</Text> : null}
+      </Text>
+      <Box flex="1" minW={0}>
+        {children}
+      </Box>
+    </Flex>
+  );
+
+  const AeRow = ({ icon, label, children, last }) => (
+    <HStack
+      justify="space-between"
+      align="center"
+      py="11px"
+      spacing={3}
+      borderBottom={last ? 'none' : '1px solid rgba(255,255,255,0.05)'}
+    >
+      <HStack spacing={2.5} minW={0}>
+        <Icon as={icon} boxSize="16px" color="rgba(255,255,255,0.45)" flexShrink={0} />
+        <Text fontSize="13px" color="rgba(255,255,255,0.6)" whiteSpace="nowrap">
+          {label}
+        </Text>
+      </HStack>
+      <HStack spacing={2} minW={0} justify="flex-end">
+        {children}
+      </HStack>
+    </HStack>
+  );
+
+  const copyText = async (label, value) => {
+    const text = String(value ?? '');
+    if (!text || text === '-') {
+      toast({ title: 'تنبيه', description: 'لا توجد قيمة للنسخ', status: 'warning', duration: 2000, isClosable: true });
+      return;
+    }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      toast({ title: 'تم النسخ', description: `${label}: ${text}`, status: 'success', duration: 2000, isClosable: true });
+    } catch {
+      toast({ title: 'خطأ', description: 'تعذر النسخ', status: 'error', duration: 2000, isClosable: true });
+    }
+  };
 
   return (
     <Box
@@ -1628,7 +1695,7 @@ const tailwindTableStyles = `
     >
       {/* عنوان الصفحة + الفلاتر — زر الإظهار/الإخفاء في الهيدر العام (TimePay | زر | اسم الشركة) */}
       {!filtersCollapsed && (
-      <Box mb={{ base: 2, md: 3 }} className="weekly-salary-header-shell tp-employees-page-header" w="100%" maxW="100%">
+      <Box mb={{ base: 2, md: 3 }} className="weekly-salary-header-shell tp-employees-page-header" w="100%" maxW="100%" display="none">
         <Box
           className="weekly-salary-toolbar-card tp-page-header-toolbar"
           w="100%"
@@ -1673,17 +1740,19 @@ const tailwindTableStyles = `
                 flex="0 1 auto"
                 className="tp-page-header-stats"
               >
-                {employeeHeaderStatChips.map((statChip) => (
-                  <Box
-                    key={statChip.key}
-                    className={`tp-page-header-stat-chip tp-page-header-stat-chip--${statChip.variant}`}
-                  >
-                    <Text className="tp-page-header-stat-chip__value">{statChip.value}</Text>
-                    <Text className="tp-page-header-stat-chip__label" title={statChip.label}>
-                      {statChip.label}
-                    </Text>
-                  </Box>
-                ))}
+                <HStack
+                  spacing={1.5}
+                  h="28px"
+                  px={3}
+                  borderRadius="full"
+                  bg="rgba(16,185,129,0.1)"
+                  border="1px solid rgba(16,185,129,0.2)"
+                  fontSize="12px"
+                >
+                  <Circle size="8px" bg="#10B981" />
+                  <Text color="#6EE7B7">{filteredEmployees.filter((e) => (e.status || 'active') === 'active').length}</Text>
+                  <Text color="rgba(110,231,183,0.7)">نشط</Text>
+                </HStack>
               </HStack>
             </Flex>
 
@@ -1697,6 +1766,7 @@ const tailwindTableStyles = `
               gap={3}
               rowGap={3}
               className="weekly-salary-header-row weekly-salary-header-tools"
+              display="none"
             >
               <Flex
                 flexWrap="wrap"
@@ -1895,7 +1965,47 @@ const tailwindTableStyles = `
         {/* Statistics Cards */}
 
       {/* Employees Table */}
+      <div id="ae-root" dir="rtl" style={{ fontFamily: "'Cairo',sans-serif", width: '100%' }}>
+        <AuroraEmployees
+          employees={employees}
+          filteredEmployees={filteredEmployees}
+          loading={loading}
+          stats={stats}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          salaryTypeFilter={salaryTypeFilter}
+          setSalaryTypeFilter={setSalaryTypeFilter}
+          departmentFilter={departmentFilter}
+          setDepartmentFilter={setDepartmentFilter}
+          departments={departments}
+          costCenterFilter={costCenterFilter}
+          setCostCenterFilter={setCostCenterFilter}
+          costCenters={costCenters}
+          employmentStatusFilter={employmentStatusFilter}
+          setEmploymentStatusFilter={setEmploymentStatusFilter}
+          clearFilters={clearFilters}
+          selectedRowKeys={selectedRowKeys}
+          setSelectedRowKeys={setSelectedRowKeys}
+          selectedEmployees={selectedEmployees}
+          setSelectedEmployees={setSelectedEmployees}
+          sortConfig={sortConfig}
+          handleSort={handleSort}
+          handleViewEmployee={handleViewEmployee}
+          handleEditEmployeeClick={handleEditEmployeeClick}
+          handleCalculateSalary={handleCalculateSalary}
+          handleDeleteEmployee={handleDeleteEmployee}
+          handleBulkEdit={handleBulkEdit}
+          handleBulkDelete={handleBulkDelete}
+          onAddOpen={onAddOpen}
+          onImportOpen={onImportOpen}
+          onExportOpen={onExportOpen}
+          empTableColumns={empTableColumns}
+          toggleEmpColumn={toggleEmpColumn}
+          formatCurrency={formatCurrency}
+        />
+      </div>
       <Card
+        display="none"
         className="stake-card weekly-salary-main-card employees-main-card"
         overflow="hidden"
         flex="1"
@@ -2131,32 +2241,16 @@ const tailwindTableStyles = `
         )}
         
           {viewMode === 'table' ? (
-            <Box
+            <div
               className="weekly-salary-main-table-scroll"
-              flex="1"
-              minH="0"
-              overflowY="auto"
-              overflowX="auto"
-              w="100%"
-              maxW="100%"
-              bg="#151E32"
-              border="1px solid"
-              borderColor="#1F2A44"
-              borderRadius="20px"
-              sx={{
-                '&': { background: '#151E32', border: '1px solid #1F2A44', borderRadius: '20px', overflow: 'hidden' },
-                '.stake-table th': { background: '#0F172A !important', color: 'rgba(255,255,255,0.4) !important', fontSize: '11px !important', textTransform: 'uppercase !important', letterSpacing: '0.8px !important', fontWeight: '700 !important', height: '48px !important', borderBottom: '1px solid #1F2A44 !important' },
-                '.stake-table td': { height: '56px !important', borderBottom: '1px solid rgba(31,42,68,0.5) !important', fontSize: '13px !important' },
-                '.stake-table tr:hover td': { background: '#1B2947 !important' },
-              }}
+              style={{display:'none', flex:1, minHeight:0, overflowY:'auto', overflowX:'auto', width:'100%', maxWidth:'100%', background:'#151E32', border:'1px solid #1F2A44', borderRadius:'20px'}}
             >
               <Table
                 variant="simple"
                 size="xs"
                 w="100%"
                 layout="fixed"
-                className="stake-table main-content compact-data-table"
-                style={{ fontFamily: 'var(--table-font-family)' }}
+                className="stake-table main-content compact-data-table w-full" style={{ fontFamily: 'var(--table-font-family)', background:"#151E32" }}
                 sx={{
                   'th, td': {
                     fontFamily: 'var(--table-font-family)',
@@ -2393,7 +2487,7 @@ const tailwindTableStyles = `
                   ))}
                 </Tbody>
               </Table>
-            </Box>
+            </div>
           ) : (
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3, xl: 4 }} spacing="6">
               {filteredEmployees.map((employee) => (
@@ -2591,11 +2685,11 @@ const tailwindTableStyles = `
                   </Text>
                   <SimpleGrid columns={{ base: 1, md: 2 }} spacing="2">
                     <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="2.5"
-                      borderRadius="lg"
+                      bg="rgba(255,255,255,0.04)"
+                      p="12px"
+                      borderRadius="12px"
                       border="1px solid"
-                      borderColor="var(--stake-border-primary)"
+                      borderColor="rgba(255,255,255,0.06)"
                     >
                       <FormControl isRequired>
                         <FormLabel className="stake-label" fontSize="xs" mb="1">الاسم بالإنجليزية</FormLabel>
@@ -2623,11 +2717,11 @@ const tailwindTableStyles = `
                       </FormControl>
                     </Box>
                     <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="2.5"
-                      borderRadius="lg"
+                      bg="rgba(255,255,255,0.04)"
+                      p="12px"
+                      borderRadius="12px"
                       border="1px solid"
-                      borderColor="var(--stake-border-primary)"
+                      borderColor="rgba(255,255,255,0.06)"
                     >
                       <FormControl>
                         <FormLabel className="stake-label" fontSize="xs" mb="1">الاسم بالعربية</FormLabel>
@@ -2656,11 +2750,11 @@ const tailwindTableStyles = `
                   {/* الصف الثاني: الأكواد والراتب */}
                   <SimpleGrid columns={{ base: 1, md: 3 }} spacing="2">
                     <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="2.5"
-                      borderRadius="lg"
+                      bg="rgba(255,255,255,0.04)"
+                      p="12px"
+                      borderRadius="12px"
                       border="1px solid"
-                      borderColor="var(--stake-border-primary)"
+                      borderColor="rgba(255,255,255,0.06)"
                     >
                       <FormControl isRequired>
                         <FormLabel className="stake-label" fontSize="xs" mb="1">كود الموظف</FormLabel>
@@ -2733,11 +2827,11 @@ const tailwindTableStyles = `
                       </FormControl>
                     </Box>
                     <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="2.5"
-                      borderRadius="lg"
+                      bg="rgba(255,255,255,0.04)"
+                      p="12px"
+                      borderRadius="12px"
                       border="1px solid"
-                      borderColor="var(--stake-border-primary)"
+                      borderColor="rgba(255,255,255,0.06)"
                     >
                       <FormControl>
                         <FormLabel className="stake-label" fontSize="xs" mb="1">كود البصمة</FormLabel>
@@ -2762,11 +2856,11 @@ const tailwindTableStyles = `
                       </FormControl>
                     </Box>
                     <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="2.5"
-                      borderRadius="lg"
+                      bg="rgba(255,255,255,0.04)"
+                      p="12px"
+                      borderRadius="12px"
                       border="1px solid"
-                      borderColor="var(--stake-border-primary)"
+                      borderColor="rgba(255,255,255,0.06)"
                     >
                       <FormControl isRequired>
                         <FormLabel className="stake-label" fontSize="xs" mb="1">الراتب الأساسي</FormLabel>
@@ -2796,11 +2890,11 @@ const tailwindTableStyles = `
                       </FormControl>
                     </Box>
                     <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="2.5"
-                      borderRadius="lg"
+                      bg="rgba(255,255,255,0.04)"
+                      p="12px"
+                      borderRadius="12px"
                       border="1px solid"
-                      borderColor="var(--stake-border-primary)"
+                      borderColor="rgba(255,255,255,0.06)"
                     >
                       <FormControl>
                         <FormLabel className="stake-label" fontSize="xs" mb="1">التمييز والحوافز</FormLabel>
@@ -2837,11 +2931,11 @@ const tailwindTableStyles = `
                   {watch('salary_type') === 'Weekly' ? (
                     <SimpleGrid columns={{ base: 1, md: 4 }} spacing="2">
                       <Box
-                        bg="var(--stake-bg-secondary)"
-                        p="2.5"
-                        borderRadius="lg"
+                        bg="rgba(255,255,255,0.04)"
+                        p="12px"
+                        borderRadius="12px"
                         border="1px solid"
-                        borderColor="var(--stake-border-primary)"
+                        borderColor="rgba(255,255,255,0.06)"
                       >
                         <FormControl isRequired>
                           <FormLabel className="stake-label" fontSize="xs" mb="1">نوع الراتب</FormLabel>
@@ -2872,11 +2966,11 @@ const tailwindTableStyles = `
                         </FormControl>
                       </Box>
                       <Box
-                        bg="var(--stake-bg-secondary)"
-                        p="2.5"
-                        borderRadius="lg"
+                        bg="rgba(255,255,255,0.04)"
+                        p="12px"
+                        borderRadius="12px"
                         border="1px solid"
-                        borderColor="var(--stake-border-primary)"
+                        borderColor="rgba(255,255,255,0.06)"
                       >
                         <FormControl>
                           <FormLabel className="stake-label" fontSize="xs" mb="1">القسم</FormLabel>
@@ -2905,11 +2999,11 @@ const tailwindTableStyles = `
                         </FormControl>
                       </Box>
                       <Box
-                        bg="var(--stake-bg-secondary)"
-                        p="2.5"
-                        borderRadius="lg"
+                        bg="rgba(255,255,255,0.04)"
+                        p="12px"
+                        borderRadius="12px"
                         border="1px solid"
-                        borderColor="var(--stake-border-primary)"
+                        borderColor="rgba(255,255,255,0.06)"
                       >
                         <FormControl>
                           <FormLabel className="stake-label" fontSize="xs" mb="1">التكلفة</FormLabel>
@@ -2950,11 +3044,11 @@ const tailwindTableStyles = `
                         </FormControl>
                       </Box>
                       <Box
-                        bg="var(--stake-bg-secondary)"
-                        p="2.5"
-                        borderRadius="lg"
+                        bg="rgba(255,255,255,0.04)"
+                        p="12px"
+                        borderRadius="12px"
                         border="1px solid"
-                        borderColor="var(--stake-border-primary)"
+                        borderColor="rgba(255,255,255,0.06)"
                       >
                         <FormControl>
                           <FormLabel className="stake-label" fontSize="xs" mb="1">المنصب</FormLabel>
@@ -2982,11 +3076,11 @@ const tailwindTableStyles = `
                   ) : (
                     <SimpleGrid columns={{ base: 1, md: 3 }} spacing="2">
                       <Box
-                        bg="var(--stake-bg-secondary)"
-                        p="2.5"
-                        borderRadius="lg"
+                        bg="rgba(255,255,255,0.04)"
+                        p="12px"
+                        borderRadius="12px"
                         border="1px solid"
-                        borderColor="var(--stake-border-primary)"
+                        borderColor="rgba(255,255,255,0.06)"
                       >
                         <FormControl isRequired>
                           <FormLabel className="stake-label" fontSize="xs" mb="1">نوع الراتب</FormLabel>
@@ -3017,11 +3111,11 @@ const tailwindTableStyles = `
                         </FormControl>
                       </Box>
                       <Box
-                        bg="var(--stake-bg-secondary)"
-                        p="2.5"
-                        borderRadius="lg"
+                        bg="rgba(255,255,255,0.04)"
+                        p="12px"
+                        borderRadius="12px"
                         border="1px solid"
-                        borderColor="var(--stake-border-primary)"
+                        borderColor="rgba(255,255,255,0.06)"
                       >
                         <FormControl>
                           <FormLabel className="stake-label" fontSize="xs" mb="1">القسم</FormLabel>
@@ -3050,11 +3144,11 @@ const tailwindTableStyles = `
                         </FormControl>
                       </Box>
                       <Box
-                        bg="var(--stake-bg-secondary)"
-                        p="2.5"
-                        borderRadius="lg"
+                        bg="rgba(255,255,255,0.04)"
+                        p="12px"
+                        borderRadius="12px"
                         border="1px solid"
-                        borderColor="var(--stake-border-primary)"
+                        borderColor="rgba(255,255,255,0.06)"
                       >
                         <FormControl>
                           <FormLabel className="stake-label" fontSize="xs" mb="1">المنصب</FormLabel>
@@ -3089,11 +3183,11 @@ const tailwindTableStyles = `
                   </Text>
                   <SimpleGrid columns={{ base: 1, md: 3 }} spacing="2">
                     <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="2.5"
-                      borderRadius="lg"
+                      bg="rgba(255,255,255,0.04)"
+                      p="12px"
+                      borderRadius="12px"
                       border="1px solid"
-                      borderColor="var(--stake-border-primary)"
+                      borderColor="rgba(255,255,255,0.06)"
                     >
                       <FormControl>
                         <FormLabel className="stake-label" fontSize="xs" mb="1">الموقع</FormLabel>
@@ -3121,11 +3215,11 @@ const tailwindTableStyles = `
                       </FormControl>
                     </Box>
                     <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="2.5"
-                      borderRadius="lg"
+                      bg="rgba(255,255,255,0.04)"
+                      p="12px"
+                      borderRadius="12px"
                       border="1px solid"
-                      borderColor="var(--stake-border-primary)"
+                      borderColor="rgba(255,255,255,0.06)"
                     >
                       <FormControl>
                         <FormLabel className="stake-label" fontSize="xs" mb="1">تاريخ التعيين</FormLabel>
@@ -3151,11 +3245,11 @@ const tailwindTableStyles = `
                       </FormControl>
                     </Box>
                     <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="2.5"
-                      borderRadius="lg"
+                      bg="rgba(255,255,255,0.04)"
+                      p="12px"
+                      borderRadius="12px"
                       border="1px solid"
-                      borderColor="var(--stake-border-primary)"
+                      borderColor="rgba(255,255,255,0.06)"
                     >
                       <FormControl>
                         <FormLabel className="stake-label" fontSize="xs" mb="1">الحالة</FormLabel>
@@ -3258,308 +3352,280 @@ const tailwindTableStyles = `
       {/* View Employee Modal */}
       <Modal isOpen={isViewOpen} onClose={onViewClose} size="4xl" isCentered>
         <ModalOverlay bg="rgba(0, 0, 0, 0.7)" backdropFilter="blur(8px)" />
-        <ModalContent bg="var(--stake-bg-primary)" border="none" borderRadius="3xl" boxShadow="0 25px 50px -12px rgba(0, 0, 0, 0.25)" overflow="hidden">
-          <ModalHeader
-            bg="var(--stake-bg-primary)"
-            color="white"
-            borderRadius="24px 24px 0 0"
-            p="4"
-            position="relative"
-          >
-            <HStack justify="space-between" align="center" w="full">
-              <Text fontSize="lg" fontWeight="bold">
+        <ModalContent className="ae-modal" bg="#101A2E" border="1px solid #1F2A44" borderRadius="20px" boxShadow="0 25px 50px -12px rgba(0, 0, 0, 0.5)" overflow="hidden">
+          <Box position="relative" overflow="hidden">
+            <Box
+              h="76px"
+              position="relative"
+              style={{
+                background:
+                  'radial-gradient(130% 170% at 88% -20%, rgba(139,92,246,0.38) 0%, rgba(139,92,246,0) 55%), radial-gradient(130% 170% at 8% 0%, rgba(245,158,11,0.20) 0%, rgba(245,158,11,0) 52%), #0D1526',
+              }}
+            >
+              <ModalCloseButton
+                position="absolute"
+                top="12px"
+                insetInlineEnd="12px"
+                color="white"
+                bg="rgba(255,255,255,0.12)"
+                borderRadius="full"
+                size="sm"
+                _hover={{ bg: 'rgba(255,255,255,0.22)' }}
+                _active={{ transform: 'scale(0.95)' }}
+              />
+              <Text position="absolute" bottom="10px" insetInlineStart="20px" fontSize="11px" fontWeight="700" letterSpacing="1px" color="rgba(255,255,255,0.55)">
                 تفاصيل الموظف
               </Text>
-              
-              <HStack spacing="6" align="center" flex="1" justify="center">
-                <HStack spacing="2">
-                  <Icon as={FiUser} color="blue.300" boxSize="4" />
-                  <Text fontSize="sm" className="stake-text-secondary">
+            </Box>
+            <HStack px={4} pb={3} spacing={3} align="flex-start" position="relative" flexWrap="wrap" rowGap={2}>
+              <Box borderRadius="full" p="3px" bg="#0D1526" flexShrink={0} boxShadow="0 8px 24px rgba(0,0,0,0.45)" mt="-30px">
+                <Box borderRadius="full" p="2px" bgGradient="linear(to-l, #8B5CF6, #F59E0B)">
+                  <Circle size="52px" bg="#0F172A" color="#fff" fontSize="18px" fontWeight="extrabold">
+                    {(selectedEmployee?.name_ar || selectedEmployee?.name || '؟').trim().split(/\s+/).map((w) => w[0]).slice(0, 2).join('')}
+                  </Circle>
+                </Box>
+              </Box>
+              <VStack align="flex-start" spacing="2px" minW={0} flex="1">
+                <HStack spacing={2} flexWrap="wrap" align="center">
+                  <Text fontSize="17px" fontWeight="extrabold" color="#fff" noOfLines={1}>
                     {selectedEmployee?.name_ar || selectedEmployee?.name || 'غير محدد'}
                   </Text>
-                </HStack>
-                <HStack spacing="2">
-                  <Icon as={FiHash} color="green.300" boxSize="4" />
-                  <Text fontSize="sm" className="stake-text-secondary">{selectedEmployee?.employee_code || '-'}</Text>
-                </HStack>
-                <HStack spacing="2">
-                  <Icon as={FiKey} color="orange.300" boxSize="4" />
-                  <Text fontSize="sm" className="stake-text-secondary">{selectedEmployee?.['AC-No.'] || '-'}</Text>
-                </HStack>
-                {selectedEmployee?.salary_type === 'Monthly' ? (
-                  <HStack spacing="2">
-                    <Icon as={FiBriefcase} color="purple.300" boxSize="4" />
-                    <Text fontSize="sm" className="stake-text-secondary">
-                      {selectedEmployee?.department_description || selectedEmployee?.department || '-'}
-                    </Text>
-                  </HStack>
-                ) : (
-                  <HStack spacing="2">
-                    <Icon as={FiTarget} color="blue.300" boxSize="4" />
-                    <Text fontSize="sm" className="stake-text-secondary">
-                      {selectedEmployee?.cost_center || '-'}
-                    </Text>
-                  </HStack>
-                )}
-                <HStack spacing="2">
-                  <Icon as={FiDollarSign} color="orange.300" boxSize="4" />
-                  <Badge 
-                    colorScheme={selectedEmployee?.salary_type === 'Monthly' ? 'purple' : 'blue'}
-                    variant="solid"
-                    px="2"
-                    py="1"
-                    borderRadius="md"
-                    fontSize="xs"
+                  <Badge
+                    colorScheme={(selectedEmployee?.status || 'active') === 'active' ? 'green' : 'red'}
+                    variant="subtle"
+                    borderRadius="full"
+                    px="2.5"
+                    py="2px"
+                    fontSize="11px"
                   >
-                    {selectedEmployee?.salary_type === 'Monthly' ? 'شهري' : 'أسبوعي'}
+                    {(selectedEmployee?.status || 'active') === 'active' ? 'نشط' : 'غير نشط'}
                   </Badge>
                 </HStack>
-              </HStack>
-              
-              <Box w="40px"></Box>
-              <ModalCloseButton 
-                color="white"
-                bg="rgba(255, 255, 255, 0.1)"
-                borderRadius="full"
-                _hover={{
-                  bg: "rgba(255, 255, 255, 0.2)"
-                }}
-                _active={{
-                  transform: "scale(0.95)"
-                }}
-              />
+                <Text fontSize="12px" color="rgba(255,255,255,0.6)" noOfLines={1}>
+                  {selectedEmployee?.position || selectedEmployee?.department_description || selectedEmployee?.department || ''} • {selectedEmployee?.salary_type === 'Monthly' ? 'شهري' : 'أسبوعي'}
+                </Text>
+                <HStack spacing={2} flexWrap="wrap">
+                  <HStack spacing={1} bg="rgba(255,255,255,0.05)" borderRadius="full" ps={2.5} pe={1} py="3px" border="1px solid rgba(255,255,255,0.09)">
+                    <Text fontSize="11px" color="rgba(255,255,255,0.85)" fontFamily="mono">#{selectedEmployee?.employee_code || '-'}</Text>
+                    <IconButton
+                      aria-label="نسخ كود الموظف"
+                      icon={<FiCopy />}
+                      size="xs"
+                      variant="ghost"
+                      color="rgba(255,255,255,0.55)"
+                      _hover={{ color: '#fff', bg: 'rgba(255,255,255,0.12)' }}
+                      minW="auto"
+                      h="20px"
+                      w="20px"
+                      onClick={() => copyText('كود الموظف', selectedEmployee?.employee_code)}
+                    />
+                  </HStack>
+                  <HStack spacing={1} bg="rgba(255,255,255,0.05)" borderRadius="full" ps={2.5} pe={1} py="3px" border="1px solid rgba(255,255,255,0.09)">
+                    <Text fontSize="11px" color="rgba(255,255,255,0.85)" fontFamily="mono">بصمة {selectedEmployee?.['AC-No.'] || '-'}</Text>
+                    <IconButton
+                      aria-label="نسخ كود البصمة"
+                      icon={<FiCopy />}
+                      size="xs"
+                      variant="ghost"
+                      color="rgba(255,255,255,0.55)"
+                      _hover={{ color: '#fff', bg: 'rgba(255,255,255,0.12)' }}
+                      minW="auto"
+                      h="20px"
+                      w="20px"
+                      onClick={() => copyText('كود البصمة', selectedEmployee?.['AC-No.'])}
+                    />
+                  </HStack>
+                </HStack>
+              </VStack>
             </HStack>
-          </ModalHeader>
-          <ModalBody p="8">
-            {selectedEmployee && (
-              <VStack spacing="6" align="stretch">
-                {/* معلومات الراتب */}
-                <Box>
-                  <Text fontSize="lg" fontWeight="bold" mb="4" color="var(--stake-text-primary)">
-                    معلومات الراتب
-                  </Text>
-                  <SimpleGrid columns={{ base: 1, md: 4 }} spacing="4">
-                    <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="4"
-                      borderRadius="xl"
-                      border="1px solid"
-                      borderColor="var(--stake-border-primary)"
-                    >
-                      <VStack align="flex-start" spacing="2">
-                        <Text fontSize="sm" color="var(--stake-text-secondary)" fontWeight="medium">
-                          الراتب الأساسي
-                        </Text>
-                        <Text fontSize="md" fontWeight="bold" color="green.400">
-                          {formatCurrency(selectedEmployee.base_salary || 0)}
-                        </Text>
-                      </VStack>
-                    </Box>
-                    <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="4"
-                      borderRadius="xl"
-                      border="1px solid"
-                      borderColor="var(--stake-border-primary)"
-                    >
-                      <VStack align="flex-start" spacing="2">
-                        <Text fontSize="sm" color="var(--stake-text-secondary)" fontWeight="medium">
-                          التمييز والحوافز
-                        </Text>
-                        <Text fontSize="md" fontWeight="bold" color="orange.400">
-                          {formatCurrency(selectedEmployee.discrimination_incentive_allowance || 0)}
-                        </Text>
-                      </VStack>
-                    </Box>
-                    <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="4"
-                      borderRadius="xl"
-                      border="1px solid"
-                      borderColor="var(--stake-border-primary)"
-                    >
-                      <VStack align="flex-start" spacing="2">
-                        <Text fontSize="sm" color="var(--stake-text-secondary)" fontWeight="medium">
-                          نوع الراتب
-                        </Text>
-                        <Badge
-                          colorScheme={selectedEmployee.salary_type === 'Monthly' ? 'purple' : 'blue'}
-                          variant="solid"
-                          px="3"
-                          py="1"
-                          borderRadius="md"
-                        >
-                          {selectedEmployee.salary_type === 'Monthly' ? 'شهري' : 'أسبوعي'}
-                        </Badge>
-                      </VStack>
-                    </Box>
-                    <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="4"
-                      borderRadius="xl"
-                      border="1px solid"
-                      borderColor="var(--stake-border-primary)"
-                    >
-                      <VStack align="flex-start" spacing="2">
-                        <Text fontSize="sm" color="var(--stake-text-secondary)" fontWeight="medium">
-                          مؤمن عليه
-                        </Text>
-                        <Badge
-                          colorScheme={selectedEmployee.is_insured ? 'green' : 'red'}
-                          variant="solid"
-                          px="3"
-                          py="1"
-                          borderRadius="md"
-                        >
-                          {selectedEmployee.is_insured ? 'نعم' : 'لا'}
-                        </Badge>
-                      </VStack>
-                    </Box>
-                  </SimpleGrid>
+          </Box>
+          <ModalBody p={{ base: 4, md: 6 }}>
+            {selectedEmployee && (() => {
+              const _base = parseFloat(selectedEmployee.base_salary || 0);
+              const _variable = parseFloat(selectedEmployee.discrimination_incentive_allowance || 0);
+              const _total = _base + _variable;
+              const _basePct = _total > 0 ? Math.round((_base / _total) * 100) : 0;
+              return (
+              <VStack spacing="5" align="stretch">
+                {/* شريط الإحصائيات */}
+                <Box
+                  bg="rgba(255,255,255,0.03)"
+                  border="1px solid rgba(255,255,255,0.06)"
+                  borderRadius="14px"
+                  px={{ base: 3, md: 5 }}
+                  py={3}
+                >
+                  <HStack spacing={0} align="stretch">
+                    <VStack flex="1" spacing="2px" align="center">
+                      <Text fontSize="20px" fontWeight="extrabold" color="#fff" lineHeight="1.1">{formatCurrency(_total)}</Text>
+                      <Text fontSize="11px" color="rgba(255,255,255,0.5)">إجمالي الراتب</Text>
+                    </VStack>
+                    <Box w="1px" alignSelf="stretch" bg="rgba(255,255,255,0.07)" mx={{ base: 2, md: 4 }} />
+                    <VStack flex="1" spacing="2px" align="center">
+                      <Text fontSize="20px" fontWeight="extrabold" color="#fff" lineHeight="1.1">
+                        {selectedEmployee?.salary_type === 'Monthly' ? 'شهري' : 'أسبوعي'}
+                      </Text>
+                      <Text fontSize="11px" color="rgba(255,255,255,0.5)">نوع الراتب</Text>
+                    </VStack>
+                  </HStack>
                 </Box>
 
-                {/* معلومات العمل */}
-                <Box>
-                  <Text fontSize="lg" fontWeight="bold" mb="4" color="var(--stake-text-primary)">
-                    معلومات العمل
-                  </Text>
-                  <SimpleGrid columns={{ base: 1, md: 3 }} spacing="4">
+                {/* تبويبات العرض */}
+                <Box bg="#1A2338" borderRadius="full" border="1px solid rgba(255,255,255,0.08)" p="4px" display="flex" gap="4px" position="sticky" top={{ base: '-16px', md: '-24px' }} zIndex="2" boxShadow="0 8px 20px rgba(0,0,0,0.35)">
+                  {[
+                    { id: 'overview', label: 'نظرة عامة' },
+                    { id: 'salary', label: 'الراتب والمزايا' },
+                  ].map((t) => (
                     <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="4"
-                      borderRadius="xl"
-                      border="1px solid"
-                      borderColor="var(--stake-border-primary)"
+                      as="button"
+                      key={t.id}
+                      type="button"
+                      onClick={() => setEmpViewTab(t.id)}
+                      flex="1"
+                      textAlign="center"
+                      fontSize="13px"
+                      fontWeight="600"
+                      borderRadius="full"
+                      py="8px"
+                      color={empViewTab === t.id ? '#fff' : 'rgba(255,255,255,0.45)'}
+                      bg={empViewTab === t.id ? 'linear-gradient(to left, #8B5CF6, #7C3AED)' : 'transparent'}
+                      boxShadow={empViewTab === t.id ? '0 4px 14px rgba(139,92,246,0.35)' : 'none'}
+                      transition="all 0.2s ease"
                     >
-                      <VStack align="flex-start" spacing="2">
-                        <Text fontSize="sm" color="var(--stake-text-secondary)" fontWeight="medium">
-                          القسم
-                        </Text>
-                        <Text fontSize="md" fontWeight="bold" color="var(--stake-text-primary)">
-                          {selectedEmployee.department_description || selectedEmployee.department || '-'}
-                        </Text>
-                      </VStack>
+                      {t.label}
                     </Box>
-                    <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="4"
-                      borderRadius="xl"
-                      border="1px solid"
-                      borderColor="var(--stake-border-primary)"
-                    >
-                      <VStack align="flex-start" spacing="2">
-                        <Text fontSize="sm" color="var(--stake-text-secondary)" fontWeight="medium">
-                          التكلفة
-                        </Text>
-                        <Text fontSize="md" fontWeight="bold" color="var(--stake-text-primary)">
-                          {selectedEmployee.cost_center || '-'}
-                        </Text>
-                      </VStack>
-                    </Box>
-                    <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="4"
-                      borderRadius="xl"
-                      border="1px solid"
-                      borderColor="var(--stake-border-primary)"
-                    >
-                      <VStack align="flex-start" spacing="2">
-                        <Text fontSize="sm" color="var(--stake-text-secondary)" fontWeight="medium">
-                          المنصب
-                        </Text>
-                        <Text fontSize="md" fontWeight="bold" color="var(--stake-text-primary)">
-                          {selectedEmployee.position || '-'}
-                        </Text>
-                      </VStack>
-                    </Box>
-                  </SimpleGrid>
+                  ))}
                 </Box>
+
+                {empViewTab === 'salary' ? (
+                <VStack spacing="5" align="stretch">
+                {/* شريط توزيع الراتب */}
+                <Box bg="rgba(255,255,255,0.04)" p="16px" borderRadius="12px" border="1px solid rgba(255,255,255,0.06)">
+                  <HStack justify="space-between" mb={2}>
+                    <Text fontSize="12px" fontWeight="600" color="rgba(255,255,255,0.7)">توزيع الراتب</Text>
+                    <Text fontSize="11px" color="rgba(255,255,255,0.4)">أساسي {_basePct}% • متغير {100 - _basePct}%</Text>
+                  </HStack>
+                  <Box h="10px" borderRadius="full" bg="rgba(255,255,255,0.06)" overflow="hidden" display="flex">
+                    <Box h="100%" bg="linear-gradient(to left, #10B981, #34D399)" style={{ width: `${_basePct}%` }} />
+                    <Box h="100%" bg="linear-gradient(to left, #F59E0B, #FBBF24)" style={{ width: `${100 - _basePct}%` }} />
+                  </Box>
+                </Box>
+
+                {/* معلومات الراتب */}
+                <AeSection title="تفاصيل الراتب">
+                  <VStack spacing={0} align="stretch">
+                    <AeRow icon={FiDollarSign} label="الراتب الأساسي">
+                      <Text fontSize="13px" fontWeight="700" color="#fff">{formatCurrency(_base)}</Text>
+                      <Text fontSize="11px" color="rgba(255,255,255,0.4)">{_basePct}%</Text>
+                    </AeRow>
+                    <AeRow icon={FiPercent} label="التمييز والحوافز">
+                      <Text fontSize="13px" fontWeight="700" color="#fff">{formatCurrency(_variable)}</Text>
+                      <Text fontSize="11px" color="rgba(255,255,255,0.4)">{100 - _basePct}%</Text>
+                    </AeRow>
+                    <AeRow icon={FiBriefcase} label="نوع الراتب">
+                      <Badge
+                        colorScheme={selectedEmployee.salary_type === 'Monthly' ? 'purple' : 'blue'}
+                        variant="subtle"
+                        borderRadius="full"
+                        px="2.5"
+                        py="2px"
+                        fontSize="11px"
+                      >
+                        {selectedEmployee.salary_type === 'Monthly' ? 'شهري' : 'أسبوعي'}
+                      </Badge>
+                    </AeRow>
+                    <AeRow icon={FiCheck} label="التأمين الطبي" last>
+                      <Badge
+                        colorScheme={selectedEmployee.is_insured ? 'green' : 'red'}
+                        variant="subtle"
+                        borderRadius="full"
+                        px="2.5"
+                        py="2px"
+                        fontSize="11px"
+                      >
+                        {selectedEmployee.is_insured ? 'مشمول' : 'غير مشمول'}
+                      </Badge>
+                    </AeRow>
+                  </VStack>
+                </AeSection>
+                </VStack>
+                ) : (
+                <VStack spacing="5" align="stretch">
+                {/* معلومات العمل */}
+                <AeSection title="معلومات العمل">
+                  <VStack spacing={0} align="stretch">
+                    <AeRow icon={FiBriefcase} label="القسم">
+                      <Text fontSize="13px" fontWeight="600" color="#fff">
+                        {selectedEmployee.department_description || selectedEmployee.department || '-'}
+                      </Text>
+                    </AeRow>
+                    <AeRow icon={FiTarget} label="مركز التكلفة">
+                      <Text fontSize="13px" fontWeight="600" color="#fff">
+                        {selectedEmployee.cost_center || '-'}
+                      </Text>
+                    </AeRow>
+                    <AeRow icon={FiUser} label="المنصب" last>
+                      <Text fontSize="13px" fontWeight="600" color="#fff">
+                        {selectedEmployee.position || '-'}
+                      </Text>
+                    </AeRow>
+                  </VStack>
+                </AeSection>
 
                 {/* معلومات إضافية */}
-                <Box>
-                  <Text fontSize="lg" fontWeight="bold" mb="4" color="var(--stake-text-primary)">
-                    معلومات إضافية
-                  </Text>
-                  <SimpleGrid columns={{ base: 1, md: 3 }} spacing="4">
-                    <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="4"
-                      borderRadius="xl"
-                      border="1px solid"
-                      borderColor="var(--stake-border-primary)"
-                    >
-                      <VStack align="flex-start" spacing="2">
-                        <Text fontSize="sm" color="var(--stake-text-secondary)" fontWeight="medium">
-                          الموقع
-                        </Text>
-                        <Text fontSize="md" fontWeight="bold" color="var(--stake-text-primary)">
-                          {selectedEmployee.location || '-'}
-                        </Text>
-                      </VStack>
-                    </Box>
-                    <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="4"
-                      borderRadius="xl"
-                      border="1px solid"
-                      borderColor="var(--stake-border-primary)"
-                    >
-                      <VStack align="flex-start" spacing="2">
-                        <Text fontSize="sm" color="var(--stake-text-secondary)" fontWeight="medium">
-                          تاريخ التعيين
-                        </Text>
-                        <Text fontSize="md" fontWeight="bold" color="var(--stake-text-primary)">
-                          {selectedEmployee.hire_date ? new Date(selectedEmployee.hire_date).toLocaleDateString('ar-EG') : '-'}
-                        </Text>
-                      </VStack>
-                    </Box>
-                    <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="4"
-                      borderRadius="xl"
-                      border="1px solid"
-                      borderColor="var(--stake-border-primary)"
-                    >
-                      <VStack align="flex-start" spacing="2">
-                        <Text fontSize="sm" color="var(--stake-text-secondary)" fontWeight="medium">
-                          الحالة
-                        </Text>
-                        <Badge
-                          colorScheme={selectedEmployee.status === 'active' ? 'green' : 'red'}
-                          variant="solid"
-                          px="3"
-                          py="1"
-                          borderRadius="md"
-                        >
-                          {selectedEmployee.status === 'active' ? 'نشط' : 'غير نشط'}
-                        </Badge>
-                      </VStack>
-                    </Box>
-                  </SimpleGrid>
-                </Box>
+                <AeSection title="معلومات إضافية">
+                  <VStack spacing={0} align="stretch">
+                    <AeRow icon={FiMapPin} label="الموقع">
+                      <Text fontSize="13px" fontWeight="600" color="#fff">
+                        {selectedEmployee.location || '-'}
+                      </Text>
+                    </AeRow>
+                    <AeRow icon={FiCalendar} label="تاريخ التعيين">
+                      <Text fontSize="13px" fontWeight="600" color="#fff">
+                        {selectedEmployee.hire_date ? new Date(selectedEmployee.hire_date).toLocaleDateString('ar-EG') : '-'}
+                      </Text>
+                    </AeRow>
+                    <AeRow icon={FiCheckCircle} label="الحالة" last>
+                      <Badge
+                        colorScheme={selectedEmployee.status === 'active' ? 'green' : 'red'}
+                        variant="subtle"
+                        px="2.5"
+                        py="2px"
+                        borderRadius="full"
+                        fontSize="11px"
+                      >
+                        {selectedEmployee.status === 'active' ? 'نشط' : 'غير نشط'}
+                      </Badge>
+                    </AeRow>
+                  </VStack>
+                </AeSection>
+                </VStack>
+                )}
               </VStack>
-            )}
+              );
+            })()}
           </ModalBody>
-          <ModalFooter 
-            justifyContent="center" // Center content horizontally
+          <ModalFooter
+            justifyContent="center"
             gap="4"
-            bg="var(--stake-bg-primary)"
-            borderTop="1px solid"
-            borderColor="var(--stake-border-primary)"
-            borderRadius="0 0 24px 24px"
+            bg="#101A2E"
+            borderTop="1px solid rgba(255,255,255,0.06)"
+            borderRadius="0 0 20px 20px"
             p="6"
-            boxShadow="0 -4px 20px rgba(0, 0, 0, 0.4)"
           >
-            <HStack spacing="3">
+            <HStack spacing="3" flexWrap="wrap" justify="center">
               <Button
                 leftIcon={<FiEdit />}
-                h="48px"
-                px="8"
-                fontWeight="600"
+                h="46px"
+                px="7"
+                fontWeight="700"
+                fontSize="14px"
                 borderRadius="xl"
-                bg="#3b82f6"
-                color="white"
-                _hover={{ bg: "#2563eb" }}
+                color="#fff"
+                bgGradient="linear(to-l, #8B5CF6, #7C3AED)"
+                boxShadow="0 8px 22px rgba(139,92,246,0.4)"
+                _hover={{ filter: 'brightness(1.12)' }}
+                _active={{ transform: 'scale(0.97)' }}
                 onClick={() => {
                   onViewClose();
                   onEditOpen();
@@ -3568,14 +3634,33 @@ const tailwindTableStyles = `
                 تعديل البيانات
               </Button>
               <Button
-                leftIcon={<FiTrash2 />}
-                h="48px"
-                px="8"
-                fontWeight="600"
+                leftIcon={<FiDollarSign />}
+                h="46px"
+                px="7"
+                fontWeight="700"
+                fontSize="14px"
                 borderRadius="xl"
-                bg="#dc2626"
-                color="white"
-                _hover={{ bg: "#b91c1c" }}
+                bg="rgba(16,185,129,0.12)"
+                border="1px solid rgba(16,185,129,0.35)"
+                color="#6EE7B7"
+                _hover={{ bg: 'rgba(16,185,129,0.22)' }}
+                _active={{ transform: 'scale(0.97)' }}
+                onClick={() => handleCalculateSalary(selectedEmployee)}
+              >
+                احتساب راتب
+              </Button>
+              <Button
+                leftIcon={<FiTrash2 />}
+                h="46px"
+                px="7"
+                fontWeight="700"
+                fontSize="14px"
+                borderRadius="xl"
+                bg="rgba(239,68,68,0.10)"
+                border="1px solid rgba(239,68,68,0.35)"
+                color="#F87171"
+                _hover={{ bg: 'rgba(239,68,68,0.20)' }}
+                _active={{ transform: 'scale(0.97)' }}
                 onClick={() => {
                   const employeeName = selectedEmployee?.name_ar || selectedEmployee?.name || 'هذا الموظف';
                   const confirmMessage = `⚠️ تحذير: حذف الموظف نهائياً\n\nالموظف: ${employeeName}\nالكود: ${selectedEmployee?.employee_code || 'غير محدد'}\n\nهذا الإجراء سيحذف:\n• بيانات الموظف من قاعدة البيانات\n• جميع سجلات الحضور والانصراف\n• سجلات البصمة الخام (fingerprint_attendance) المرتبطة بكود البصمة AC-No.\n• جميع البيانات المرتبطة بالموظف\n\n⚠️ لا يمكن التراجع عن هذا الإجراء!\n\nهل أنت متأكد من المتابعة؟`;
@@ -3597,177 +3682,180 @@ const tailwindTableStyles = `
       {/* Edit Employee Modal - unified format to match new design */}
       <Modal isOpen={isEditOpen} onClose={handleEditClose} size="3xl" isCentered>
         <ModalOverlay bg="rgba(0, 0, 0, 0.7)" backdropFilter="blur(8px)" />
-        <ModalContent bg="var(--stake-bg-primary)" border="none" borderRadius="2xl" boxShadow="0 25px 50px -12px rgba(0, 0, 0, 0.25)" overflow="hidden" maxH="90vh">
-          <ModalHeader
-            bg="var(--stake-bg-primary)"
-            color="white"
-            borderRadius="16px 16px 0 0"
-            p="3"
-            position="relative"
-            boxShadow="0 2px 10px rgba(0, 0, 0, 0.4)"
-          >
-            <HStack justify="space-between" align="center" w="full">
-              <Text fontSize="md" fontWeight="bold">
-                تعديل بيانات الموظف
-              </Text>
-              
-              <HStack spacing="3" align="center" flex="1" justify="center" flexWrap="wrap">
-                <HStack spacing="1">
-                  <Icon as={FiUser} color="blue.300" boxSize="3" />
-                  <Text fontSize="xs" className="stake-text-secondary" noOfLines={1}>
-                    {selectedEmployee?.name_ar || selectedEmployee?.name || 'غير محدد'}
-                  </Text>
-                </HStack>
-                <HStack spacing="1">
-                  <Icon as={FiHash} color="green.300" boxSize="3" />
-                  <Text fontSize="xs" className="stake-text-secondary">{selectedEmployee?.employee_code || '-'}</Text>
-                </HStack>
-                <HStack spacing="1">
-                  <Icon as={FiKey} color="orange.300" boxSize="3" />
-                  <Text fontSize="xs" className="stake-text-secondary">{selectedEmployee?.['AC-No.'] || '-'}</Text>
-                </HStack>
-                <HStack spacing="1">
-                  <Icon as={FiBriefcase} color="purple.300" boxSize="3" />
-                  <Text fontSize="xs" className="stake-text-secondary" noOfLines={1}>
-                    {selectedEmployee?.department_description || selectedEmployee?.department || '-'}
-                  </Text>
-                </HStack>
-                <HStack spacing="1">
-                  <Icon as={FiDollarSign} color="orange.300" boxSize="3" />
-                  <Badge 
-                    colorScheme={selectedEmployee?.salary_type === 'Monthly' ? 'purple' : 'blue'}
-                    variant="solid"
-                    px="1.5"
-                    py="0.5"
-                    borderRadius="md"
-                    fontSize="2xs"
-                  >
-                    {selectedEmployee?.salary_type === 'Monthly' ? 'شهري' : 'أسبوعي'}
-                  </Badge>
-                </HStack>
-              </HStack>
-              
-              <Box w="30px"></Box>
-              <ModalCloseButton 
+        <ModalContent className="ae-modal" bg="#101A2E" border="1px solid #1F2A44" borderRadius="20px" boxShadow="0 25px 50px -12px rgba(0, 0, 0, 0.5)" overflow="hidden" maxH="90vh">
+          <Box position="relative" overflow="hidden">
+            <Box
+              h="76px"
+              position="relative"
+              style={{
+                background:
+                  'radial-gradient(130% 170% at 88% -20%, rgba(139,92,246,0.38) 0%, rgba(139,92,246,0) 55%), radial-gradient(130% 170% at 8% 0%, rgba(245,158,11,0.20) 0%, rgba(245,158,11,0) 52%), #0D1526',
+              }}
+            >
+              <ModalCloseButton
+                position="absolute"
+                top="12px"
+                insetInlineEnd="12px"
                 color="white"
-                bg="rgba(255, 255, 255, 0.1)"
+                bg="rgba(255,255,255,0.12)"
                 borderRadius="full"
                 size="sm"
-                _hover={{
-                  bg: "rgba(255, 255, 255, 0.2)"
-                }}
-                _active={{
-                  transform: "scale(0.95)"
-                }}
+                _hover={{ bg: 'rgba(255,255,255,0.22)' }}
+                _active={{ transform: 'scale(0.95)' }}
               />
+              <Text position="absolute" bottom="10px" insetInlineStart="20px" fontSize="11px" fontWeight="700" letterSpacing="1px" color="rgba(255,255,255,0.55)">
+                تعديل بيانات الموظف
+              </Text>
+            </Box>
+            <HStack px={4} pb={3} spacing={3} align="flex-start" position="relative" flexWrap="wrap" rowGap={2}>
+              <Box borderRadius="full" p="3px" bg="#0D1526" flexShrink={0} boxShadow="0 8px 24px rgba(0,0,0,0.45)" mt="-30px">
+                <Box borderRadius="full" p="2px" bgGradient="linear(to-l, #8B5CF6, #F59E0B)">
+                  <Circle size="52px" bg="#0F172A" color="#fff" fontSize="18px" fontWeight="extrabold">
+                    {(selectedEmployee?.name_ar || selectedEmployee?.name || '؟').trim().split(/\s+/).map((w) => w[0]).slice(0, 2).join('')}
+                  </Circle>
+                </Box>
+              </Box>
+              <VStack align="flex-start" spacing="3px" minW={0} flex="1">
+                <HStack spacing={2} flexWrap="wrap" align="center">
+                  <Text fontSize="17px" fontWeight="extrabold" color="#fff" noOfLines={1}>
+                    {selectedEmployee?.name_ar || selectedEmployee?.name || 'غير محدد'}
+                  </Text>
+                  <Badge
+                    colorScheme={(selectedEmployee?.status || 'active') === 'active' ? 'green' : 'red'}
+                    variant="subtle"
+                    borderRadius="full"
+                    px="2.5"
+                    py="2px"
+                    fontSize="11px"
+                  >
+                    {(selectedEmployee?.status || 'active') === 'active' ? 'نشط' : 'غير نشط'}
+                  </Badge>
+                </HStack>
+                <Text fontSize="12px" color="rgba(255,255,255,0.6)" noOfLines={1}>
+                  {selectedEmployee?.position || selectedEmployee?.department_description || selectedEmployee?.department || ''} • {selectedEmployee?.salary_type === 'Monthly' ? 'شهري' : 'أسبوعي'}
+                </Text>
+                <HStack spacing={2} flexWrap="wrap">
+                  <HStack spacing={1} bg="rgba(255,255,255,0.05)" borderRadius="full" ps={2.5} pe={1} py="3px" border="1px solid rgba(255,255,255,0.09)">
+                    <Text fontSize="11px" color="rgba(255,255,255,0.85)" fontFamily="mono">#{selectedEmployee?.employee_code || '-'}</Text>
+                    <IconButton
+                      aria-label="نسخ كود الموظف"
+                      icon={<FiCopy />}
+                      size="xs"
+                      variant="ghost"
+                      color="rgba(255,255,255,0.55)"
+                      _hover={{ color: '#fff', bg: 'rgba(255,255,255,0.12)' }}
+                      minW="auto"
+                      h="20px"
+                      w="20px"
+                      onClick={() => copyText('كود الموظف', selectedEmployee?.employee_code)}
+                    />
+                  </HStack>
+                  <HStack spacing={1} bg="rgba(255,255,255,0.05)" borderRadius="full" ps={2.5} pe={1} py="3px" border="1px solid rgba(255,255,255,0.09)">
+                    <Text fontSize="11px" color="rgba(255,255,255,0.85)" fontFamily="mono">بصمة {selectedEmployee?.['AC-No.'] || '-'}</Text>
+                    <IconButton
+                      aria-label="نسخ كود البصمة"
+                      icon={<FiCopy />}
+                      size="xs"
+                      variant="ghost"
+                      color="rgba(255,255,255,0.55)"
+                      _hover={{ color: '#fff', bg: 'rgba(255,255,255,0.12)' }}
+                      minW="auto"
+                      h="20px"
+                      w="20px"
+                      onClick={() => copyText('كود البصمة', selectedEmployee?.['AC-No.'])}
+                    />
+                  </HStack>
+                </HStack>
+              </VStack>
             </HStack>
-          </ModalHeader>
-          <ModalBody p="4" overflowY="auto" maxH="calc(90vh - 200px)">
+          </Box>
+          <ModalBody p="5" overflowY="auto" maxH="calc(92vh - 210px)">
+            <Flex gap={4} align="flex-start" direction={{ base: 'column', lg: 'row' }}>
+              <Box flex="1" minW="0">
             <form onSubmit={handleSubmit(handleEditEmployee)}>
               <VStack spacing="3" align="stretch">
-                {/* المعلومات الأساسية */}
-                <Box>
-                  <Text fontSize="sm" fontWeight="bold" mb="2" color="var(--stake-text-primary)">
-                    المعلومات الأساسية
-                  </Text>
-                  <VStack spacing="2" align="stretch">
-                    {/* الصف الأول: الأسماء */}
-                    <SimpleGrid columns={{ base: 1, md: 2 }} spacing="2">
-                      <Box
-                        bg="var(--stake-bg-secondary)"
-                        p="2.5"
-                        borderRadius="lg"
-                        border="1px solid"
-                        borderColor="var(--stake-border-primary)"
-                      >
+                <HStack spacing={1} flexWrap="wrap" rowGap={2} bg="#1A2338" border="1px solid rgba(255,255,255,0.08)" borderRadius="full" p="4px" position="sticky" top="-20px" zIndex="2" boxShadow="0 8px 20px rgba(0,0,0,0.35)">
+                  {[
+                    { id: 'basic', label: 'المعلومات الأساسية' },
+                    { id: 'work', label: 'معلومات العمل' },
+                    { id: 'extra', label: 'معلومات إضافية' },
+                  ].map((t, i) => {
+                    const _on = empEditTab === t.id;
+                    return (
+                      <HStack key={t.id} spacing={2}>
+                        <Box
+                          as="button"
+                          type="button"
+                          onClick={() => setEmpEditTab(t.id)}
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                          gap="8px"
+                          borderRadius="full"
+                          flex="1"
+                          px={2}
+                          py="8px"
+                          fontSize="12px"
+                          fontWeight="600"
+                          color={_on ? '#fff' : 'rgba(255,255,255,0.45)'}
+                          bg={_on ? 'linear-gradient(to left, #8B5CF6, #7C3AED)' : 'transparent'}
+                          border={_on ? 'none' : '1px solid rgba(255,255,255,0.1)'}
+                          boxShadow={_on ? '0 4px 14px rgba(139,92,246,0.35)' : 'none'}
+                          transition="all 0.2s ease"
+                          _hover={{ color: '#fff' }}
+                        >
+                          <Circle
+                            size="22px"
+                            bg={_on ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.06)'}
+                            color={_on ? '#fff' : 'rgba(255,255,255,0.5)'}
+                            fontSize="11px"
+                            fontWeight="bold"
+                          >
+                            {i + 1}
+                          </Circle>
+                          {t.label}
+                        </Box>
+                        {i < 2 && <Box w="12px" h="1px" bg="rgba(255,255,255,0.12)" />}
+                      </HStack>
+                    );
+                  })}
+                </HStack>
+                {empEditTab === 'basic' && (
+                <>
+                <Box bg="rgba(255,255,255,0.02)" border="1px solid rgba(255,255,255,0.06)" borderRadius="16px" px={{ base: 3, md: 4 }} py={1}>
+                      <AeField label="الاسم بالإنجليزية" required>
                         <FormControl isRequired>
-                          <FormLabel className="stake-label" fontSize="xs" mb="1">الاسم بالإنجليزية</FormLabel>
                           <Input
                             {...register('name', { required: 'الاسم بالإنجليزية مطلوب' })}
                             placeholder="Employee Name"
                             defaultValue={selectedEmployee?.name || ''}
                             className="stake-input"
-                            size="sm"
-                            h="32px"
-                            bg="var(--stake-bg-secondary)"
-                            borderColor="var(--stake-border-primary)"
-                            color="white"
-                            fontSize="sm"
-                            _focus={{
-                              borderColor: "#3b82f6",
-                              boxShadow: "0 0 0 1px #3b82f6"
-                            }}
-                            _hover={{
-                              borderColor: "#4a5568"
-                            }}
                           />
                           <FormErrorMessage fontSize="xs">
                             {errors.name && errors.name.message}
                           </FormErrorMessage>
                         </FormControl>
-                      </Box>
-                      <Box
-                        bg="var(--stake-bg-secondary)"
-                        p="2.5"
-                        borderRadius="lg"
-                        border="1px solid"
-                        borderColor="var(--stake-border-primary)"
-                      >
+                      </AeField>
+                      <AeField label="الاسم بالعربية">
                         <FormControl>
-                          <FormLabel className="stake-label" fontSize="xs" mb="1">الاسم بالعربية</FormLabel>
                           <Input
                             {...register('name_ar')}
                             placeholder="اسم الموظف بالعربية"
                             defaultValue={selectedEmployee?.name_ar || ''}
                             className="stake-input"
-                            size="sm"
-                            h="32px"
-                            bg="var(--stake-bg-secondary)"
-                            borderColor="var(--stake-border-primary)"
-                            color="white"
-                            fontSize="sm"
-                            _focus={{
-                              borderColor: "#3b82f6",
-                              boxShadow: "0 0 0 1px #3b82f6"
-                            }}
-                            _hover={{
-                              borderColor: "#4a5568"
-                            }}
                           />
                         </FormControl>
-                      </Box>
-                    </SimpleGrid>
-                    
-                    {/* الصف الثاني: الأكواد والراتب */}
-                    <SimpleGrid columns={{ base: 1, md: 3 }} spacing="2">
-                      <Box
-                        bg="var(--stake-bg-secondary)"
-                        p="2.5"
-                        borderRadius="lg"
-                        border="1px solid"
-                        borderColor="var(--stake-border-primary)"
-                      >
+                      </AeField>
+                      <Box h="1px" bg="rgba(255,255,255,0.05)" my={1} />
+                      <AeField label="كود الموظف" required>
                         <FormControl isRequired>
-                          <FormLabel className="stake-label" fontSize="xs" mb="1">كود الموظف</FormLabel>
-                          <HStack spacing="2">
+                          <HStack spacing="2" align="flex-start">
                             <Input
                               {...register('employee_code', { required: 'كود الموظف مطلوب' })}
                               placeholder="كود الموظف"
                               defaultValue={selectedEmployee?.employee_code || ''}
                               className="stake-input"
-                              size="sm"
-                              fontSize="sm"
-                              bg="var(--stake-bg-secondary)"
-                              borderColor="var(--stake-border-primary)"
-                              color="white"
                               flex="1"
-                              _focus={{
-                                borderColor: "#3b82f6",
-                                boxShadow: "0 0 0 1px #3b82f6"
-                              }}
-                              _hover={{
-                                borderColor: "#4a5568"
-                              }}
                             />
                             <Button
                               size="sm"
@@ -3794,17 +3882,16 @@ const tailwindTableStyles = `
                                   );
                                 }
                               }}
-                              bg="var(--stake-bg-secondary)"
-                              color="white"
-                              border="1px solid"
-                              borderColor="var(--stake-border-primary)"
-                              _hover={{
-                                bg: "#1a2d3a",
-                                borderColor: "#3b82f6"
-                              }}
-                              fontSize="xs"
-                              px="3"
-                              h="32px"
+                              bg="rgba(139,92,246,0.15)"
+                              color="#C4B5FD"
+                              border="1px solid rgba(139,92,246,0.35)"
+                              borderRadius="12px"
+                              _hover={{ bg: 'rgba(139,92,246,0.25)' }}
+                              fontSize="12px"
+                              fontWeight="600"
+                              px="4"
+                              h="44px"
+                              flexShrink={0}
                             >
                               توليد
                             </Button>
@@ -3813,120 +3900,52 @@ const tailwindTableStyles = `
                             {errors.employee_code && errors.employee_code.message}
                           </FormErrorMessage>
                         </FormControl>
-                      </Box>
-                      <Box
-                        bg="var(--stake-bg-secondary)"
-                        p="2.5"
-                        borderRadius="lg"
-                        border="1px solid"
-                        borderColor="var(--stake-border-primary)"
-                      >
+                      </AeField>
+                      <AeField label="كود البصمة">
                         <FormControl>
-                          <FormLabel className="stake-label" fontSize="xs" mb="1">كود البصمة</FormLabel>
                           <Input
                             {...register('ac_no')}
                             placeholder="AC-No."
                             defaultValue={selectedEmployee?.['AC-No.'] || ''}
                             className="stake-input"
-                            size="sm"
-                            fontSize="sm"
-                            bg="var(--stake-bg-secondary)"
-                            borderColor="var(--stake-border-primary)"
-                            color="white"
-                            _focus={{
-                              borderColor: "#3b82f6",
-                              boxShadow: "0 0 0 1px #3b82f6"
-                            }}
-                            _hover={{
-                              borderColor: "#4a5568"
-                            }}
                           />
                         </FormControl>
-                      </Box>
-                      <Box
-                        bg="var(--stake-bg-secondary)"
-                        p="2.5"
-                        borderRadius="lg"
-                        border="1px solid"
-                        borderColor="var(--stake-border-primary)"
-                      >
+                      </AeField>
+                      <AeField label="الراتب الأساسي" required>
                         <FormControl isRequired>
-                          <FormLabel className="stake-label" fontSize="xs" mb="1">الراتب الأساسي</FormLabel>
                           <Input
                             type="number"
                             {...register('base_salary', { required: 'الراتب الأساسي مطلوب' })}
                             placeholder="0"
                             defaultValue={selectedEmployee?.base_salary || 0}
                             className="stake-input"
-                            size="sm"
-                            fontSize="sm"
-                            bg="var(--stake-bg-secondary)"
-                            borderColor="var(--stake-border-primary)"
-                            color="white"
-                            _focus={{
-                              borderColor: "#3b82f6",
-                              boxShadow: "0 0 0 1px #3b82f6"
-                            }}
-                            _hover={{
-                              borderColor: "#4a5568"
-                            }}
                           />
                           <FormErrorMessage fontSize="xs">
                             {errors.base_salary && errors.base_salary.message}
                           </FormErrorMessage>
                         </FormControl>
-                      </Box>
-                      <Box
-                        bg="var(--stake-bg-secondary)"
-                        p="2.5"
-                        borderRadius="lg"
-                        border="1px solid"
-                        borderColor="var(--stake-border-primary)"
-                      >
+                      </AeField>
+                      <AeField label="التمييز والحوافز" last>
                         <FormControl>
-                          <FormLabel className="stake-label" fontSize="xs" mb="1">التمييز والحوافز</FormLabel>
                           <Input
                             type="number"
                             {...register('discrimination_incentive_allowance')}
                             placeholder="0"
                             defaultValue={selectedEmployee?.discrimination_incentive_allowance || 0}
                             className="stake-input"
-                            size="sm"
-                            fontSize="sm"
-                            bg="var(--stake-bg-secondary)"
-                            borderColor="var(--stake-border-primary)"
-                            color="white"
-                            _focus={{
-                              borderColor: "#3b82f6",
-                              boxShadow: "0 0 0 1px #3b82f6"
-                            }}
-                            _hover={{
-                              borderColor: "#4a5568"
-                            }}
                           />
                         </FormControl>
-                      </Box>
-                    </SimpleGrid>
-                  </VStack>
+                      </AeField>
                 </Box>
-
-
-                {/* معلومات العمل */}
-                <Box>
-                  <Text fontSize="sm" fontWeight="bold" mb="2" color="var(--stake-text-primary)">
-                    معلومات العمل
-                  </Text>
+                </>
+                )}
+                {empEditTab === 'work' && (
+                <>
+                <Box bg="rgba(255,255,255,0.02)" border="1px solid rgba(255,255,255,0.06)" borderRadius="16px" px={{ base: 3, md: 4 }} py={1}>
                   {watchedSalaryType === 'Monthly' ? (
-                    <SimpleGrid columns={{ base: 1, md: 3 }} spacing="2">
-                      <Box
-                        bg="var(--stake-bg-secondary)"
-                        p="2.5"
-                        borderRadius="lg"
-                        border="1px solid"
-                        borderColor="var(--stake-border-primary)"
-                      >
+                    <>
+                      <AeField label="نوع الراتب">
                         <FormControl>
-                          <FormLabel className="stake-label" fontSize="xs" mb="1">نوع الراتب</FormLabel>
                           <Controller
                             name="salary_type"
                             control={control}
@@ -3934,19 +3953,7 @@ const tailwindTableStyles = `
                               <Select
                                 {...field}
                                 placeholder="اختر نوع الراتب"
-                                size="sm"
-                                fontSize="sm"
                                 className="stake-input"
-                                bg="var(--stake-bg-secondary)"
-                                borderColor="var(--stake-border-primary)"
-                                color="white"
-                                _focus={{
-                                  borderColor: "#3b82f6",
-                                  boxShadow: "0 0 0 1px #3b82f6"
-                                }}
-                                _hover={{
-                                  borderColor: "#4a5568"
-                                }}
                               >
                                 <option value="Monthly" >شهري</option>
                                 <option value="Weekly" >أسبوعي</option>
@@ -3954,16 +3961,9 @@ const tailwindTableStyles = `
                             )}
                           />
                         </FormControl>
-                      </Box>
-                      <Box
-                        bg="var(--stake-bg-secondary)"
-                        p="2.5"
-                        borderRadius="lg"
-                        border="1px solid"
-                        borderColor="var(--stake-border-primary)"
-                      >
+                      </AeField>
+                      <AeField label="القسم">
                         <FormControl>
-                          <FormLabel className="stake-label" fontSize="xs" mb="1">القسم</FormLabel>
                           <Controller
                             name="department"
                             control={control}
@@ -3971,26 +3971,14 @@ const tailwindTableStyles = `
                               <Select
                                 {...field}
                                 placeholder="اختر القسم"
-                                size="sm"
-                                fontSize="sm"
                                 className="stake-input"
-                                bg="var(--stake-bg-secondary)"
-                                borderColor="var(--stake-border-primary)"
-                                color="white"
-                                _focus={{
-                                  borderColor: "#3b82f6",
-                                  boxShadow: "0 0 0 1px #3b82f6"
-                                }}
-                                _hover={{
-                                  borderColor: "#4a5568"
-                                }}
                               >
                                 {departments.map(dept => {
                                   const displayText = dept.description || dept.name;
                                   return (
-                                    <option 
-                                      key={dept.id} 
-                                      value={dept.name} 
+                                    <option
+                                      key={dept.id}
+                                      value={dept.name}
                                       title={displayText}
                                     >
                                       {displayText}
@@ -4001,377 +3989,320 @@ const tailwindTableStyles = `
                             )}
                           />
                         </FormControl>
-                      </Box>
-                      <Box
-                        bg="var(--stake-bg-secondary)"
-                        p="2.5"
-                        borderRadius="lg"
-                        border="1px solid"
-                        borderColor="var(--stake-border-primary)"
-                      >
+                      </AeField>
+                      <AeField label="المنصب" last>
                         <FormControl>
-                          <FormLabel className="stake-label" fontSize="xs" mb="1">المنصب</FormLabel>
                           <Input
                             {...register('position')}
                             placeholder="المنصب"
                             defaultValue={selectedEmployee?.position || ''}
                             className="stake-input"
-                            size="sm"
-                            h="32px"
-                            fontSize="sm"
-                            bg="var(--stake-bg-secondary)"
-                            borderColor="var(--stake-border-primary)"
-                            color="white"
-                            _focus={{
-                              borderColor: "#3b82f6",
-                              boxShadow: "0 0 0 1px #3b82f6"
-                            }}
-                            _hover={{
-                              borderColor: "#4a5568"
-                            }}
                           />
                         </FormControl>
-                      </Box>
-                    </SimpleGrid>
+                      </AeField>
+                    </>
                   ) : (
-                    <VStack spacing="2" align="stretch">
-                      {/* الصف الأول */}
-                      <SimpleGrid columns={{ base: 1, md: 2 }} spacing="2">
-                        <Box
-                          bg="var(--stake-bg-secondary)"
-                          p="2.5"
-                          borderRadius="lg"
-                          border="1px solid"
-                          borderColor="var(--stake-border-primary)"
-                        >
-                          <FormControl>
-                            <FormLabel className="stake-label" fontSize="xs" mb="1">نوع الراتب</FormLabel>
-                            <Controller
-                              name="salary_type"
-                              control={control}
-                              render={({ field }) => (
-                                <Select
-                                  {...field}
-                                  placeholder="اختر نوع الراتب"
-                                  size="sm"
-                                  fontSize="sm"
-                                  className="stake-input"
-                                  bg="var(--stake-bg-secondary)"
-                                  borderColor="var(--stake-border-primary)"
-                                  color="white"
-                                  _focus={{
-                                    borderColor: "#3b82f6",
-                                    boxShadow: "0 0 0 1px #3b82f6"
-                                  }}
-                                  _hover={{
-                                    borderColor: "#4a5568"
-                                  }}
-                                >
-                                  <option value="Monthly" >شهري</option>
-                                  <option value="Weekly" >أسبوعي</option>
-                                </Select>
-                              )}
-                            />
-                          </FormControl>
-                        </Box>
-                        <Box
-                          bg="var(--stake-bg-secondary)"
-                          p="2.5"
-                          borderRadius="lg"
-                          border="1px solid"
-                          borderColor="var(--stake-border-primary)"
-                        >
-                          <FormControl>
-                            <FormLabel className="stake-label" fontSize="xs" mb="1">القسم</FormLabel>
-                            <Controller
-                              name="department"
-                              control={control}
-                              render={({ field }) => (
+                    <>
+                      <AeField label="نوع الراتب">
+                        <FormControl>
+                          <Controller
+                            name="salary_type"
+                            control={control}
+                            render={({ field }) => (
                               <Select
                                 {...field}
-                                placeholder="اختر القسم"
-                                size="sm"
-                                fontSize="sm"
+                                placeholder="اختر نوع الراتب"
                                 className="stake-input"
-                                bg="var(--stake-bg-secondary)"
-                                borderColor="var(--stake-border-primary)"
-                                color="var(--stake-text-primary)"
-                                whiteSpace="normal"
-                                minW="100%"
-                                sx={{
-                                  '&': {
-                                    minWidth: '100%',
-                                    width: '100%'
-                                  },
-                                  '& option': {
-                                    background: 'var(--stake-bg-card)',
-                                    color: 'var(--stake-text-primary)',
-                                    whiteSpace: 'normal',
-                                    overflow: 'visible',
-                                    textOverflow: 'clip',
-                                    padding: '8px 12px'
-                                  }
-                                }}
-                                _focus={{
-                                  borderColor: 'var(--stake-primary)',
-                                  boxShadow: '0 0 0 1px var(--stake-primary)'
-                                }}
-                                _hover={{
-                                  borderColor: 'var(--stake-border-secondary)'
-                                }}
                               >
-                                {departments.map(dept => {
-                                  const displayText = dept.description || dept.name;
-                                  return (
-                                    <option 
-                                      key={dept.id} 
-                                      value={dept.name} 
-                                      title={displayText}
-                                    >
-                                      {displayText}
-                                    </option>
-                                  );
-                                })}
+                                <option value="Monthly" >شهري</option>
+                                <option value="Weekly" >أسبوعي</option>
                               </Select>
-                              )}
-                            />
-                          </FormControl>
-                        </Box>
-                      </SimpleGrid>
-                      
-                      {/* الصف الثاني */}
-                      <SimpleGrid columns={{ base: 1, md: 2 }} spacing="2">
-                        <Box
-                          bg="var(--stake-bg-secondary)"
-                          p="2.5"
-                          borderRadius="lg"
-                          border="1px solid"
-                          borderColor="var(--stake-border-primary)"
-                        >
-                          <FormControl>
-                            <FormLabel className="stake-label" fontSize="xs" mb="1">التكلفة</FormLabel>
-                            <Controller
-                              name="cost_center"
-                              control={control}
-                              defaultValue={selectedEmployee?.cost_center || ''}
-                              render={({ field }) => (
-                                <Select
-                                  {...field}
-                                  placeholder={watchedDepartment ? "اختر التكلفة" : "اختر القسم أولاً"}
-                                  size="sm"
-                                  fontSize="sm"
-                                  className="stake-input"
-                                  bg="var(--stake-bg-secondary)"
-                                  borderColor="var(--stake-border-primary)"
-                                  color="white"
-                                  isDisabled={!watchedDepartment}
-                                  _focus={{
-                                    borderColor: "#3b82f6",
-                                    boxShadow: "0 0 0 1px #3b82f6"
-                                  }}
-                                  _hover={{
-                                    borderColor: "#4a5568"
-                                  }}
-                                >
-                                  {(watchedDepartment && departmentCostCenters.length > 0 ? departmentCostCenters : []).map(center => (
-                                    <option key={center.id} value={center.name} title={center.name} >{center.name}</option>
-                                  ))}
-                                </Select>
-                              )}
-                            />
-                            {!watchedDepartment && (
-                              <Text fontSize="xs" color="orange.300" mt="1">
-                                يجب اختيار القسم أولاً لعرض مراكز التكلفة
-                              </Text>
                             )}
-                          </FormControl>
-                        </Box>
-                        <Box
-                          bg="var(--stake-bg-secondary)"
-                          p="2.5"
-                          borderRadius="lg"
-                          border="1px solid"
-                          borderColor="var(--stake-border-primary)"
-                        >
-                          <FormControl>
-                            <FormLabel className="stake-label" fontSize="xs" mb="1">المنصب</FormLabel>
-                            <Input
-                              {...register('position')}
-                              placeholder="المنصب"
-                              defaultValue={selectedEmployee?.position || ''}
+                          />
+                        </FormControl>
+                      </AeField>
+                      <AeField label="القسم">
+                        <FormControl>
+                          <Controller
+                            name="department"
+                            control={control}
+                            render={({ field }) => (
+                            <Select
+                              {...field}
+                              placeholder="اختر القسم"
                               className="stake-input"
-                              size="sm"
-                              h="32px"
-                              fontSize="sm"
-                              bg="var(--stake-bg-secondary)"
-                              borderColor="var(--stake-border-primary)"
-                              color="white"
-                              _focus={{
-                                borderColor: "#3b82f6",
-                                boxShadow: "0 0 0 1px #3b82f6"
+                              whiteSpace="normal"
+                              minW="100%"
+                              sx={{
+                                '&': {
+                                  minWidth: '100%',
+                                  width: '100%'
+                                },
+                                '& option': {
+                                  background: 'var(--stake-bg-card)',
+                                  color: 'var(--stake-text-primary)',
+                                  whiteSpace: 'normal',
+                                  overflow: 'visible',
+                                  textOverflow: 'clip',
+                                  padding: '8px 12px'
+                                }
                               }}
-                              _hover={{
-                                borderColor: "#4a5568"
-                              }}
-                            />
-                          </FormControl>
-                        </Box>
-                      </SimpleGrid>
-                    </VStack>
+                            >
+                              {departments.map(dept => {
+                                const displayText = dept.description || dept.name;
+                                return (
+                                  <option
+                                    key={dept.id}
+                                    value={dept.name}
+                                    title={displayText}
+                                  >
+                                    {displayText}
+                                  </option>
+                                );
+                              })}
+                            </Select>
+                            )}
+                          />
+                        </FormControl>
+                      </AeField>
+                      <AeField label="التكلفة">
+                        <FormControl>
+                          <Controller
+                            name="cost_center"
+                            control={control}
+                            defaultValue={selectedEmployee?.cost_center || ''}
+                            render={({ field }) => (
+                              <Select
+                                {...field}
+                                placeholder={watchedDepartment ? "اختر التكلفة" : "اختر القسم أولاً"}
+                                className="stake-input"
+                                isDisabled={!watchedDepartment}
+                              >
+                                {(watchedDepartment && departmentCostCenters.length > 0 ? departmentCostCenters : []).map(center => (
+                                  <option key={center.id} value={center.name} title={center.name} >{center.name}</option>
+                                ))}
+                              </Select>
+                            )}
+                          />
+                          {!watchedDepartment && (
+                            <Text fontSize="xs" color="orange.300" mt="1">
+                              يجب اختيار القسم أولاً لعرض مراكز التكلفة
+                            </Text>
+                          )}
+                        </FormControl>
+                      </AeField>
+                      <AeField label="المنصب" last>
+                        <FormControl>
+                          <Input
+                            {...register('position')}
+                            placeholder="المنصب"
+                            defaultValue={selectedEmployee?.position || ''}
+                            className="stake-input"
+                          />
+                        </FormControl>
+                      </AeField>
+                    </>
                   )}
                 </Box>
-
-                {/* معلومات إضافية */}
-                <Box>
-                  <Text fontSize="lg" fontWeight="bold" mb="4" color="var(--stake-text-primary)">
-                    معلومات إضافية
-                  </Text>
-                  <SimpleGrid columns={{ base: 1, md: 3 }} spacing="4">
+                </>
+                )}
+                {empEditTab === 'extra' && (
+                <>
+                <Box bg="rgba(255,255,255,0.02)" border="1px solid rgba(255,255,255,0.06)" borderRadius="16px" px={{ base: 3, md: 4 }} py={1}>
+                      <AeField label="الموقع">
+                        <FormControl>
+                          <Select
+                            {...register('location')}
+                            placeholder="اختر الموقع"
+                            defaultValue={selectedEmployee?.location || ''}
+                            className="stake-input"
+                          >
+                            <option value="برج العرب" >برج العرب</option>
+                            <option value="محرم بك" >محرم بك</option>
+                          </Select>
+                        </FormControl>
+                      </AeField>
+                      <AeField label="تاريخ التعيين">
+                        <FormControl>
+                          <Input
+                            {...register('hire_date')}
+                            type="date"
+                            defaultValue={selectedEmployee?.hire_date ? (selectedEmployee.hire_date.includes(' ') ? selectedEmployee.hire_date.split(' ')[0] : selectedEmployee.hire_date) : ''}
+                            className="stake-input"
+                          />
+                        </FormControl>
+                      </AeField>
+                      <AeField label="الحالة">
+                        <FormControl>
+                          <Select
+                            {...register('status')}
+                            placeholder="اختر الحالة"
+                            defaultValue={selectedEmployee?.status || 'active'}
+                            className="stake-input"
+                          >
+                            <option value="active" >نشط</option>
+                            <option value="inactive" >غير نشط</option>
+                            <option value="terminated" >منتهي الخدمة</option>
+                          </Select>
+                        </FormControl>
+                      </AeField>
                     <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="2.5"
-                      borderRadius="lg"
-                      border="1px solid"
-                      borderColor="var(--stake-border-primary)"
+                      bg="rgba(16,185,129,0.06)"
+                      p="12px"
+                      borderRadius="12px"
+                      border="1px solid rgba(16,185,129,0.2)"
+                      gridColumn={{ base: 'span 1', md: 'span 3' }}
                     >
-                      <FormControl>
-                        <FormLabel className="stake-label" fontSize="xs" mb="1">الموقع</FormLabel>
-                        <Select
-                          {...register('location')}
-                          placeholder="اختر الموقع"
-                          defaultValue={selectedEmployee?.location || ''}
-                          size="sm"
-                          fontSize="sm"
-                          className="stake-input"
-                          bg="var(--stake-bg-secondary)"
-                          borderColor="var(--stake-border-primary)"
-                          color="white"
-                          _focus={{
-                            borderColor: "#3b82f6",
-                            boxShadow: "0 0 0 1px #3b82f6"
-                          }}
-                          _hover={{
-                            borderColor: "#4a5568"
-                          }}
-                        >
-                          <option value="برج العرب" >برج العرب</option>
-                          <option value="محرم بك" >محرم بك</option>
-                        </Select>
-                      </FormControl>
-                    </Box>
-                    <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="2.5"
-                      borderRadius="lg"
-                      border="1px solid"
-                      borderColor="var(--stake-border-primary)"
-                    >
-                      <FormControl>
-                        <FormLabel className="stake-label" fontSize="xs" mb="1">تاريخ التعيين</FormLabel>
-                        <Input
-                          {...register('hire_date')}
-                          type="date"
-                          defaultValue={selectedEmployee?.hire_date ? (selectedEmployee.hire_date.includes(' ') ? selectedEmployee.hire_date.split(' ')[0] : selectedEmployee.hire_date) : ''}
-                          className="stake-input"
-                          size="sm"
-                          h="32px"
-                          fontSize="sm"
-                          bg="var(--stake-bg-secondary)"
-                          borderColor="var(--stake-border-primary)"
-                          color="white"
-                          _focus={{
-                            borderColor: "#3b82f6",
-                            boxShadow: "0 0 0 1px #3b82f6"
-                          }}
-                          _hover={{
-                            borderColor: "#4a5568"
-                          }}
-                        />
-                      </FormControl>
-                    </Box>
-                    <Box
-                      bg="var(--stake-bg-secondary)"
-                      p="2.5"
-                      borderRadius="lg"
-                      border="1px solid"
-                      borderColor="var(--stake-border-primary)"
-                    >
-                      <FormControl>
-                        <FormLabel className="stake-label" fontSize="xs" mb="1">الحالة</FormLabel>
-                        <Select
-                          {...register('status')}
-                          placeholder="اختر الحالة"
-                          defaultValue={selectedEmployee?.status || 'active'}
-                          size="sm"
-                          fontSize="sm"
-                          className="stake-input"
-                          bg="var(--stake-bg-secondary)"
-                          borderColor="var(--stake-border-primary)"
-                          color="white"
-                          _focus={{
-                            borderColor: "#3b82f6",
-                            boxShadow: "0 0 0 1px #3b82f6"
-                          }}
-                          _hover={{
-                            borderColor: "#4a5568"
-                          }}
-                        >
-                          <option value="active" >نشط</option>
-                          <option value="inactive" >غير نشط</option>
-                          <option value="terminated" >منتهي الخدمة</option>
-                        </Select>
-                      </FormControl>
-                    </Box>
-                  </SimpleGrid>
+                      <Controller
+                        name="is_insured"
+                        control={control}
+                        render={({ field: { value, onChange, ref } }) => (
+                          <HStack spacing={3} align="center">
+                            <Checkbox
+                              ref={ref}
+                              isChecked={!!value}
+                              colorScheme="green"
+                              size="lg"
+                              onChange={(e) => onChange(e.target.checked)}
+                            />
+                            <VStack align="flex-start" spacing="2px" flex="1">
+                              <Text color="#fff" fontWeight="600" fontSize="13px">مشمول بالتأمين الطبي</Text>
+                              <Text fontSize="11px" color="rgba(255,255,255,0.45)">تفعيل التغطية الصحية للموظف</Text>
+                            </VStack>
+                            <Badge
+                              colorScheme={value ? 'green' : 'gray'}
+                              variant="subtle"
+                              borderRadius="full"
+                              px="2.5"
+                              py={1}
+                              fontSize="11px"
+                            >
+                              {value ? 'مفعّل' : 'معطّل'}
+                            </Badge>
+                          </HStack>
+                        )}
+                      />
+                     </Box>
                 </Box>
+                </>
+                )}
               </VStack>
             </form>
+              </Box>
+              <Box
+                w={{ base: '100%', lg: '290px' }}
+                flexShrink={0}
+                position={{ lg: 'sticky' }}
+                top="0"
+                display={{ base: 'none', lg: 'block' }}
+              >
+                {(() => {
+                  const _v = watch() || {};
+                  const _name = _v.name_ar || _v.name || selectedEmployee?.name_ar || selectedEmployee?.name || '';
+                  const _pos = _v.position ?? selectedEmployee?.position ?? '';
+                  const _dept = _v.department ?? selectedEmployee?.department ?? '';
+                  const _base = parseFloat(_v.base_salary ?? selectedEmployee?.base_salary ?? 0) || 0;
+                  const _vr = parseFloat(_v.discrimination_incentive_allowance ?? selectedEmployee?.discrimination_incentive_allowance ?? 0) || 0;
+                  const _st = _v.salary_type || selectedEmployee?.salary_type || 'Monthly';
+                  const _act = (_v.status ?? selectedEmployee?.status ?? 'active') === 'active';
+                  const _insRaw = _v.is_insured ?? selectedEmployee?.is_insured;
+                  const _ins = _insRaw === true || _insRaw === 1 || _insRaw === '1' || _insRaw === 'true';
+                  const _ini = String(_name || '؟').trim().split(/\s+/).map((w) => w[0]).slice(0, 2).join('') || '؟';
+                  return (
+                    <Box borderRadius="16px" border="1px solid rgba(255,255,255,0.06)" bg="rgba(15,18,32,0.8)" overflow="hidden">
+                      <Box bg="#0D1526" borderBottom="1px solid rgba(255,255,255,0.06)" p={4} position="relative">
+                        <Box position="absolute" top="0" left="0" right="0" h="3px" bgGradient="linear(to-l, #8B5CF6, #F59E0B)" />
+                        <VStack position="relative" spacing={2} align="center" textAlign="center" pt={1}>
+                          <Box borderRadius="full" p="2px" bgGradient="linear(to-l, #8B5CF6, #F59E0B)">
+                            <Circle size="56px" bg="#0F172A" color="#fff" fontSize="20px" fontWeight="bold">
+                              {_ini}
+                            </Circle>
+                          </Box>
+                          <Text fontSize="15px" fontWeight="bold" color="#fff" noOfLines={1}>{_name || '—'}</Text>
+                          <Text fontSize="11px" color="rgba(255,255,255,0.7)" noOfLines={1}>{_pos || _dept || '—'}</Text>
+                          <Badge colorScheme={_st === 'Monthly' ? 'purple' : 'blue'} variant="solid" borderRadius="full" px="2.5" py="2px" fontSize="11px">
+                            {_st === 'Monthly' ? 'شهري' : 'أسبوعي'}
+                          </Badge>
+                        </VStack>
+                      </Box>
+                      <VStack p={4} spacing={3} align="stretch">
+                        <HStack justify="space-between">
+                          <Text fontSize="11px" color="rgba(255,255,255,0.4)">الإجمالي المتوقع</Text>
+                          <Text fontSize="15px" fontWeight="extrabold" color="#fff">{formatCurrency(_base + _vr)}</Text>
+                        </HStack>
+                        <Box h="8px" borderRadius="full" bg="rgba(255,255,255,0.06)" overflow="hidden" display="flex">
+                          <Box h="100%" bg="linear-gradient(to left, #10B981, #34D399)" style={{ width: `${(_base + _vr) > 0 ? Math.round((_base / (_base + _vr)) * 100) : 0}%` }} />
+                          <Box h="100%" bg="linear-gradient(to left, #F59E0B, #FBBF24)" style={{ width: `${(_base + _vr) > 0 ? 100 - Math.round((_base / (_base + _vr)) * 100) : 0}%` }} />
+                        </Box>
+                        <HStack justify="space-between">
+                          <Text fontSize="11px" color="rgba(255,255,255,0.4)">القسم</Text>
+                          <Text fontSize="12px" color="#fff" noOfLines={1}>{selectedEmployee?.department_description || _dept || '-'}</Text>
+                        </HStack>
+                        <HStack justify="space-between">
+                          <Text fontSize="11px" color="rgba(255,255,255,0.4)">الحالة</Text>
+                          <Text fontSize="12px" fontWeight="600" color={_act ? '#6EE7B7' : '#FCA5A5'}>{_act ? 'نشط' : 'غير نشط'}</Text>
+                        </HStack>
+                        <HStack justify="space-between">
+                          <Text fontSize="11px" color="rgba(255,255,255,0.4)">التأمين</Text>
+                          <Text fontSize="12px" color={_ins ? '#6EE7B7' : 'rgba(255,255,255,0.3)'}>{_ins ? 'مشمول' : 'غير مشمول'}</Text>
+                        </HStack>
+                        <Text fontSize="10px" color="rgba(255,255,255,0.25)" textAlign="center" pt={1}>
+                          معاينة حية — تتحدث أثناء الكتابة
+                        </Text>
+                      </VStack>
+                    </Box>
+                  );
+                })()}
+              </Box>
+            </Flex>
           </ModalBody>
-          <ModalFooter 
+          <ModalFooter
             justifyContent="space-between"
             gap="4"
-            bg="var(--stake-bg-primary)"
-            borderTop="1px solid"
-            borderColor="var(--stake-border-primary)"
-            borderRadius="0 0 24px 24px"
+            bg="#101A2E"
+            borderTop="1px solid rgba(255,255,255,0.06)"
+            borderRadius="0 0 20px 20px"
             p="6"
-            boxShadow="0 -4px 20px rgba(0, 0, 0, 0.4)"
+            flexWrap="wrap"
           >
-            <HStack spacing="3" align="center">
-              <Controller
-                name="is_insured"
-                control={control}
-                render={({ field: { value, onChange, ref } }) => (
-                  <Checkbox
-                    ref={ref}
-                    isChecked={!!value}
-                    colorScheme="blue"
-                    size="sm"
-                    onChange={(e) => onChange(e.target.checked)}
-                  >
-                    <Text color="#d5dceb" fontWeight="medium" fontSize="sm">
-                      مؤمن عليه
-                    </Text>
-                  </Checkbox>
-                )}
-              />
-            </HStack>
+            {(() => {
+              const _w = watch() || {};
+              const _req = [_w.name, _w.employee_code, _w.base_salary];
+              const _done = _req.filter((v) => v !== undefined && v !== null && String(v).trim() !== '').length;
+              return (
+                <Box minW="160px" flex="1" maxW="260px" display={{ base: 'none', md: 'block' }}>
+                  <HStack justify="space-between" mb={1}>
+                    <Text fontSize="11px" color="rgba(255,255,255,0.4)">الحقول المطلوبة</Text>
+                    <HStack spacing={1.5}>
+                      {isDirty && <Box w="6px" h="6px" borderRadius="full" bg="#F59E0B" />}
+                      <Text fontSize="11px" fontWeight="600" color={_done === 3 ? '#6EE7B7' : 'rgba(255,255,255,0.5)'}>
+                        {_done}/3 {_done === 3 ? '✓' : ''}
+                      </Text>
+                    </HStack>
+                  </HStack>
+                  <Box h="6px" borderRadius="full" bg="rgba(255,255,255,0.06)" overflow="hidden">
+                    <Box
+                      h="100%"
+                      borderRadius="full"
+                      bg={_done === 3 ? 'linear-gradient(to left, #10B981, #34D399)' : 'linear-gradient(to left, #8B5CF6, #3B82F6)'}
+                      style={{ width: `${Math.round((_done / 3) * 100)}%`, transition: 'width 0.3s ease' }}
+                    />
+                  </Box>
+                </Box>
+              );
+            })()}
             <HStack spacing="2">
-              <Button 
+              <Button
                 onClick={handleEditClose}
                 h="36px"
                 px="6"
                 fontWeight="600"
                 borderRadius="lg"
                 fontSize="sm"
-                bg="var(--stake-bg-secondary)"
-                color="#d5dceb"
-                border="1px solid"
-                borderColor="var(--stake-border-primary)"
-                _hover={{
-                  bg: "#213743",
-                  borderColor: "#3b82f6"
-                }}
+                bg="rgba(255,255,255,0.06)"
+                color="#fff"
+                border="1px solid rgba(255,255,255,0.08)"
+                _hover={{ bg: 'rgba(255,255,255,0.1)' }}
               >
                 إلغاء
               </Button>
@@ -4382,11 +4313,12 @@ const tailwindTableStyles = `
                 fontWeight="600"
                 borderRadius="lg"
                 fontSize="sm"
-                bg="#3b82f6"
-                color="white"
-                _hover={{
-                  bg: "#2563eb"
-                }}
+                bg="#fff"
+                color="#0F1220"
+                _hover={{ bg: 'rgba(255,255,255,0.9)' }}
+                _disabled={{ opacity: 0.45, cursor: 'not-allowed' }}
+                isDisabled={!isDirty}
+                title={isDirty ? 'حفظ التعديلات' : 'لا توجد تغييرات للحفظ'}
                 onClick={async () => {
                   console.log('🔥 Save button clicked!');
                   console.log('🔥 Form values:', watch());
@@ -4410,15 +4342,14 @@ const tailwindTableStyles = `
                 fontWeight="600"
                 borderRadius="lg"
                 fontSize="sm"
-                bg="#dc2626"
-                color="white"
-                _hover={{
-                  bg: "#b91c1c"
-                }}
+                bg="rgba(239,68,68,0.15)"
+                border="1px solid rgba(239,68,68,0.3)"
+                color="#FCA5A5"
+                _hover={{ bg: 'rgba(239,68,68,0.25)' }}
                 onClick={() => {
                   const employeeName = selectedEmployee?.name_ar || selectedEmployee?.name || 'هذا الموظف';
                   const confirmMessage = `⚠️ تحذير: حذف الموظف نهائياً\n\nالموظف: ${employeeName}\nالكود: ${selectedEmployee?.employee_code || 'غير محدد'}\n\nهذا الإجراء سيحذف:\n• بيانات الموظف من قاعدة البيانات\n• جميع سجلات الحضور والانصراف\n• سجلات البصمة الخام (fingerprint_attendance) المرتبطة بكود البصمة AC-No.\n• جميع البيانات المرتبطة بالموظف\n\n⚠️ لا يمكن التراجع عن هذا الإجراء!\n\nهل أنت متأكد من المتابعة؟`;
-                  
+
                   if (window.confirm(confirmMessage)) {
                     handleDeleteEmployee(selectedEmployee);
                     handleEditClose();
@@ -5150,15 +5081,9 @@ const tailwindTableStyles = `
                     <Text fontSize="sm" fontWeight="600" color="orange.300" mb={2}>
                       موظفون لم يُعيَّن لهم كود البصمة ({importXmlResult.duplicate_fingerprint_skipped_details.length})
                     </Text>
-                    <Box
-                      flex="1"
-                      maxH="200px"
-                      overflowY="auto"
-                      border="1px solid"
-                      borderColor="#1F2A44"
-                      borderRadius="20px"
-                      bg="#151E32"
-                      sx={{ background: '#151E32', borderRadius: '20px', overflow: 'hidden' }}
+                    <div
+                      className="bg-[#151E32] border border-[#1F2A44] rounded-[20px] overflow-hidden"
+                      style={{background:'#151E32', border:'1px solid #1F2A44', borderRadius:'20px', flex:1, maxHeight:'200px', overflowY:'auto'}}
                     >
                       <Table size="sm" variant="simple">
                         <Thead position="sticky" top={0} bg="var(--stake-bg-primary)" zIndex={1}>
@@ -5182,7 +5107,7 @@ const tailwindTableStyles = `
                           ))}
                         </Tbody>
                       </Table>
-                    </Box>
+                    </div>
                   </Box>
                 ) : (
                   <VStack align="stretch" spacing={3} mt="auto">
