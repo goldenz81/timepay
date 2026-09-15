@@ -2008,10 +2008,7 @@ const PremiumEmployees = () => {
         display="none"
         className="stake-card weekly-salary-main-card employees-main-card"
         overflow="hidden"
-        flex="1"
-        minH="0"
-        display="flex"
-        flexDirection="column"
+        flex="1"  style={{ display: 'none', flex:1, minHeight:0, overflowY:'auto', overflowX:'auto', width:'100%', maxWidth:'100%', background:'#151E32', border:'1px solid #1F2A44', borderRadius:'20px'}}
       >
         <CardBody
           p="0"
